@@ -33,14 +33,14 @@ If you want to redirect input from a file, use:
 hfst-lookup --pipe-mode=input --cascade=composition hu.hfstol <intext >outtext
 ```
 
-### Lemmatized ouptut
+### Lemmatized output
 
 If you want lemmatized output, download the lemmatizer from [https://github.com/dlt-rilmta/hunlp-GATE/tree/master/Lang_Hungarian/resources/hfst](https://github.com/dlt-rilmta/hunlp-GATE/tree/master/Lang_Hungarian/resources/hfst).
 
 One way to download only this tool from the repository:
 Visit [http://kinolien.github.io/gitzip/](http://kinolien.github.io/gitzip/) and paste the link above.
 
-### Using the compiled lexixon on Windows
+### Using the compiled lexicon on Windows
 
 Install hfst from: [http://apertium.projectjj.com/win32/nightly/hfst-latest.7z](http://apertium.projectjj.com/win32/nightly/hfst-latest.7z).
 
@@ -49,6 +49,7 @@ Usage is the same as above.
 ## License
 
 Copyright (C) 2001-2016 Attila Novák
+
 The database files are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
 with the amendments below under Publication.                                                                         
 
