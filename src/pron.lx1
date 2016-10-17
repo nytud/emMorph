@@ -1,0 +1,1010 @@
+************************************************** START OF LICENSE **************************************************
+*
+*  This file is part of the emMorph / Humor morphological analyzer description for Hungarian.
+*  Copyright (C) 2001-2016 Attila Novák
+*  
+*  The author of the database and the database compilation environment is Attila Novák (novakat@gmail.com).
+*  The resource is available from: https://github.com/dlt-rilmta/emMorph
+*  
+*  The database files are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+*  (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
+*  with the following amendments:
+*  
+*  By downloading/cloning this database and tools you accept the following terms:
+*  1. Please inform the author at novakat@gmail.com about your use of the database/tools clearly indicating what you use them for
+*  as soon as you start working on your application/experiment/resource involving this database or tool.
+*  2. Even in the case of non-academic use, you promise to publish a scientific paper about 
+*  each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting
+*  the articles below, and inform the author at novakat@gmail.com about each article you publish.
+*  If you definitely cannot publish an article, please contact the author.
+*  
+*  Articles to quote are listed at https://github.com/dlt-rilmta/emMorph, the list is currently the following:
+*  (See the BibTeX file quotethis.bib in the root directory):
+*  
+*  Attila Novák (2014): A New Form of Humor – Mapping Constraint-Based Computational Morphologies to a Finite-State Representation.
+*  In: Proceedings of the 9th International Conference on Language Resources and Evaluation (LREC-2014). Reykjavík, pp. 1068–1073 (ISBN 978-2-9517408-8-4)
+*  
+*  Attila Novák; Borbála Siklósi; Csaba Oravecz (2016): A New Integrated Open-source Morphological Analyzer for Hungarian
+*  In: Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016). Portorož, pp. 1315–1322.
+*  
+*  Novák Attila (2003): Milyen a jó Humor? [What is good Humor like?] In: Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2003). Szegedi Tudományegyetem, pp. 138–145
+*  
+*  3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
+*  4. If you are interested in using or adapting the resource for commercial purposes, please contact the author.
+*  ***
+*  
+*  The Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA)
+*  license is available at: https://creativecommons.org/licenses/by-nc-sa/4.0/
+*  
+*  Disclaimer of Warranties and Limitation of Liability.
+*  
+*  Unless otherwise separately undertaken by the Licensor, to the extent possible,
+*  the Licensor offers the Licensed Material as-is and as-available, and makes no
+*  representations or warranties of any kind concerning the Licensed Material,
+*  whether express, implied, statutory, or other. This includes, without
+*  limitation, warranties of title, merchantability, fitness for a particular
+*  purpose, non-infringement, absence of latent or other defects, accuracy, or the
+*  presence or absence of errors, whether or not known or discoverable. Where
+*  disclaimers of warranties are not allowed in full or in part, this disclaimer
+*  may not apply to You.
+*  
+*  To the extent possible, in no event will the Licensor be liable to You on any
+*  legal theory (including, without limitation, negligence) or otherwise for any
+*  direct, special, indirect, incidental, consequential, punitive, exemplary, or
+*  other losses, costs, expenses, or damages arising out of this Public License or
+*  use of the Licensed Material, even if the Licensor has been advised of the
+*  possibility of such losses, costs, expenses, or damages. Where a limitation of
+*  liability is not allowed in full or in part, this limitation may not apply to You.
+*
+************************************************** END OF LICENSE **************************************************
+
+*-e question tag
+-e[KSZ];rp:mcat_qtag atomic;zarte:ë;
+-beli[BELI];cat:Adj;rp:cat_Adj O LOW cmp2 grad mcat_deriv inflable atomic;lp:comp2 sfx;
+
+*punctuation
+-[KJ];lp:hyph;rp:mcat_hyphen hyphen;
+–[HKJ];lp:hyph;rp:mcat_hyphen hyphen;
+/[PER];rp:mcat_hyphen;*++/;
+
+%[FN|ME|ROV];phon:százalék;stemalt:-;rp:=A&=Ai&mcat_deriv;lr:num_dig;lp:dollar;
+‰[FN|ME|ROV];phon:ezrelék;stemalt:-;rp:=A&=Ai&mcat_deriv;lr:num_dig;lp:dollar;
+°[FN|ME|ROV];phon:fok;stemalt:-;rp:=jA&=jAi&mcat_deriv;lr:num_dig;lp:dollar;
+°C[FN|ME|ROV];phon:fok;stemalt:-;rp:=jA&=jAi&mcat_deriv;lr:num_dig;lp:dollar;
+$[FN|ME|ROV];phon:dollár;stemalt:-;rp:=jA&=jAi&mcat_deriv;lr:num_dig;lp:dollar;
+§[FN|ROV];phon:paragrafus;stemalt:-;rp:=A&=Ai;
+
+°C[FN|ME|ROV];phon:fok;stemalt:-;rp:=jA&=jAi;
+%[FN|ME|ROV];phon:százalék;stemalt:-;rp:=A&=Ai;
+‰[FN|ME|ROV];phon:ezrelék;stemalt:-;rp:=A&=Ai;
+
+*punctuation that may stand on any side
+aposl[PUNCT];rp:mcat_lpunct;++';
+quotl[PUNCT];rp:mcat_lpunct;++";++&quotl;;
+*graver[PUNCT];rp:mcat_rpunct;++`;
+aposr[PUNCT];rp:mcat_rpunct;++';
+quotr[PUNCT];rp:mcat_rpunct;++";++&quotr;;
+
+*punctuation that may stand only on the left
+gravel[PUNCT];rp:mcat_lpunct;++`;
+lsquo[PUNCT];rp:mcat_lpunct;++‘;
+lsquol9[PUNCT];rp:mcat_lpunct;++‚;
+ldquo[PUNCT];rp:mcat_lpunct;++“;
+ldquol9[PUNCT];rp:mcat_lpunct;++„;
+lpar[PUNCT];rp:mcat_lpunct;++(;
+lsqb[PUNCT];rp:mcat_lpunct;++[;++&lsqb;;
+lcub[PUNCT];rp:mcat_lpunct;++{;
+lt[PUNCT];rp:mcat_lpunct;++<;
+slaquo[PUNCT];rp:mcat_lpunct;++‹;
+laquo[PUNCT];rp:mcat_lpunct;++«;
+copy[PUNCT];rp:mcat_lpunct;++©;
+bullet[PUNCT];rp:mcat_lpunct;++•;
+
+*punctuation that may stand only on the right
+rsquo[PUNCT];rp:mcat_rpunct;++’;
+rdquo[PUNCT];rp:mcat_rpunct;++”;
+rpar[PUNCT];rp:mcat_rpunct;++);
+rsqb[PUNCT];rp:mcat_rpunct;++];++&rsqb;;
+rcub[PUNCT];rp:mcat_rpunct;++};
+gt[PUNCT];rp:mcat_rpunct;++>;
+sraquo[PUNCT];rp:mcat_rpunct;++›;
+raquo[PUNCT];rp:mcat_rpunct;++»;
+period[PUNCT];lp:dot_punct;lr:!dotpunct;rp:mcat_rpunct dotpunct;++.;
+hellip[PUNCT];lp:dot_punct;lr:!dotpunct;rp:mcat_rpunct dotpunct;++…;
+hellip3[PUNCT];lp:dot_punct;lr:!dotpunct;rp:mcat_rpunct dotpunct;++...;
+comma[PUNCT];rp:mcat_rpunct;++,;
+colon[PUNCT];rp:mcat_rpunct;++:;
+semi[PUNCT];rp:mcat_rpunct;++;;
+excl[PUNCT];rp:mcat_rpunct;++!;
+quest[PUNCT];rp:mcat_rpunct;++?;
+reg[PUNCT];rp:mcat_rpunct;++®; zarte:ë;
+trade[PUNCT];rp:mcat_rpunct;++™; zarte:e;
+
+*this kind of period may only come after abbreviations
+abbrperiod[PUNCT];lp:dot_punct;lr:dot_fin&!sfx;rp:mcat_rpunct dotpunct;++.;
+
+*not in spell checker!
+*&plus;[FN];cat:X;rp:mcat_rpunct;++&plus;;
+&plus;[FN|ABC];phon:plusz;stemalt:-;rp:=A&=Ai&mcat_deriv;lr:cat_Nom;lp:dollar;
+&plus;&plus;[FN|ABC];phon:pluszplusz;stemalt:-;rp:=A&=Ai&mcat_deriv;lr:cat_Nom;lp:dollar;
+&plus;[PUNCT];rp:mcat_lpunct;++&plus;;
+*&plus;[PUNCT];rp:mcat_lpunct;++&plus;;
+*plus[FN];cat:X;rp:mcat_rpunct;+++;
+*plus[PUNCT];rp:mcat_lpunct;+++;
+*plus[PUNCT];cat:X;+++;
+
+*case marked personal pronouns
+* p/n endings are attached
+[NOM];stemalt:case;
+[ACC];stemalt:case;
+neki[DAT];stemalt:case; zarte:e;
+néki[DAT];stemalt:case;restr:a;
+rajta[SUP];stemalt:case;
+benne[INE];stemalt:case; zarte:ee;
+nála[ADE];stemalt:case;
+róla[DEL];stemalt:case;
+belőle[ELA];stemalt:case; zarte:ee;
+tőle[ABL];stemalt:case; zarte:e;
+vele[INS];stemalt:case; zarte:ee;
+véle[INS];stemalt:case;restr:a; zarte:e;
+érte[CAU];stemalt:case; zarte:e;
+érette[CAU];zarte:ëe;stemalt:case;restr:a;
+rá[SUB];stemalt:case;
+reá[SUB];zarte:ë;stemalt:case;restr:a;
+belé[ILL];stemalt:case; zarte:e;
+hozzá[ALL];stemalt:case;
+hozzáig[TER];stemalt:case;
+
+*nála[INL];stemalt:case; restr:g;
+*hozzá[ADL];stemalt:case; restr:g;
+*tőle[EXL];stemalt:case; zarte:e; restr:g;
+
+*anaphoric possessives
+é[POS];stemalt:pers;
+éi[POSi];stemalt:pers;
+
+*the pronoun 'maga'
+* p/n endings are attached
+maga[FN|NM&HA|NM];stemalt:pers;
+maga+maga[FN|NM&HA|NM];stemalt:pers;
+ön+%maga[FN|NM&HA|NM];stemalt:pers;
+önnön+%maga[FN|NM&HA|NM];stemalt:pers;
+*ten+maga[FN|NM&HA|NM];zarte:ë;stemalt:pers;
+*en+maga[FN|NM&HA|NM];zarte:ë;stemalt:pers;
+*tennen+maga[FN|NM&HA|NM];zarte:ëë;stemalt:pers;
+*ennen+maga[FN|NM&HA|NM];zarte:ëë;stemalt:pers;
+jó+maga[FN|NM&HA|NM];stemalt:pers;
+egy+maga[FN|NM&HA|NM];zarte:ë;stemalt:pers;
+
+*ezek helyett az @d+maga van
+*nyolc@ad+maga[FN|NM&HA|NM];
+*annyi@ad+maga[FN|NM&HA|NM];
+*sok@ad+maga[FN|NM&HA|NM];
+*harm@ad+maga[FN|NM&HA|NM];
+*husz@ad+maga[FN|NM&HA|NM];
+*több@ed+maga[FN|NM&HA|NM];
+*negy@ed+maga[FN|NM&HA|NM];
+*más@od+maga[FN|NM&HA|NM];
+*hat@odmaga[FN|NM&HA|NM];
+*öt@öd+maga[FN|NM&HA|NM];
+
+*only with plural personal endings
+sok[FN|NM];stemalt:plpers;rp:sup;++sok+ak[PL];rp:LOW !sup;++!tö+bb[FOK];cat:N;stemalt:plpers;rp:sup;++bb+ek[PL];rp:LOW !sup;
+
+mind[DET];*mind a kettő
+mind[HA|NM];*mind elmentünk
+
+mind+annyi[FN|NM];stemalt:plpers;
+mind+nyáj[FN|NM];stemalt:plpers;
+vala+mennyi[FN|NM];stemalt:plpers; zarte:e;
+vala+hány[FN|NM];stemalt:plpers;
+mind+(a+hány[FN|NM];stemalt:plpers;
+mind+(a+mennyi[FN|NM];stemalt:plpers; zarte:e;
+kettő[FN|NM]; zarte:e;stemalt:plpers;++kette+jük[t3];rr:(ANP|CASE);rp:LOW =Vt =kAl Cfin cat_Npron;
+  mind+kettő[FN|NM]; zarte:e;
+három[FN|NM];stemalt:plpers;
+  mind+három[FN|NM]; zarte:e;
+
+minden[FN|NM];zarte:ë;stemalt:plpers;rp:=A&=Ai&LOW;
+más%ik[MN|NM];stemalt:plpers;rp:=A&=Ai&LOW;
+*egy%ik-más%ik[MN|NM];stemalt:plpers;rp:=jA&=jAi&LOW;
+egy%ik[MN|NM];zarte:ë;stemalt:plpers;rp:=A&=Ai&LOW;
+mind+egy%ik[FN|NM];zarte:ë;stemalt:plpers;rp:=A&=Ai&LOW;
+mind+egy%ik[FN|NM&DET|NM];zarte:ë;rp:=A&=Ai&LOW;
+mely%ik[FN|NM|Int];stemalt:plpers;rp:=A&=Ai&LOW; zarte:e;
+a+mely%ik[FN|NM];stemalt:plpers;rp:=A&=Ai&LOW; zarte:e;
+vala+mely%ik[FN|NM];stemalt:plpers;rp:=A&=Ai&LOW; zarte:e;
+se+mely%ik[FN|NM];zarte:ëe;stemalt:plpers;rp:=A&=Ai&LOW;
+bár+mely%ik[FN|NM];stemalt:plpers;rp:=A&=Ai&LOW; zarte:e;
+akár+mely%ik[FN|NM];stemalt:plpers;rp:=A&=Ai&LOW; zarte:e;
+né+mely%ik[FN|NM];stemalt:plpers;rp:=A&=Ai&LOW; zarte:e;
+oly%ik[MN|NM];stemalt:plpers;rp:=A&=Ai&LOW;
+
+vala+mely[FN|NM];stemalt:plpers;rp:=A&=Ai&LOW; zarte:e;
+
+ki[FN|NM];**a ki-ki kedvéért...
+
+****deictic pronouns
+az[FN|NM];stemalt:az;
+mind+az[FN|NM];
+am+az[FN|NM];
+mind+(am+az[FN|NM];
+ugyan+az[FN|NM];
+ez[FN|NM];stemalt:az; zarte:e;
+mind+ez[FN|NM]; zarte:e;
+em+ez[FN|NM]; zarte:ee;
+mind+(em+ez[FN|NM]; zarte:ee;
+ugyan+ez[FN|NM]; zarte:e;
+
+az[DET|NM];stemalt:az;cat:N;rp:!cmp1 !cmp2;
+mind+az[DET|NM];
+am+az[DET|NM];
+mind+(am+az[DET|NM];
+ugyan+az[DET|NM];
+ez[DET|NM];stemalt:az;cat:N;rp:!cmp1 !cmp2; zarte:e;
+mind+ez[DET|NM]; zarte:e;
+em+ez[DET|NM]; zarte:ee;
+mind+(em+ez[DET|NM]; zarte:ee;
+ugyan+ez[DET|NM]; zarte:e;
+
+***only in front of consonant initial postpositions
+a[DET|NM|(NU)];cat:X;rr:!hyph;
+ugyan+a[DET|NM|(NU)];cat:X;rr:!hyph;
+e[DET|NM|(NU)];cat:X; zarte:e;rr:!hyph;
+ugyan+e[DET|NM|(NU)];cat:X; zarte:e;rr:!hyph;
+a[FN|NM|(NU)]+[NOM];cat:X;rr:!hyph;
+ugyan+a[FN|NM|(NU)]+[NOM];cat:X;rr:!hyph;
+e[FN|NM|(NU)]+[NOM];cat:X; zarte:e;rr:!hyph;
+ugyan+e[FN|NM|(NU)]+[NOM];cat:X; zarte:e;rr:!hyph;
+
+****** determiners
+
+a[DET|def];rr:!hyph;
+?egy[DET|indef];zarte:ë;rr:!hyph;
+az[DET|def];rr:!hyph;
+ugyan+egy[DET|indef];zarte:ë;rr:!hyph;
+ugyan+egy[MNp|NM];zarte:ë;rr:!hyph;
+
+ama[DET|NM|def];rr:!hyph;
+  mind+ama[DET|NM|def];
+e[DET|NM|def]; zarte:e;rr:!hyph;
+ugyan+e[DET|NM|def]; zarte:e;
+eme[DET|NM|def]; zarte:ee;rr:!hyph;
+  mind+eme[DET|NM|def]; zarte:ee;
+minden[DET|Q|indef];rp:=A;zarte:ë;
+ezen[DET|NM|def];zarte:eë;rr:!hyph;
+  mind+ezen[DET|NM|def];zarte:eë;
+  ugyan+ezen[DET|NM|def];zarte:eë;
+azon[DET|NM|def];rr:!hyph;
+  mind+azon[DET|NM|def];
+  ugyan+azon[DET|NM|def];
+  egy+ugyan+azon[DET|NM|def];zarte:ë;
+  egy+azon[DET|NM|def];zarte:ë;
+
+****postpositions
+*pronominal forms of 'körül'
+* p/n endings are attached
+*körülötte[NU];stemalt:case;
+
+*these may be attached to 'az'
+* they may stand on their own
+* p/n endings and -i may follow
+által[NU];stemalt:ppez;
+mögül[NU];stemalt:ppaz; *kihátráltál amögül, hogy
+nélkül[NU];stemalt:ppez;++!nélkül+i[IKEP]+ség[PROP];cat:N;rp:!cmp1;
+fölül[NU];stemalt:pp;
+közül[NU];stemalt:ppaz;*aközül választhatsz, hogy
+elől[NU];stemalt:ppez; zarte:e;*menekült azelől, hogy, ezelől nincs menekvés
+felől[NU];stemalt:ppez; zarte:e;*efelől nyugodt lehetsz
+mellől[NU];stemalt:ppaz; zarte:e; *nem tágít amellől, hogy
+alól[NU];stemalt:ppez;*ezalól nincs kivétel
+ellen[NU];stemalt:ppez; zarte:ee;rp:atomic;*ezellen nincs apelláta
+szerint[NU];stemalt:ppez;zarte:ë;rp:atomic;
+iránt[NU];stemalt:ppez;*eziránt nincs kétség
+miatt[NU];stemalt:ppez;
+alatt[NU];stemalt:ppez;
+végett[NU];stemalt:ppez; zarte:e;
+felett[NU];stemalt:ppez;zarte:ëë;++!felett+i[IKEP]+ség[PROP];cat:N;rp:!cmp1;zarte:ëë;
+fölött[NU];stemalt:ppez;++!fölött+i[IKEP]+ség[PROP];cat:N;rp:!cmp1;
+mellett[NU];stemalt:ppez; zarte:ee;++!mellett+i[IKEP]+ség[PROP];cat:N;rp:!cmp1;
+helyett[NU];stemalt:ppez; zarte:eë;++!helyett+i[IKEP]+ség[PROP];cat:N;rp:!cmp1;zarte:eë;
+mögött[NU];stemalt:ppez;++!mögött+i[IKEP]+ség[PROP];cat:N;rp:!cmp1;*húzódik meg emögött
+körött[NU];stemalt:pp;
+között[NU];stemalt:ppaz;
+közt[NU];stemalt:ppaz;
+mögé[NU];stemalt:ppez;*amögé bújik
+elé[NU];stemalt:pp; zarte:e;
+felé[NU];stemalt:ppez; zarte:e;*efelé megyünk
+mellé[NU];stemalt:ppez; zarte:e;*emellé még...
+fölé[NU];stemalt:pp;
+köré[NU];stemalt:ppaz;
+közé[NU];stemalt:pp;
+alá[NU];stemalt:pp;
+
+megé_=mögé[NU];stemalt:pp; zarte:ë;
+
+*pronominal forms of 'körül' have the stem 'körülött'
+körül[NU];stemalt:ppaz;++!körül+ig[TER];++!körül+től[ABL];++!körülött+i[IKEP];cat:Adj;rp:LOW;restr:a;
+
+*only with p/n endings
+elibe_=elébe[NU];stemalt:pp; zarte:ee;
+elébe[NU];stemalt:pp; zarte:ee;
+eleibe_=elébe[NU];stemalt:pp; zarte:ee;
+felibe_=felé[NU];stemalt:pp;zarte:ëe;
+fölibe_=fölé[NU];stemalt:pp; zarte:e;
+fölébe_=fölé[NU];stemalt:pp; zarte:e;
+köribe_=köré[NU];stemalt:pp; zarte:e;
+körébe_=köré[NU];stemalt:pp; zarte:e;
+közibe_=közé[NU];stemalt:pp; zarte:e;
+közébe[NU];stemalt:pp; zarte:e;
+hegyibe_=hegyébe[NU];stemalt:pp;zarte:ëe;
+hegyébe[NU];stemalt:pp;zarte:ëe;
+mögébe_=mögé[NU];stemalt:pp; zarte:ë;
+mögibe_=mögé[NU];stemalt:pp; zarte:ë;
+
+*these maly be attached to 'az'
+* they may stand on their own
+* p/n endings and -i may follow
+* case endings may follow
+után[NU];stemalt:pp+case;++!után+i[IKEP]+ság[PROP];cat:N;rp:!cmp1;
+előtt[NU];stemalt:pp+case; zarte:e;++!előtt+i[IKEP]+ség[PROP];cat:N;rp:!cmp1;
+
+*these maly be attached to 'az'
+* no suffix may be attached
+óta[NU];lr:deix;lp:pp;
+fele[NU];lr:deix;lp:pp; zarte:ee;
+menté=n[NU|(POSS)];lr:deix;lp:pp;++!ment+i[IKEP];cat:Adj;rp:LOW; zarte:e;
+
+*these maly be attached to 'az'
+*-i may be attached
+közben[NU];lr:deix;lp:pp;rp:-i; zarte:e;
+
+****postpositions with oblique arguments
+*these maly not be attached to 'az'
+* no suffix may be attached
+
+*these head possesive structures
+* in any p/n
+rész=é=re[NU|(POSS)];stemalt:pp_poss; zarte:e;
+rész=é=ről[NU|(POSS)];stemalt:pp_poss;
+szám=á=ra[NU|(POSS)];stemalt:pp_poss;
+rovás=á=ra[NU|(POSS)];stemalt:pp_poss;
+jó+volt=á=ból[NU|(POSS)];stemalt:pp_poss;
+rév=é=n[NU|(POSS)];rp:mcat_stem+infl;++révemen+[PSe1];++réveden+[PSe2];++révén+[PSe3];++révünkön+[PSt1];++réveteken+[PSt2];++révükön+[PSt3];
+tork=a+szakadtá=ból[HA|NM];stemalt:pp_pers;
+ön+szántL=á=ból[HA|NM];stemalt:pp_pers;
+jó+szántL=á=ból[HA|NM];stemalt:pp_pers;
+*mag=a+szőr%ű[MN|NM];stemalt:???;
+látt=á=n[NU|(POSS)];stemalt:pp_poss;
+
+* in any p/n?
+ellen=é=re[NU|(POSS)];stemalt:pp_pers; zarte:eee;
+érdek=é=ben[NU|(POSS)];stemalt:pp_pers; zarte:eee;
+*ellen=é=re[NU|(POSS)];zarte:eee;
+kép=é=ben[NU|(POSS)];stemalt:pp_pers;
+nev=é=ben[NU|(POSS)];stemalt:pp_pers;
+*only in 3rd person
+?ellen=é=be[NU|(POSS)]; zarte:eee;
+ellen=é=ben[NU|(POSS)]; zarte:eee;
+
+következ%té=ben[NU|(POSS)];zarte:eëe;
+út=já=n[NU|(POSS)];
+táj=á=n[NU|(POSS)];
+dac=á=ra[NU|(POSS)];
+múl%tá=n[NU|(POSS)];
+foly%tá=n[NU|(POSS)];
+folyam=á=n[NU|(POSS)];
+híj=á=n[NU|(POSS)];
+nyom=á=n[NU|(POSS)];
+kapcs=á=n[NU|(POSS)];
+ellen+tét=ben[NU|(INS)];
+végezt=é=vel[NU|(POSS)];
+múlt=á=val[NU|(POSS)];
+múlt=á=n[NU|(POSS)];
+cél=já=ból[NU|(POSS)];
+ok=á=ért[NU|(POSS)];
+alap=já=n[NU|(POSS)];
+eset=é=n[NU|(POSS)];
+hossz=á=ban[NU|(POSS)];
+sor=á=n[NU|(POSS)];
+tete=jé=be[NU|(POSS)];
+ere=jé=ig[NU|(POSS)];
+hiány=á=ban[NU|(POSS)];
+hall%at=á=n[NU|(POSS)];
+
+*these are also definite nouns
+* which require one of the INE/ILL/ELA case suffixes (in/into/from inside of)
+* 'közel' allows singular possessive markers
+* -i may follow
+közel[HA];stemalt:pp_sup; zarte:e;++!+ebb[FOK]; zarte:ee;gp:sup;stemalt:pp_sup;++!+ebb[FOK]+i[IKEP]; zarte:ee;cat:Adj;gp:sup;
+közel[NU|(ALL)];stemalt:pp_sup; zarte:e;++!+ebb[FOK]; zarte:ee;gp:sup;stemalt:pp_sup;++!+ebb[FOK]+i[IKEP]; zarte:ee;cat:Adj;gp:sup;
+*közel[FN|def];rr:(CASE|POSS)&!PL&(IN|0mrf);rp:=A !cmp1 !cmp2; zarte:e;
+közel[FN];rp:=A !cmp1 !cmp2;rp:atomic; zarte:e;
+távol[NU|(ABL)];stemalt:pp_sup;++!+abb[FOK];gp:sup;stemalt:pp_sup;++!+abb[FOK]+i[IKEP];cat:Adj;gp:sup;
+távol[HA];stemalt:pp_sup;++!+abb[FOK];gp:sup;stemalt:pp_sup;++!+abb[FOK]+i[IKEP];cat:Adj;gp:sup;
+*távol[FN|def];rr:CASE&(IN|0mrf);rp:!cmp1 !cmp2;
+távol[FN];rp:!cmp1 !cmp2;
+
+közel...[HA];rp:pfx_VNom; zarte:e;
+távol...[HA];rp:pfx_VNom;
+ön...[HA];rp:pfx_VNom;
+újra...[HA];rp:pfx_VNom;
+együtt...[HA];rp:pfx_VNom;
+
+*a SUB/DEL (onto/from the top of) ending may be attached to these
+* -i may follow
+belül[NU|(SUP)];stemalt:pp_sup; zarte:e;
+belül[HA];stemalt:pp_sup;gp:sup; zarte:e;
+bévül[NU|(SUP)];stemalt:pp_sup;
+bévül[HA];stemalt:pp_sup;gp:sup;
+belől[NU|(SUP)];stemalt:pp_sup; zarte:e;
+*belől[HA];stemalt:pp_sup;gp:sup;
+felül[NU|(SUP)];stemalt:pp_sup;zarte:ë;
+felül[HA];stemalt:pp_sup;gp:sup;zarte:ë;
+fölül[NU|(SUP)];stemalt:pp_sup;
+fölül[HA];stemalt:pp_sup;gp:sup;
+kívül[NU|(SUP)];stemalt:pp_sup;
+kívül[NU|(SUP)];stemalt:pp;
+kívül[HA];stemalt:pp_sup;gp:sup;
+alul[NU|(SUP)];stemalt:pp_sup;
+alul[HA];stemalt:pp_sup;gp:sup;
+túl[NU|(SUP)];stemalt:pp_sup;
+innen[NU|(SUP)];stemalt:pp_sup;
+
+keresztül[NU|(SUP)];rp:-i; zarte:ëë;
+át[NU|(SUP)];
+
+múl%va[NU];
+múl%ván_=múl%va[NU];
+fog%va[NU|(ABL)];
+fog%vást_=fog%va[NU|(ABL)];
+néz%ve[NU|(SUB)];
+néz%vést_=néz%ve[NU|(SUB)];
+kezd%ve[NU|(ABL)];
+kar+ölt%ve[NU|(INS)];
+indít%tat%va[NU|(ABL)];
+be+zár)@ó@lag[NU|(TER)];
+
+egyetem%ben[NU|(INS)]; zarte:ëeëe;
+
+tekintet=tel[NU|(SUB)];
+szem+közt[NU|(INS)&HA];rp:-i; zarte:ë;
+
+közepette[NU|(POSS)]; zarte:eee;
+közepett[NU];rp:-i;*elavult
+körülött[NU];rp:-i;*elavult
+
+?hossz=at[NU];
+
+szembe[NU|(INS)];zarte:ëe;
+szemben[NU|(INS)&HA];rp:-i;zarte:ëe;
+együtt[NU|(INS)&HA];zarte:ë;
+elő@bb[NU|(INS)];zarte:e;
+át#ellen=ben[NU|(INS)&HA]; zarte:eee;
+át#ellen[NU|(INS)&HA]; zarte:eee;
+ki+foly)@ó@lag[NU|(ELA)];
+
+gyanánt[NU];
+képest[NU|(ALL)];rp:-i atomic; zarte:e;
+
+táj=ban[NU];++!+i[IKEP];cat:Adj;rp:LOW;
+táj=t[NU];
+táj=ig[NU];
+táj=tól[NU];
+
+kar+ölt@ve[NU|(INS)];
+
+íz=ben[HA|(SZN)];
+rend=ben[HA|(SZN)];
+
+*these are attached to N' not NP
+szám=ba[NU|(FN0)];
+* in any p/n
+lét=é=re[NU|(FN0)];stemalt:pp_pers; zarte:e;
+
+*quantifiers/numerals
+
+nulla[SZN];   ++null;rr:Vd;rp:LOW&-Vd;
+nulla[FN];
+null[SZN];
+zéró[SZN&FN];
+
+egy[SZN];zarte:ë;rp:LOW;no_inh:;++!első+[SORSZ];cat:Adj;gp:sup; zarte:e;++!else+je[DATUM];cat:N; zarte:eee;
+egy[SZN];zarte:ë;rp:LOW;no_inh:;rp:num_1&-Vd;rp:LOW;
+**...egy[SZN];rp:num_10&-Vd;rp:LOW;
+  harminc+egy[SZN]; zarte:ë;
+  nyolcvan+egy[SZN];zarte:ë;
+  hatvan+egy[SZN];zarte:ë;
+  kilencven+egy[SZN]; zarte:eeë;
+  hetven+egy[SZN]; zarte:eeë;
+  ötven+egy[SZN]; zarte:eë;
+  negyven+egy[SZN]; zarte:eeë;
+  tizen+egy[SZN]; zarte:ëë;
+  huszon+egy[SZN];zarte:ë;
+  egyetlen+egy[SZN]; zarte:ëeeë;no_inh:;
+*  egy-+egy[SZN];no_inh:;zarte:ëë;
+kettő[SZN];no_inh:; zarte:e;++kette;rr:POSS 3P;rp:=jA;++kett;rr:Vn|Vs;rp:ESS_Vn&=Vs&VHFU&LOW;++!kett+ed[TORT]; zarte:ee;cat:N;rp:sfx_FRACT;++!más;rr:Vd;rp:-Vd&VHB;
+*kettő[SZN];no_inh:;++kett;rr:Vd|Vn;rp:-Vd&ESS_Vn;cat:Adv;++!más;rr:Vd;rp:-Vd;
+kettő[SZN];no_inh:; zarte:e;rp:num_1;++kett;rr:Vd|Vn|Vs;rp:-Vd&ESS_Vn&=Vs&VHFU&LOW;
+**...kettő[SZN];rp:num_10;++kette;rr:POSS 3P;rp:=jA;++kett;rr:Vd|Vn|Vs;rp:-Vd&ESS_Vn&=Vs&VHFU&LOW;
+  harminc+kettő[SZN]; zarte:e;
+  nyolcvan+kettő[SZN]; zarte:e;
+  hatvan+kettő[SZN]; zarte:e;
+  kilencven+kettő[SZN]; zarte:eee;
+  hetven+kettő[SZN]; zarte:eee;
+  ötven+kettő[SZN]; zarte:ee;
+  negyven+kettő[SZN]; zarte:eee;
+  tizen+kettő[SZN]; zarte:ëe;
+  huszon+kettő[SZN]; zarte:e;
+  mind+kettő[SZN];no_inh:; zarte:e;++!kett+en[ESSNUM];cat:Adv; zarte:ee;
+  egy-+kettő[SZN]; zarte:ëe;no_inh:;++!kett+en[ESSNUM];cat:Adv; zarte:ëee;
+három[SZN];stemalt:VZA;rp:LOW;rp:num_10&ESS_Vn;   ++harm;rr:Vd;rp:-Vd;
+  harminc+három[SZN];
+  nyolcvan+három[SZN];
+  hatvan+három[SZN];
+  kilencven+három[SZN];zarte:ee;
+  hetven+három[SZN];   zarte:ee;
+  ötven+három[SZN];    zarte:e;
+  negyven+három[SZN];  zarte:ee;
+  tizen+három[SZN];    zarte:ë;
+  huszon+három[SZN];
+  mind+három[SZN];stemalt:VZA;rp:LOW;rp:ESS_Vn;
+négy[SZN];rp:num_10&ESS_Vn LOW;                       ++negy;rr:Vd;rp:-Vd LOW;
+  harminc+négy[SZN];
+  nyolcvan+négy[SZN];
+  hatvan+négy[SZN];
+  kilencven+négy[SZN];zarte:ee;
+  hetven+négy[SZN];   zarte:ee;
+  ötven+négy[SZN];    zarte:e;
+  negyven+négy[SZN];  zarte:ee;
+  tizen+négy[SZN];    zarte:ë;
+  huszon+négy[SZN];
+öt[SZN];rp:num_10&-Vd&ESS_Vn =*j0A;
+  harminc+öt[SZN];
+  nyolcvan+öt[SZN];
+  hatvan+öt[SZN];
+  kilencven+öt[SZN];zarte:ee;
+  hetven+öt[SZN];   zarte:ee;
+  ötven+öt[SZN];    zarte:e;
+  negyven+öt[SZN];  zarte:ee;
+  tizen+öt[SZN];    zarte:ë;
+  huszon+öt[SZN];
+hat[SZN];rp:num_10&-Vd&ESS_Vn =*j0A;++!hat+uk[PSt3];cat:Num;rp:num_10;rr:(CASE|ANP);
+  harminc+hat[SZN];
+  nyolcvan+hat[SZN];
+  hatvan+hat[SZN];
+  kilencven+hat[SZN];zarte:ee;
+  hetven+hat[SZN];   zarte:ee;
+  ötven+hat[SZN];    zarte:e;
+  negyven+hat[SZN];  zarte:ee;
+  tizen+hat[SZN];    zarte:ë;
+  huszon+hat[SZN];
+hét[SZN];stemalt:SVS;rp:num_10&-Vd&ESS_Vn;
+  harminc+hét[SZN];
+het@ed+hét[SZN?];stemalt:SVS; zarte:ee;
+  nyolcvan+hét[SZN];
+  hatvan+hét[SZN];
+  kilencven+hét[SZN];zarte:ee;
+  hetven+hét[SZN];   zarte:ee;
+  ötven+hét[SZN];    zarte:e;
+  negyven+hét[SZN];  zarte:ee;
+  tizen+hét[SZN];    zarte:ë;
+  huszon+hét[SZN];
+nyolc[SZN];rp:LOW;rp:num_10&-Vd&ESS_Vn;
+  harminc+nyolc[SZN];
+  nyolcvan+nyolc[SZN];
+  hatvan+nyolc[SZN];
+  kilencven+nyolc[SZN];zarte:ee;
+  hetven+nyolc[SZN];   zarte:ee;
+  ötven+nyolc[SZN];    zarte:e;
+  negyven+nyolc[SZN];  zarte:ee;
+  tizen+nyolc[SZN];    zarte:ë;
+  huszon+nyolc[SZN];
+kilenc[SZN];rp:num_10&-Vd&ESS_Vn;rp:LOW; zarte:e;
+  harminc+kilenc[SZN]; zarte:e;
+  nyolcvan+kilenc[SZN]; zarte:e;
+  hatvan+kilenc[SZN]; zarte:e;
+  kilencven+kilenc[SZN];zarte:eee;
+  hetven+kilenc[SZN];   zarte:eee;
+  ötven+kilenc[SZN];    zarte:ee;
+  negyven+kilenc[SZN];  zarte:eee;
+  tizen+kilenc[SZN];    zarte:ëe;
+  huszon+kilenc[SZN]; zarte:e;
+
+két[SZNa];rr:(0mrf|num|szOr|comp2);rp:num_10;
+  harminc+két[SZNa];
+  nyolcvan+két[SZNa];
+  hatvan+két[SZNa];
+  kilencven+két[SZNa];zarte:ee;
+  hetven+két[SZNa];   zarte:ee;
+  ötven+két[SZNa];    zarte:e;
+  negyven+két[SZNa];  zarte:ee;
+  tizen+két[SZNa];    zarte:ë;
+  huszon+két[SZNa];
+  mind+két[SZNa];
+  egy-+két[SZNa]; zarte:ë;
+
+tíz[SZN];rp:LOW;rp:num_10&ESS_Vn;     ++tiz;rr:Vd;rp:num_10&-Vd;
+húsz[SZN];rp:LOW;rp:num_10&ESS_Vn;rr:!szOr;    ++husz;rr:Vd;rp:num_10&-Vd;++hús;rr:szOr ~!szOr;
+harminc[SZN];rp:LOW&VHB;rp:num_10&-Vd&ESS_Vn;
+negyven[SZN];rp:=jA&=jAi&LOW;rp:num_10&-Vd&ESS_Vn; zarte:ee;
+ötven[SZN];rp:=jA&=jAi&LOW;rp:num_10&-Vd&ESS_Vn; zarte:e;
+hatvan[SZN];rp:=jA&=jAi&LOW;rp:num_10&-Vd&ESS_Vn;
+hetven[SZN];rp:=jA&=jAi&LOW;rp:num_10&-Vd&ESS_Vn; zarte:ee;
+nyolcvan[SZN];rp:=jA&=jAi&LOW;rp:num_10&-Vd&ESS_Vn;
+kilencven[SZN];rp:=jA&=jAi&LOW;rp:num_10&-Vd&ESS_Vn; zarte:ee;
+
+tizen-[SZN];cat:X;
+huszon-[SZN];cat:X;
+
+száz[SZN];rp:LOW;rp:num_100&-Vd&ESS_Vn;rr:(num|sufx|comp2);
+  nyolc+száz[SZN];
+  kilenc+száz[SZN]; zarte:e;
+  három+száz[SZN];
+  hat+száz[SZN];
+  hét+száz[SZN];
+  két+száz[SZN];
+  öt+száz[SZN];
+  egy+száz[SZN];zarte:ë;
+  négy+száz[SZN];
+  kettő+száz[SZN]; zarte:e;
+  fél+száz[SZN];
+  sok+száz[SZN];
+
+ezer[SZN];zarte:eë;stemalt:VZA;rp:num_1000&-Vd&ESS_Vn;rr:(num|sufx|comp2);rp:LOW -nyi;
+ezer[SZN];zarte:eë;cat:X;lp:num;rp:num_2000 -nyi;
+  fél+ezer[SZN];zarte:eë;stemalt:VZA;rp:ESS_Vn -nyi;
+  sok+ezer[SZN];zarte:eë;stemalt:VZA;rp:ESS_Vn -nyi;
+
+billió[SZN];rp:num_1eX -nyi ESS_Vn ;   ++billiom;rr:Vd;rp:-Vd !Vfin Cfin;
+  ezer+billió[SZN];rp:-nyi ESS_Vn ;   ++billiom;rr:Vd;rp:-Vd !Vfin Cfin;
+millió[SZN];rp:num_1eX&ESS_Vn -nyi;   ++milliom;rr:Vd;rp:-Vd !Vfin Cfin;
+  fél+millió[SZN];rp:ESS_Vn -nyi;     ++milliom;rr:Vd;rp:-Vd !Vfin Cfin;
+  sok+millió[SZN];rp:ESS_Vn -nyi;     ++milliom;rr:Vd;rp:-Vd !Vfin Cfin;
+  negyed+millió[SZN];rp:ESS_Vn -nyi;     ++milliom;rr:Vd;rp:-Vd !Vfin Cfin;
+milliárd[SZN];rp:=jA&=jAi;rp:num_1eX&-Vd -nyi ESS_Vn;
+  fél+milliárd[SZN];rp:ESS_Vn -nyi;
+  sok+milliárd[SZN];rp:ESS_Vn -nyi;
+  negyed+milliárd[SZN];rp:ESS_Vn -nyi;
+  ezer+milliárd[SZN];rp:ESS_Vn -nyi;
+trillió[SZN];rp:num_1eX&ESS_Vn -nyi;    ++trilliom;rr:Vd;rp:-Vd !Vfin Cfin;
+  fél+trillió[SZN];rp:ESS_Vn -nyi;     ++trilliom;rr:Vd;rp:-Vd !Vfin Cfin;
+  sok+trillió[SZN];rp:ESS_Vn -nyi;     ++trilliom;rr:Vd;rp:-Vd !Vfin Cfin;
+  negyed+trillió[SZN];rp:ESS_Vn -nyi;     ++trilliom;rr:Vd;rp:-Vd !Vfin Cfin;
+
+miriád[SZN];cat:N;rp:=jA&=jAi;
+
+fél[SZN];stemalt:SVS;rp:=A&=Ai&-Vd ESS_Vn;
+  más+fél[SZN];
+
+0[SZN|DIGIT];phon:nullá;rp:-Vd;
+1[SZN|DIGIT];phon:egy;rp:LOW;
+1[SZN|DIGIT]+@.[SORSZ];phon:első;
+2[SZN|DIGIT]+@.[SORSZ];phon:második;
+0[SZN|DIGIT];phon:nullá;cat:X;lp:digit;rp:num_0dig;
+,[SZN|DIGIT];cat:X;lp:dollar;rp:num_dotcom;
+.[SZN|DIGIT];cat:X;lp:dollar;rp:num_dotcom;
+:[SZN|DIGIT];cat:X;lp:dollar;rp:num_dotcom;
+&plus;[FN];cat:Num;stemalt:1-;phon:plusz;lp:dollar;rp:num_1dig;++&plus;;
+plusmn[PUNCT];cat:X;lp:dollar;rp:num_0dig;++±;++&plusmn;;
+1[SZN|DIGIT];phon:egy;rp:LOW;lp:digit;rp:num_1dig&-Vd&ESS_Vn;
+2[SZN|DIGIT];phon:kettő;lp:digit;rp:num_1dig&-Vd&ESS_Vn&=Vs&LOW;++!2-+szer[MUL];cat:Adv;++!2-+szer[MUL]+es[SKEP];cat:Adj;++!2-+odik[SORSZ];cat:Adj;rp:LOW&=Vs;
+3[SZN|DIGIT];phon:három;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;
+4[SZN|DIGIT];phon:négy;rp:LOW;lp:digit;rp:num_1dig&-Vd&ESS_Vn;
+5[SZN|DIGIT];phon:öt;lp:digit;rp:num_1dig&-Vd&ESS_Vn;
+6[SZN|DIGIT];phon:hat;lp:digit;rp:num_1dig&-Vd&ESS_Vn;
+7[SZN|DIGIT];phon:hét;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;
+8[SZN|DIGIT];phon:nyolc;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;
+9[SZN|DIGIT];phon:kilenc;rp:LOW;lp:digit;rp:num_1dig&-Vd&ESS_Vn;
+10[SZN|DIGIT];phon:tíz;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;rr:!digit;
+20[SZN|DIGIT];phon:húsz;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;rr:!digit;
+30[SZN|DIGIT];phon:harminc;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;rr:!digit;
+40[SZN|DIGIT];phon:negyven;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;rr:!digit;
+50[SZN|DIGIT];phon:ötven;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;rr:!digit;
+60[SZN|DIGIT];phon:hatvan;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;rr:!digit;
+70[SZN|DIGIT];phon:hetven;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;rr:!digit;
+80[SZN|DIGIT];phon:nyolcvan;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;rr:!digit;
+90[SZN|DIGIT];phon:kilencven;lp:digit;rp:num_1dig&LOW&-Vd&ESS_Vn;rr:!digit;
+1[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;
+2[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;
+3[SZN|DIGIT]+@.[SORSZ];phon:adik;lp:digit;rp:num_1dig&LOW;
+4[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;
+5[SZN|DIGIT]+@.[SORSZ];phon:ödik;lp:digit;rp:num_1dig&LOW;
+6[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_1dig&LOW;
+7[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;
+8[SZN|DIGIT]+@.[SORSZ];phon:adik;lp:digit;rp:num_1dig&LOW;
+9[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;
+10[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;rr:!digit;
+20[SZN|DIGIT]+@.[SORSZ];phon:adik;lp:digit;rp:num_1dig&LOW;rr:!digit;
+30[SZN|DIGIT]+@.[SORSZ];phon:adik;lp:digit;rp:num_1dig&LOW;rr:!digit;
+40[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;rr:!digit;
+50[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;rr:!digit;
+60[SZN|DIGIT]+@.[SORSZ];phon:adik;lp:digit;rp:num_1dig&LOW;rr:!digit;
+70[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;rr:!digit;
+80[SZN|DIGIT]+@.[SORSZ];phon:adik;lp:digit;rp:num_1dig&LOW;rr:!digit;
+90[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_1dig&LOW;rr:!digit;
+00[SZN|DIGIT]+@.[SORSZ];phon:adik;lp:digit;rp:num_fdig&LOW;
+000[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_fdig&LOW;
+0000[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_fdig&LOW;
+00000[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_fdig&LOW;
+000000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+0000000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+00000000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+000000000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+0000000000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+00000000000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+.000[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_fdig&LOW;
+0.000[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_fdig&LOW;
+00.000[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_fdig&LOW;
+.000.000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+0.000.000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+00.000.000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+.000.000.000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+0.000.000.000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+00.000.000.000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+,000[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_fdig&LOW;
+0,000[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_fdig&LOW;
+00,000[SZN|DIGIT]+@.[SORSZ];phon:edik;lp:digit;rp:num_fdig&LOW;
+,000,000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+0,000,000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+00,000,000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+,000,000,000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+0,000,000,000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+00,000,000,000[SZN|DIGIT]+@.[SORSZ];phon:odik;lp:digit;rp:num_fdig&LOW;
+
+*11[SZN|DIGIT];stemalt:datum;lp:digit;rp:num_1dig;
+*11[SZN|DIGIT];stemalt:lex;lp:digit;rp:num_1dig Vfin;++11-+e[DATUM];rp:-i;rr:!FVL;++11-+é[DATUM];rp:-i;rr:FVL;++=11-+i[IKEP];phon:tizenegyediki;rp:!cat_Num&cat_Adj ifin;
+2[SZN|DIGIT]+@-a[DATUM];cat:Num;rp:-i;++!+-i[IKEP];phon:másodiki;rp:cat_Num;
+1[SZN|DIGIT]+@-je[DATUM];zarte:e;cat:Num;rp:-i;++!-j+i[IKEP];phon:elseji;rp:cat_Num;
+10[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+20[SZN|DIGIT]+@-a[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:adiki;
+30[SZN|DIGIT]+@-a[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:adiki;
+11[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+21[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+31[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+12[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+22[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+3[SZN|DIGIT]+@-a[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:adiki;
+4[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+5[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+6[SZN|DIGIT]+@-a[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:odiki;
+7[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+8[SZN|DIGIT]+@-a[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:adiki;
+9[SZN|DIGIT]+@-e[DATUM];zarte:e;cat:Num;lp:digit;rp:num_1dig&-i;++!+-i[IKEP];cat:Num;lp:digit;rp:num_1dig;phon:ediki;
+*11[SZN|DIGIT]+-e[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=11+-i[IKEP];phon:tizenegyediki;rp:!cat_Num&cat_Adj;
+*21[SZN|DIGIT]+-e[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=21+-i[IKEP];phon:huszonegyediki;rp:!cat_Num&cat_Adj;
+*31[SZN|DIGIT]+-e[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=31+-i[IKEP];phon:harmincegyediki;rp:!cat_Num&cat_Adj;
+*12[SZN|DIGIT]+-e[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=12+-i[IKEP];phon:tizenkettediki;rp:!cat_Num&cat_Adj;
+*22[SZN|DIGIT]+-e[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=22+-i[IKEP];phon:huszonkettediki;rp:!cat_Num&cat_Adj;
+*3[SZN|DIGIT]+-a[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=3+-i[IKEP];phon:harmadiki;rp:!cat_Num&cat_Adj;
+*4[SZN|DIGIT]+-e[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=4+-i[IKEP];phon:negyediki;rp:!cat_Num&cat_Adj;
+*5[SZN|DIGIT]+-e[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=5+-i[IKEP];phon:ötödiki;rp:!cat_Num&cat_Adj;
+*6[SZN|DIGIT]+-a[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=6+-i[IKEP];phon:hatodiki;rp:!cat_Num&cat_Adj;
+*7[SZN|DIGIT]+-e[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=7+-i[IKEP];phon:hetediki;rp:!cat_Num&cat_Adj;
+*8[SZN|DIGIT]+-a[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=8+-i[IKEP];phon:nyolcadiki;rp:!cat_Num&cat_Adj;
+*9[SZN|DIGIT]+-e[DATUM];cat:Num;lp:digit;rp:num_1dig&-i;++=9+-i[IKEP];phon:kilencediki;rp:!cat_Num&cat_Adj;
+00[SZN|DIGIT];phon:száz;lp:digit;rp:num_fdig&LOW&-Vd&ESS_Vn;
+000[SZN|DIGIT];phon:ezr;rp:LOW;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+0000[SZN|DIGIT];phon:ezr;rp:LOW;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+00000[SZN|DIGIT];phon:ezr;rp:LOW;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+000000[SZN|DIGIT];phon:millió;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+0000000[SZN|DIGIT];phon:millió;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+00000000[SZN|DIGIT];phon:millió;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+000000000[SZN|DIGIT];phon:milliárd;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+0000000000[SZN|DIGIT];phon:milliárd;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+00000000000[SZN|DIGIT];phon:milliárd;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+.000[SZN|DIGIT];phon:ezr;rp:LOW;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+0.000[SZN|DIGIT];phon:ezr;rp:LOW;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+00.000[SZN|DIGIT];phon:ezr;rp:LOW;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+.000.000[SZN|DIGIT];phon:millió;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+0.000.000[SZN|DIGIT];phon:millió;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+00.000.000[SZN|DIGIT];phon:millió;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+.000.000.000[SZN|DIGIT];phon:milliárd;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+0.000.000.000[SZN|DIGIT];phon:milliárd;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+00.000.000.000[SZN|DIGIT];phon:milliárd;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+,000[SZN|DIGIT];phon:ezr;rp:LOW;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+0,000[SZN|DIGIT];phon:ezr;rp:LOW;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+00,000[SZN|DIGIT];phon:ezr;rp:LOW;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+,000,000[SZN|DIGIT];phon:millió;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+0,000,000[SZN|DIGIT];phon:millió;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+00,000,000[SZN|DIGIT];phon:millió;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+,000,000,000[SZN|DIGIT];phon:milliárd;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+0,000,000,000[SZN|DIGIT];phon:milliárd;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+00,000,000,000[SZN|DIGIT];phon:milliárd;lp:digit;rp:num_fdig&-Vd&ESS_Vn;
+
+I[ROMAN];cat:Num;phon:egy;rp:LOW;rp:roman_1;
+II[ROMAN];cat:Num;phon:kettő;rp:roman_1;
+III[ROMAN];cat:Num;phon:három;rp:roman_1;
+IV[ROMAN];cat:Num;phon:négy;rp:LOW;rp:roman_1;
+V[ROMAN];cat:Num;phon:öt;rp:roman_1;
+VI[ROMAN];cat:Num;phon:hat;rp:roman_1;
+VII[ROMAN];cat:Num;phon:hét;rp:LOW;rp:roman_1;
+VIII[ROMAN];cat:Num;phon:nyolc;rp:roman_1;
+IX[ROMAN];cat:Num;phon:kilenc;rp:LOW;rp:roman_1;
+
+X[ROMAN];cat:Num;phon:tíz;rp:LOW;rp:roman_10;
+XX[ROMAN];cat:Num;phon:húsz;rp:LOW;rp:roman_10;
+XXX[ROMAN];cat:Num;phon:harminc;rp:LOW;rp:roman_10;
+XL[ROMAN];cat:Num;phon:negyven;rp:LOW;rp:roman_10;
+L[ROMAN];cat:Num;phon:ötven;rp:LOW;rp:roman_10;
+LX[ROMAN];cat:Num;phon:hatvan;rp:LOW;rp:roman_10;
+LXX[ROMAN];cat:Num;phon:hetven;rp:LOW;rp:roman_10;
+LXXX[ROMAN];cat:Num;phon:nyolcvan;rp:LOW;rp:roman_10;
+XC[ROMAN];cat:Num;phon:kilencven;rp:LOW;rp:roman_10;
+
+C[ROMAN];cat:Num;phon:száz;rp:LOW;rp:roman_100;
+CC[ROMAN];cat:Num;phon:száz;rp:LOW;rp:roman_100;
+CCC[ROMAN];cat:Num;phon:száz;rp:LOW;rp:roman_100;
+CD[ROMAN];cat:Num;phon:száz;rp:LOW;rp:roman_100;
+D[ROMAN];cat:Num;phon:száz;rp:LOW;rp:roman_100;
+DC[ROMAN];cat:Num;phon:száz;rp:LOW;rp:roman_100;
+DCC[ROMAN];cat:Num;phon:száz;rp:LOW;rp:roman_100;
+DCCC[ROMAN];cat:Num;phon:száz;rp:LOW;rp:roman_100;
+CM[ROMAN];cat:Num;phon:száz;rp:LOW;rp:roman_100;
+
+M[ROMAN];cat:Num;phon:ezr;rp:LOW;rp:roman_1000;
+MM[ROMAN];cat:Num;phon:ezr;rp:LOW;rp:roman_1000;
+
+I[ROMAN]+.[SORSZ];cat:Num;phon:első;rp:roman_1;
+II[ROMAN]+.[SORSZ];cat:Num;phon:odik;rp:roman_1 LOW;
+III[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_1 LOW;
+IV[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_1 LOW;
+V[ROMAN]+.[SORSZ];cat:Num;phon:ödik;rp:roman_1 LOW;
+VI[ROMAN]+.[SORSZ];cat:Num;phon:odik;rp:roman_1 LOW;
+VII[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_1 LOW;
+VIII[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_1 LOW;
+IX[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_1 LOW;
+
+X[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_10 LOW;
+XX[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_10 LOW;
+XXX[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_10 LOW;
+XL[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_10 LOW;
+L[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_10 LOW;
+LX[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_10 LOW;
+LXX[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_10 LOW;
+LXXX[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_10 LOW;
+XC[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_10 LOW;
+
+C[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_100 LOW;
+CC[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_100 LOW;
+CCC[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_100 LOW;
+CD[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_100 LOW;
+D[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_100 LOW;
+DC[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_100 LOW;
+DCC[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_100 LOW;
+DCCC[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_100 LOW;
+CM[ROMAN]+.[SORSZ];cat:Num;phon:adik;rp:roman_100 LOW;
+
+M[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_1000 LOW;
+MM[ROMAN]+.[SORSZ];cat:Num;phon:edik;rp:roman_1000 LOW;
+
+tö@bb-+keves@ebb[SZN];rp:=jA&=jAi; zarte:eee;
+*tö@bb[SZN];rp:=jA&=jAi;rp:-Vd&ESS_Vn;
+*  három+negy%ed[SZN]; zarte:ee;
+Mrd[SZN|ROV];equ:milliárd;++mrd;equ:milliárd;rp:badorth;
+valami%cske[SZN?]; zarte:e;
+kevés@ke[SZN]; zarte:ee;
+rengeteg[SZN];rp:=jA&=jAi;zarte:ëee;
+elég[SZN];stemalt:SVSM;rp:=A&=Ai;zarte:ë;
+eleg%endő[SZN];rp:ESS_Vn LOW;zarte:ëëe;
+némi[DET|Q];
+annyi[SZN|NM];rp:-Vd&ESS_Vn;
+  több+annyi[SZN|NM];
+  nyolc+annyi[SZN|NM];
+  kilenc+annyi[SZN|NM]; zarte:e;
+  harminc+annyi[SZN|NM];
+  *harm@ad+annyi[SZN|NM];
+  *husz@ad+annyi[SZN|NM];
+  *száz@ad+annyi[SZN|NM];
+  *negy@ed+annyi[SZN|NM];
+  *tiz@ed+annyi[SZN|NM];
+  mind+annyi[SZN|NM];
+  *öt@öd+annyi[SZN|NM];
+  fele+annyi[SZN|NM]; zarte:ee;
+  meg+annyi[SZN|NM];zarte:ë;
+  mind+(meg+annyi[SZN|NM];zarte:ë;
+  még+annyi[SZN|NM];
+  csak+annyi[SZN|NM];
+  sok+annyi[SZN|NM];
+  fél+annyi[SZN|NM];
+  am+annyi[SZN|NM];
+  három+annyi[SZN|NM];
+  nyolcvan+annyi[SZN|NM];
+  hatvan+annyi[SZN|NM];
+  ugyan+annyi[SZN|NM];
+  éppen+annyi[SZN|NM]; zarte:e;
+  kilencven+annyi[SZN|NM]; zarte:ee;
+  hetven+annyi[SZN|NM]; zarte:ee;
+  ötven+annyi[SZN|NM]; zarte:e;
+  negyven+annyi[SZN|NM]; zarte:ee;
+  épp+annyi[SZN|NM];
+  ezer+annyi[SZN|NM];zarte:eë;
+  *két@szer+annyi[SZN|NM];
+  hat+annyi[SZN|NM];
+  szint+annyi[SZN|NM];
+  hét+annyi[SZN|NM];
+  két+annyi[SZN|NM];
+  öt+annyi[SZN|NM];
+  egy+annyi[SZN|NM]; zarte:ë;
+  négy+annyi[SZN|NM];
+  néhány+annyi[SZN|NM];
+  húsz+annyi[SZN|NM];
+  száz+annyi[SZN|NM];
+  tíz+annyi[SZN|NM];
+  millió+annyi[SZN|NM];
+  kettő+annyi[SZN|NM]; zarte:e;
+ennyi[SZN|NM];rp:-Vd&ESS_Vn; zarte:e;
+  fele+ennyi[SZN|NM]; zarte:ee+e;
+  csak+ennyi[SZN|NM]; zarte:e;
+  fél+ennyi[SZN|NM]; zarte:e;
+  ugyan+ennyi[SZN|NM]; zarte:e;
+  épp+ennyi[SZN|NM]; zarte:e;
+  szint+ennyi[SZN|NM]; zarte:e;
+mennyi[SZN|NM|Int];rp:-Vd&ESS_Vn; zarte:e; rp:atomic;
+  a+mennyi[SZN|NM]; zarte:e;
+  vala+mennyi[SZN|NM]; zarte:e;
+  em+ennyi[SZN|NM]; zarte:ee;
+  se+mennyi[SZN|NM];zarte:ëe;
+  bár+mennyi[SZN|NM]; zarte:e;
+  akár+mennyi[SZN|NM]; zarte:e;
+tenger@nyi[SZN];zarte:eë;rp:-Vd&ESS_Vn;
+szemer@nyi[SZN];zarte:ëë;
+ezer@nyi[SZN];zarte:eë;rp:ESS_Vn;
+tucat@nyi[SZN];rp:ESS_Vn;
+  fél+tucat)@nyi[SZN];
+temérdek[SZN];rp:=jA&=A&=Ai&=jAi ESS_Vn;zarte:ëë;
+tömérdek[SZN];rp:=jA&=A&=Ai&=jAi ESS_Vn;zarte:ë;
+iksz@edik[SZN];rp:=jA&=jAi; zarte:e;
+sok[SZN];rp:=jA&=A&=Ai&=jAi&LOW;rp:-Vd&ESS_Vn;++!tö+bb[FOK];rp:=jA&=jAi&LOW;gp:sup;rp:-Vd&ESS_Vn;
+*?!milliom[SZN];rp:=jA&=jAi;
+szám%talan[SZN];rp:=jA&=jAi;rp:ESS_Ul;
+temén%telen[SZN];rp:=jA&=jAi;rp:ESS_Ul;zarte:ëee;
+tömén%telen[SZN];rp:=jA&=jAi;rp:ESS_Ul; zarte:ee;
+*elég@szer[SZN];
+pár[SZN];rp:=jA&=jAi&LOW ESS_Vn -Vd;
+  egy+pár[SZN];zarte:ë;
+szám@os[SZN];rp:LOW grad ESS_Vn;
+kevés[SZN];stemalt:SVS;rp:-Vd&ESS_Vn grad; zarte:e;
+  édes+kevés[SZN];stemalt:SVS;zarte:ëe;
+*!kettő=t-hárm=at[SZN];
+hány[SZN|NM|Int];rp:LOW;rp:-Vd&ESS_Vn; ++hany;rr:Vd;
+**...hány[SZN];rp:LOW&num_10;rp:-Vd&ESS_Vn; ++hany;rr:Vd;
+  a+hány[SZN|NM];
+  mind+(a+hány[SZN|NM];
+  vala+hány[SZN|NM];rp:LOW;rp:-Vd&ESS_Vn; ++hany;rr:Vd;
+  vala+hány[SZN];
+  harminc+(vala+hány[SZN];
+  nyolcvan+(vala+hány[SZN];
+  hatvan+(vala+hány[SZN];
+  kilencven+(vala+hány[SZN]; zarte:ee;
+  hetven+(vala+hány[SZN]; zarte:ee;
+  ötven+(vala+hány[SZN]; zarte:e;
+  tizen+(vala+hány[SZN]; zarte:ë;
+  huszon+(vala+hány[SZN];
+*harminc+(vala+hány[SZN];rp:LOW;
+  *tizen+(vala+hány[SZN];
+  *huszon+(vala+hány[SZN];
+  *száz+(vala+hány[SZN];
+egy+nehány[SZN];rp:LOW;rp:-Vd&ESS_Vn;zarte:ëe;
+  se+hány[SZN|NM];zarte:ë;
+  bár+hány[SZN|NM];
+  akár+hány[SZN|NM];
+néhány[SZN];rp:LOW;rp:-Vd&ESS_Vn;
+  egy+néhány[SZN];zarte:ë;
+  harminc+(egy+néhány[SZN];zarte:ë;lexseg:harminc-+egy+néhány;rp:badorth;
+  nyolcvan+(egy+néhány[SZN];zarte:ë;lexseg:nyolcvan-+egy+néhány;rp:badorth;
+  hatvan+(egy+néhány[SZN];zarte:ë;lexseg:hatvan-+egy+néhány;rp:badorth;
+  kilencven+(egy+néhány[SZN];zarte:eeë;lexseg:kilencven-+egy+néhány;rp:badorth;
+  hetven+(egy+néhány[SZN];zarte:eeë;lexseg:hetven-+egy+néhány;rp:badorth;
+  ötven+(egy+néhány[SZN];zarte:eë;lexseg:ötven-+egy+néhány;rp:badorth;
+  tizen-+(egy+néhány[SZN];zarte:eë;
+  huszon-+(egy+néhány[SZN];zarte:ë;
+  húsz+(egy+néhány[SZN];zarte:ë;lexseg:húsz-+egy+néhány;rp:badorth;
+  száz+(egy+néhány[SZN];zarte:ë;lexseg:száz-+egy+néhány;rp:badorth;
+  tíz+(egy+néhány[SZN];zarte:ë;lexseg:tíz-+egy+néhány;rp:badorth;
+
+csomó[SZN];
+tucat[SZN];
+vég@telen[SZN];rp:-Vd;
+x[SZN];phon:iksz;rp:-Vd;stemalt:-;
+n[SZN];phon:en;rp:-Vd;stemalt:-;

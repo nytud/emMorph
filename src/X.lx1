@@ -1,0 +1,1711 @@
+************************************************** START OF LICENSE **************************************************
+*
+*  This file is part of the emMorph / Humor morphological analyzer description for Hungarian.
+*  Copyright (C) 2001-2016 Attila Novák
+*  
+*  The author of the database and the database compilation environment is Attila Novák (novakat@gmail.com).
+*  The resource is available from: https://github.com/dlt-rilmta/emMorph
+*  
+*  The database files are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+*  (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
+*  with the following amendments:
+*  
+*  By downloading/cloning this database and tools you accept the following terms:
+*  1. Please inform the author at novakat@gmail.com about your use of the database/tools clearly indicating what you use them for
+*  as soon as you start working on your application/experiment/resource involving this database or tool.
+*  2. Even in the case of non-academic use, you promise to publish a scientific paper about 
+*  each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting
+*  the articles below, and inform the author at novakat@gmail.com about each article you publish.
+*  If you definitely cannot publish an article, please contact the author.
+*  
+*  Articles to quote are listed at https://github.com/dlt-rilmta/emMorph, the list is currently the following:
+*  (See the BibTeX file quotethis.bib in the root directory):
+*  
+*  Attila Novák (2014): A New Form of Humor – Mapping Constraint-Based Computational Morphologies to a Finite-State Representation.
+*  In: Proceedings of the 9th International Conference on Language Resources and Evaluation (LREC-2014). Reykjavík, pp. 1068–1073 (ISBN 978-2-9517408-8-4)
+*  
+*  Attila Novák; Borbála Siklósi; Csaba Oravecz (2016): A New Integrated Open-source Morphological Analyzer for Hungarian
+*  In: Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016). Portorož, pp. 1315–1322.
+*  
+*  Novák Attila (2003): Milyen a jó Humor? [What is good Humor like?] In: Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2003). Szegedi Tudományegyetem, pp. 138–145
+*  
+*  3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
+*  4. If you are interested in using or adapting the resource for commercial purposes, please contact the author.
+*  ***
+*  
+*  The Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA)
+*  license is available at: https://creativecommons.org/licenses/by-nc-sa/4.0/
+*  
+*  Disclaimer of Warranties and Limitation of Liability.
+*  
+*  Unless otherwise separately undertaken by the Licensor, to the extent possible,
+*  the Licensor offers the Licensed Material as-is and as-available, and makes no
+*  representations or warranties of any kind concerning the Licensed Material,
+*  whether express, implied, statutory, or other. This includes, without
+*  limitation, warranties of title, merchantability, fitness for a particular
+*  purpose, non-infringement, absence of latent or other defects, accuracy, or the
+*  presence or absence of errors, whether or not known or discoverable. Where
+*  disclaimers of warranties are not allowed in full or in part, this disclaimer
+*  may not apply to You.
+*  
+*  To the extent possible, in no event will the Licensor be liable to You on any
+*  legal theory (including, without limitation, negligence) or otherwise for any
+*  direct, special, indirect, incidental, consequential, punitive, exemplary, or
+*  other losses, costs, expenses, or damages arising out of this Public License or
+*  use of the Licensed Material, even if the Licensor has been advised of the
+*  possibility of such losses, costs, expenses, or damages. Where a limitation of
+*  liability is not allowed in full or in part, this limitation may not apply to You.
+*
+************************************************** END OF LICENSE **************************************************
+
+Mitrovica[FN];nyv:va; isa:település;
+Rósa[FN];nyv:er; isa:település;
+Szováta[FN];nyv:er; isa:település;
+Tisza[FN];nyv:er; isa:település;
+Pec[FN];nyv:er; isa:település; *rp:=A;
+Sid[FN];nyv:va; isa:település;
+Borbánd[FN];nyv:er; isa:település;
+Hete[FN];nyv:er; isa:település;
+Szép+lak[FN];nyv:er; isa:település;
+Felek[FN];nyv:er; isa:település;
+Gyimes+felső+lok[FN];nyv:er; isa:település;
+Beocsin[FN];nyv:va isa:település;
+Gunar@as[FN];nyv:va; isa:település;
+Tacs[FN];nyv:er; isa:település;
+Mocs[FN];nyv:er; isa:település;
+Medgyes[FN];nyv:er; isa:település;
+Russ[FN];nyv:er; isa:település;
+Nagy+sármás[FN];nyv:er; isa:település;
+Tallós[FN];nyv:fv; isa:település;
+Kigyós[FN];nyv:er; isa:település;
+Fekete+völgy[FN];nyv:er; isa:település;
+Csegez[FN];nyv:er; isa:település;
+Petrosz[FN];nyv:er; isa:település;
+Temes+fő[FN];nyv:er; isa:település;
+EBV[FN|ABC];
+GAS[FN|ABC];
+HLA[FN|ABC];
+TA[FN|ABC];
+XO[FN|ABC];
+ACD[FN|ABC];
+RS[FN|ABC];
+d[FN|ROV];equ:deuteron;
+kv.[X|ROV];
+Riley[FN];phon:rájli;
+Shy[FN];phon:sáj;
+McCoy[FN];phon:ökoj;
+Schmitz[FN];phon:mic;
+Noble[FN];phon:óböl;
+McClure[FN];phon:ölúr;
+Bose[FN];phon:bóz;
+Rush[FN];phon:ras;
+Heath[FN];phon:hísz;
+Greenfield[FN];phon:ífíld;
+Banting[FN];phon:eting;
+Greenfield[FN];phon:ífíld;
+Banting[FN];phon:eting;
+Warburg[FN];
+Li[FN];phon:lí;
+African[FN];phon:eikön&eiken; **
+Man[FN];phon:men&man;
+Silverman[FN];phon:ieman&iömen; **
+Aden[FN];
+Nielsen[FN];phon:íszön&íszen; **
+Cannon[FN];phon:enön&enon; **
+Ellison[FN];phon:eiszön&eiszon; **
+Thomson[FN];phon:oszön&oszon; **
+Benson[FN];phon:eszön&ezon;
+Eaton[FN];phon:ítön&íton; **
+Sutton[FN];phon:atön&aton; **
+Malabar[FN];phon:eöbár;
+Starr[FN];phon:tár;
+Haynes[FN];phon:hénz;
+Gowers[FN];phon:auörz&auerz; **
+St[FN];phon:szent;
+Best[FN];phon:beszt;
+Rust[FN];phon:raszt;
+Abbott[FN];phon:eböt&ebot; **
+Barlow[FN];phon:áló;
+Sia[FN];
+Treponema[FN|lat];
+Rai[FN];
+Kozlowski[FN];
+Kondo[FN];
+Fournier[FN];phon:ournié;
+Roque[FN];phon:rok;
+Stokvis[FN];phon:tokvisz;
+Devic[FN];
+Krause[FN];
+Schultze[FN];
+Marburg[FN];
+Henoch[FN];
+Sauerbruch[FN];
+Barthel[FN];
+Frenzel[FN];
+Bernheim[FN];
+Greenstein[FN];
+Iselin[FN];
+Kauffmann[FN];
+Liebermann[FN];
+Forssmann[FN];
+Millon[FN];
+Johansson[FN];
+Leber[FN];
+Kader[FN];
+Sander[FN];
+Feer[FN];
+Buttler[FN];
+Obersteiner[FN];
+Ortner[FN];
+Fendt[FN];
+Gerhardt[FN];
+Barrett[FN];
+Simbu[FN];
+Virchow[FN];
+Uwe[FN];
+Harrison[FN];
+reponál[IGE];
+migrál[IGE];
+scanning[MN];rp:!LOW;
+rekonvaleszcens[MN];
+haptikus[MN];
+phobia[FN|lat];
+media[FN|lat];
+astra[FN|lat];
+kirurgia[FN];
+milli[FN|lat];
+feedback[FN];phon:íbek;
+flavin[FN];
+spider[FN];phon:ádör&pájder;
+transfer[FN];phon:ranszfer;
+gaster[FN|lat];phon:gaszter;
+compressor[FN];phon:oeszor;
+transport[FN];
+vakcináció[FN];
+barba[FN];
+feet[FN];phon:fít;rp:!cmp1 !cmp2;
+agora#phobia[FN|lat];
+szerin[FN];
+near[X];phon:nír;*near-far-far-near
+Leb[FN];*Leb-vércsoport
+alpha[FN|lat]; phon:afa;
+colonia[FN|lat]; 
+charisma[FN|lat]; 
+nurse[FN]; phon:nörsz;
+signal[FN]; phon:inál;
+streptomycin[FN]; phon:etomicin;
+accelerator[FN]; 
+doctor[FN]; 
+metamorphosis[FN|lat]; phon:eaofózis&eaofózisz;
+pyxis[FN|lat]; phon:iszis&iszisz;
+incomplet[MN]; phon:ikomplett;
+activ[MN]; phon:aktív;
+pharmacia[FN]; *latin
+axis[FN|lat];phon:akszis&akszisz;rp:!cmp1 !cmp2;
+os[FN|lat];phon:osz;rp:!cmp1 !cmp2;
+rhesus[FN|lat];phon:észusz;
+tic[FN];phon:tik;rp:!cmp1 !cmp2;
+orange[FN|lat];phon:oranzs&orindzs;
+fringe[FN|lat];phon:rindzs;
+eye[FN];phon:áj;rp:!cmp1 !cmp2;
+vagi[FN|lat];phon:vági;rp:!cmp1 !cmp2;
+anisi[FN|lat];phon:aniszi;
+block[FN];phon:lok;
+mal[FN];rp:!cmp1 !cmp2;
+pain[FN];phon:péjn;rp:!cmp1 !cmp2;
+position[FN];phon:oisön;
+carrier[FN];phon:eiör&eier;
+lex[FN|lat];phon:leksz;rp:!cmp1 !cmp2;
+cor[FN|lat];phon:kor;rp:!cmp1 !cmp2;
+color[FN];phon:olor&alör;
+h[FN|ME|ROV];equ:óra;
+insula[FN|lat];
+rebound[FN];
+morning[FN];phon:móning;
+ren[FN|lat];phon:rén;rp:!cmp1 !cmp2;
+jamais[X];phon:zsame;
+pars[FN|lat];phon:parsz;rp:!cmp1 !cmp2;
+set[FN];phon:szet;rp:!cmp1 !cmp2;
+light[FN];phon:lájt;
+night[FN];phon:nájt;
+split[FN];
+ora[FN|lat];
+cyclops[FN|lat];phon:ilopsz;
+chamber[FN];phon:ebör;
+PVR[FN|ABC];
+Peters[FN];phon:étersz;
+haptika[FN];
+matura[FN|lat];
+pallidum[FN|lat];
+MRI[FN|ABC];
+haszon+jár#+mű[FN];
+alá+ír@ás[FN];
+ISACA[FN|ABC];* (Információrendszer-ellenőrök Egyesülete)
+EBITDA[FN|ABC];* (kamatfizetés és adózás előtti eredmény + amortizáció) * margin *(EBITDA/értékesítés nettó árbevétele)
+GIA[FN|ABC];* (Amerikai Drágakőintézet)
+DJIA[FN|ABC];* (Dow Jones-féle ipari részvényindex)
+SIA[FN|ABC];* (Értékpapír-kereskedők Egyesülete) (USA) * (vagy *THV) (társadalmihatás-vizsgálat)
+MVA[FN|ABC];* (Magyar Vállalkozásfejlesztési Alapítvány)
+IADB[FN|ABC];* (Amerika-közi Fejlesztési Bank)
+RIB[FN|ABC];* (Regionális Idegenforgalmi Bizottság)
+EKB[FN|ABC];* (Európai Kereskedelmi Bank) * (vagy *ECB) (Európai Központi Bank) (EU)
+ÖTOB[FN|ABC];* (Osztrák Határidős és Opciós Tőzsde) (Bécs)
+IRB[FN|ABC];* (Befektetési és Fejlesztési Bank)
+SSB[FN|ABC];* (belső eltérés-négyzetösszeg)
+ICC[FN|ABC];* (jövedelem-fogyasztás görbe) * (Nemzetközi Kereskedelmi Kamara) (Párizs) * 500-as szokvány
+IDC[FN|ABC];* (Dél-afrikai Ipari Fejlesztési Társaság)
+LDC[FN|ABC];* (a legkevésbé fejlett országok)
+APEC[FN|ABC];* (Ázsiai - Csendes-óceáni Gazdasági Együttműködés)
+FOMC[FN|ABC];* (Szövetségi *Nyíltpiaci Bizottság) (USA)
+ERC[FN|ABC];* (emissziócsökkentési hitel)
+ASC[FN|ABC];* (Könyvviteli Szabványbizottság)
+OTC[FN|ABC];* (tőzsdén kívüli)
+COD[FN|ABC];* (átvételkor készpénzben fizetendő)
+NASD[FN|ABC];* (Értékpapír-kereskedők Országos Egyesülete) (USA)
+BSD[FN|ABC];* (dollár) - Bahama-szigetek
+ECE[FN|ABC];* (az ENSZ Európai Gazdasági Bizottsága) * (Európai Árutőzsdék Egyesülete)
+ICE[FN|ABC];* (Indonéz Árutőzsde)
+LIFFE[FN|ABC];* (Londoni Nemzetközi Pénzügyi Határidős Tőzsde)
+ME[FN|ABC];* (Montreali Tőzsde)
+IPE[FN|ABC];* (Nemzetközi Kőolajtőzsde)
+ISE[FN|ABC];* (Ír Értéktőzsde) * (Nemzetközi Értéktőzsde) (London)
+KSE[FN|ABC];* (Karacsi Értéktőzsde) * (Koreai Értéktőzsde) * 100 index (a Karacsi Értéktőzsde indexe)
+LSE[FN|ABC];* (Londoni Értéktőzsde) * (Londoni Közgazdasági Főiskola)
+MSE[FN|ABC];* (Közép-nyugati Értéktőzsde) (Chicago)
+VSE[FN|ABC];* (Vancouveri Értéktőzsde)
+NYSE[FN|ABC];* (New York-i Értéktőzsde)
+DAF[FN|ABC];* (határra szállítva *...-ig)
+BIF[FN|ABC];* (frank) - Burundi
+CIF[FN|ABC];* (költség, biztosítás és fuvardíj)
+WIG[FN|ABC];* (varsói tőzsdeindex)
+ÁHH[FN|ABC];* (Államháztartási Hivatal)
+CBI[FN|ABC];* (Brit Iparszövetség) * (Karib-tengeri Kezdeményezés)
+BCCI[FN|ABC];* (Nemzetközi Hitel- és Kereskedelmi Bank)
+ICI[FN|ABC];* (Ibér-Amerikai Együttműködési Intézet)
+EDI[FN|ABC];* (elektronikus adatcsere)
+KGI[FN|ABC];* (Környezetgazdálkodási Intézet)
+HI[FN|ABC];* *(Herfindahl-index)
+API[FN|ABC];* (Amerikai Kőolajintézet) * fajsúlyskálája
+IFPI[FN|ABC];* (Nemzetközi Lemezipari Szövetség)
+SPI[FN|ABC];* (a Svájci Értéktőzsdék Egyesületének részvényárfolyam-indexe)
+CESI[FN|ABC];* (közép-európai részvényindex)
+MKK[FN|ABC];* (Magyar Kereskedelmi Kamara) * (Magyar Kézműveskamara)
+DEM[FN|ABC];* (márka) - Németország
+ERM[FN|ABC];* (az EU árfolyam-lebegtetési mechanizmusa) * válsága
+SZCSM[FN|ABC];++!SzCsM* (Szociális és Családügyi Minisztérium)
+ECN[FN|ABC];* (elektronikus kommunikációs hálózat)
+TEN[FN|ABC];* (Transzeurópai Hálózatok) (EU)
+ICAO[FN|ABC];* (Nemzetközi Polgári Légi Közlekedési Szervezet) (Montreal)
+WIPO[FN|ABC];* (az ENSZ Szellemi Tulajdon Világszervezete)
+BTO[FN|ABC];* (Belföldi termékosztályozás)
+GAAP[FN|ABC];* (általánosan elfogadott számviteli elvek)
+ECP[FN|ABC];* (európai összehasonlítási program)
+DP[FN|ABC];* (devizaérték- és pénztartalékkészlet)
+MRP[FN|ABC];* (határtermék-bevétel) * (munkavállalói résztulajdonosi program)
+ESP[FN|ABC];* (peseta) -  Spanyolország
+SEAQ[FN|ABC];* (automatizált értéktőzsdei árfolyamkijelző rendszer) (Anglia)
+QAR[FN|ABC];* *(riál) - Katar
+BCR[FN|ABC];* (Román Kereskedelmi Bank)
+KELER[FN|ABC];* Rt. (Központi Elszámolóház és Értéktár Rt.)
+BPR[FN|ABC];* (Román Népbank)
+IAS[FN|ABC];* (nemzetközi számviteli szabványok) * szerinti mérleg
+ABS[FN|ABC];phon:es&esz;* (Amerikai Hajózási Nyilvántartás)
+BIS[FN|ABC];* (Nemzetközi Fizetések Bankja) (Bázel)
+NIS[FN|ABC];* (Nemzeti Informatikai Stratégia)
+MPLS[FN|ABC];* (Minneapolisi Gabonatőzsde)
+IRS[FN|ABC];* (Szövetségi Adóhivatal) (USA)
+MMTS[FN|ABC];* (multimarket kereskedési rendszer)
+CBT[FN|ABC];* (vagy *CBOT) (Chicagói Árutőzsde)
+SET[FN|ABC];phon:té;* (biztonságos elektronikus tranzakció) * (Thaiföldi Értéktőzsde)
+OMT[FN|ABC];* (Országos Munkaügyi Tanács)
+MU[FN|ABC];* (határhaszon)
+UPU[FN|ABC];* (Egyetemes Postaegyesülés)
+WIIW[FN|ABC];* (Összehasonlító Gazdasági Tanulmányok Intézete) (Bécs)
+DAX[FN|ABC];* (a Frankfurti Értéktőzsde indexe) * súlyozott index
+AMEX[FN|ABC];* (vagy *ASE) (Amerikai Értéktőzsde) (New York)
+NYMEX[FN|ABC];* (New York-i Határidős Árutőzsde)
+ATX[FN|ABC];* (a Bécsi Értéktőzsde indexe)
+JPY[FN|ABC];* (jen) - Japán
+MESZ[FN|ABC];* (Magyarországi Exportálók Szövetsége)
+KKKSZ[FN|ABC];* (Kőolaj- és Kőolajtermék-készletezők Szövetsége)
+LOSZ[FN|ABC];* (Lakásszövetkezetek Országos Szövetsége) * (Lakberendezők Országos Szövetsége)
+MGYOSZ[FN|ABC];* (Magyar Gyáriparosok Országos Szövetsége) * (Munkaadók és Gyáriparosok Országos Szövetsége)
+TEBÉSZ[FN|ABC];* (Tőzsdei Egyéni Befektetők Érdekvédelmi Szövetsége)
+AS[FN|ABC];phon:es;* (aggregált kínálat)
+ATM[FN|ABC];phon:em;* (készpénzkiadó automata)
+EBIT[FN|ABC];* (kamatfizetés és adózás előtti eredmény)
+FM[FN|ABC];* (Földművelésügyi Minisztérium)
+DHL[FN|ABC];
+Daiwa[FN]; isa:bank; *-MKB diszkontkincstárjegy-hozam indexe (DWIX)
+EC[FN|ABC];
+FTSE[FN|ROV];*-100 (a Financial Times részvényindexe)
+GK[FN|ABC];
+MBA[FN|ABC];phon:eíéj&eéá;
+MSCI[FN|ABC]; *-index (Morgan *Stanlex nemzetközi árfolyamindex)
+PX-50[FN|ABC]; *(prágai tőzsdeindex)
+SFOR[FN|ABC];phon:efor;
+Banca[FN];
+Alpha[FN];phon:efa;
+Siena[FN];
+Joshua[FN];
+Beva[FN];
+B2B[FN|ABC];
+Mehib[FN];
+B2C[FN];
+Economic[FN];phon:íönomik;
+Conrad[FN];phon:konred&orád;
+Fred[FN];
+Gerald[FN];
+Field[FN];phon:fíld;
+Wold[FN];phon:vóld;
+Reinhard[FN];
+Gotthard[FN];
+Gerard[FN];phon:erárd;
+Lawrence[FN];phon:lórensz;
+Commerce[FN];phon:komersz;
+Edge[FN];phon:edzs;
+Nationale[FN];
+Carlyle[FN];phon:álájl;
+Me[FN];phon:ijúzmi&mí;
+Jerome[FN];phon:öróm;
+Etienne[FN];phon:eien;
+Wayne[FN];phon:vén;
+Mse[FN|ABC];
+Jose[FN];phon:hózé;
+Composite[FN];phon:opozit;
+Reserve[FN];phon:óizörv&izörv;
+Volf[FN];
+Oleg[FN];
+Honkong[FN];
+Church[FN];phon:csörcs;
+Kenneth[FN];phon:enisz;
+Indiana[FN];
+Kornai[FN];isa:veznév;
+SBI[FN|ABC];
+Nikkei[FN];phon:ikéj;
+Paschi[FN];
+Aoki[FN];
+Gutowski[FN];
+Marczali[FN];
+Eli[FN];phon:íláj&íli;
+Dayton[FN];isa:hely;
+Montanari[FN];
+Békes@i[FN];
+Ürmény@i[FN];isa:veznév;
+Vitalij[FN];
+Anatolij[FN];
+Patrick[FN];phon:erik;
+Vanek[FN];
+Mkk[FN|ABC];*Magyar Kézmuveskamara
+Exim+bank[FN];
+Michal[FN];
+Federal[FN];
+Pavel[FN];
+Diehl[FN];
+Ian[FN];phon:íön;
+Hungarian[FN];phon:han-gerien;
+Brian[FN];phon:ájön&rájen;
+Roman[FN];
+Grossman[FN];
+Joan[FN];phon:dzsón;
+Baldwin[FN];phon:bóldvin;
+Nihon[FN];
+Ramon[FN];
+Olson[FN];
+Pearson[FN];phon:íszon;
+Ferguson[FN];phon:ööszon;
+Seton[FN];
+Burton[FN];phon:ötön;
+Banco[FN];
+Fernando[FN];phon:öedó;
+Info[FN];phon:ifó;
+Lujo[FN];
+Umberto[FN];
+Oskar[FN];
+Ferber[FN];
+Yeager[FN];
+Fisher[FN];phon:iser;
+Broker[FN];phon:róker;
+Adler[FN];phon:ádler;
+Eisner[FN];
+Forrester[FN];phon:oitör&foriszter;
+Nicholas[FN];phon:iolasz;
+Hughes[FN];phon:júz;
+Barnes[FN];phon:bárnz;
+Gates[FN];phon:gétsz;
+Lyonnais[FN];phon:ione;
+Phillips[FN];phon:ilipsz;
+Eurostat[FN|ABCx];
+Knight[FN];phon:nájt;
+Mébit[FN|ABC];*Magyar Élet- és Nyugdíjbiztosító
+Crédit[FN];phon:édi;
+Creditanstalt[FN];
+Brent[FN];
+Smart[FN];
+Harcourt[FN];phon:ákort&akúr;
+Horst[FN];
+Hackett[FN];phon:ekit;
+Knut[FN];
+Euronext[FN];
+Sztanyiszlav[FN];
+Review[FN];phon:ijú;
+Newex[FN];phon:nyúeksz;
+Bailey[FN];phon:éli;
+Wesley[FN];phon:eli;
+Sidney[FN];phon:ini;
+Nagyváthy[FN];isa:veznév;rp:LOW;
+Jeremy[FN];phon:eemi;
+Gary[FN];phon:eri;
+Almásy[FN];isa:veznév;rp:LOW;
+Levy[FN];phon:evi;
+Magyosz[FN];*Magyarországi Gyógyszergyártók Országos Szövetsége
+Stiglitz[FN];phon:ilic;
+externális[MN];
+peso[FN]; phon:ezó&eszó;rp:!cmp1 !cmp2;*(peso:20)
+rand[FN];  rp:!cmp2;*(rand:6)
+kv[FN|ABC]; *(közös vállalat) (kv:2;kV:2;KV:2)
+report[FN]; *(reportba:5)
+venture[FN]; phon:ecsör; rp:!cmp1 !cmp2;*(venture:1;Venture:3)
+szom[FN]; rp:!cmp2; *(szom:4)
+switch[FN]; phon:vics;*(switch:4)
+on[X]; *(on:4)
+optimalizáció[FN]; *(adóoptimalizáció:1)
+aero+drom[FN]; *(aerodrom:1)
+arranzsál[IGE]; *(arranzsál:1)
+autorizáció[FN]; *(autorizáció:1)
+autorizál[IGE]; *(autorizál:1)
+banque[FN]; phon:bank; rp:!cmp1 !cmp2;*(banque:1;Banque:2)
+belarusz[MN|nat]; rp:ESS_UlL;*(belarusz:1;Belarusz:3)
+biztosít@ott[FN]; rp:LOW;*(biztosítotti:1)
+blank[MN]; *(blank:1)
+board[FN]; phon:bord; rp:!cmp1 !cmp2;*(board:1)
+bureau[FN]; phon:üró; rp:!cmp1 !cmp2;*(bureau:1)
+cable[X]; *(cable:1)
+car[FN]; rp:!cmp1 !cmp2;*(car:1)
+card[FN];  rp:!cmp1 !cmp2;*(cardra:1)
+centesimo[FN]; rp:!cmp2;*(centesimo:1)
+certificate[FN]; phon:öiikit;rp:!cmp1 !cmp2;*(certificate:1)
+chain[FN|ME]; phon:csén;rp:!cmp1 !cmp2;*(chain:1)
+change[FN]; phon:cséndzs;rp:!cmp1 !cmp2;*(change:2)
+code[FN]; phon:kód; rp:!cmp1 !cmp2;*(code:2)
+corporate[FN]; phon:opörit;rp:!cmp1 !cmp2;*(corporate-üzletág:1)
+cost[FN]; rp:!cmp1 !cmp2;*(cost:2)
+data[X]; *(data:3)
+dealer[FN]; phon:íler;*(dealer:1)
+dei[FN]; rp:!cmp1 !cmp2;*(dei:1)
+delivery[FN]; phon:iiöri; rp:!cmp1 !cmp2;*(delivery:1)
+dematerializál[IGE]; *(dematerializálása:1)
+do[X|ROV]; *(do:2)
+dollár+milliárd[FN]; *(dollármilliárdos:2)
+dram[FN]; rp:!cmp2;*(dram:3)
+Depardieu[FN]; phon:éaiő;isa:surname;
+G#byte[FN|ME|ROV]; phon:iabájt;
+Inter[FN];
+Legrand[FN]; phon:ögan;isa:surname;
+Maggiore[FN]; phon:adzsóre;
+Sagan[FN]; 
+Depardieu[FN]; phon:öaiő;
+key[FN]; phon:kí;rp:!cmp1 !cmp2;
+off[X];
+on[X];
+repülő@s[FN];
+sebti=ben[HA];
+territor#ialitás[FN];
+tesi[FN];
+tranzakcion#ális[MN];
+töri[FN];
+ACE[FN|ABC]; *Advanced Containment Experiments (fejlett konténment kísérletek)
+ACI[FN|ABC]; *American Concrete Institute (= Aamerikai Betontechnológiai Intézet)
+gateway[FN]; phon:évéj;
+BF[FN|ABC]; *Biztonsági funkció
+BVM[FN|ABC]; *Beton- és Vasbetonipari Művek
+CEC[FN|ABC]; *Commission of the European Communities (=Európai Közösségek Bizottsága)
+DCS[FN|ABC]; *Distributed Control System (Folyamatirányító Berendezés)
+DIR[FN|ABC]; *Dozimetriai Információs Rendszer
+DP[FN|ABC]; *Differential Pressure ( = Nyomáskülönbség)
+E1[FN|ABC]; *Előmelegítő (elhelyezkedés szerint sorszámozva)
+EC[FN|ABC]; *Erosion Corrosion ( = eróziós korrózió)
+EIK[FN|ABC]; *Erőművi irányító központ
+ETV[FN|ABC]; *ERŐTERV Energetikai Tervező és Vállalkozó Részvénytársaság
+Erő+terv[FN]; *Erőterv Energetikai Tervező és Vállalkozó Részvénytársaság
+F3[FN|ABC]; *Tűzszakasz károsodást okozó tűzfrekvenciája (Fire Damage Frequeny)
+FAT[FN|ABC]; *Gyári átvételi teszt
+FM[FN|ABC]; *Földművelésügyi Minisztérium
+FT[FN|ABC]; *Forrás tartomány
+HVK[FN|ABC]; *Hétvégi karbantartás
+node[FN];phon:nód;rp:!cmp1 !cmp2;
+View[FN];phon:jú; *iFIX rendszerrel megjelenítést végző számítógép
+IOS[FN|ABC]; *(KBFM input és output változóinak kezelése) vagy (Ciklikus adatgyűjtő program COMP szerverben)
+IP[FN|ABC]; *Villamos berendezések burkolatai által nyújtott védettségi fokozat
+IRS[FN|ABC]; *Incident Reporting System ( = esemény jelentő rendszer)
+IT[FN|ABC]; *Védőföldelés földeletlen és közvetve földelt rendszerben
+ITV[FN|ABC]; *Integrális Tömörség  Vizsgálat
+LK[FN|ABC]; *Leak (=lyukadás (tartályok, csővezetékek, hőcserélők))
+MCS[FN|ABC]; *Minimal Cut Set ( = minimális meghibásodási kombináció)
+MFT[FN|ABC]; *Műszaki felülvizsgálati terv
+MIG[FN|ABC]; *Műszaki Igazgatóság
+MTT[FN|ABC]; *Műszaki Tudományos Tanács
+PAE[FN|ABC]; *Paksi Atomerőmű
+PDA[FN|ABC]; *Polip Data Acqusition (reaktor belső adatgyűjtő rendszer)
+PE[FN|ABC]; *Probability of exceedance ( = értéktúllépés valószínűsége)
+PG[FN|ABC]; *Plugged ( = eltömődés (szűrők, kifolyó nyílások))
+PLC[FN|ABC]; *Programozható logikai vezérlő
+PS[FN|ABC]; *Plant Station technológiai megjelenítő
+PSA[FN|ABC]; *Probabilistic Safety Assessment (Valószínűségalapú Biztonsági elemzés)
+RAID[FN|ABC]; *Redundáns diszk tárolási mód
+RO[FN|ABC]; *Reaktor osztály
+router[FN]; phon:rúter;*Hálózati eszköz az alrendszerek elválasztására, az adatforgalmak irányítására
+switch[FN]; phon:viccs; *Kapcsoló funkciójú hálózati eszköz
+TGV[FN|ABC]; phon:éévé;*TCP/IP gyártmány csomag
+TLD[FN|ABC]; *Termolumineszcens dózismérő
+TSb[FN|ABC]; *Technológiai jelek feldolgozó számítógépe
+TU[FN|ABC]; *Tesztelési utasítás
+UPS[FN|ABC]; *Uninterruptable Power Supply ( = szünetmentes tápegység)
+web[FN]; *Internet alapú browser (böngésző) funkciót biztosító hálózati technológia
+AGP[FN|ABC];*Általános Gépészeti Projekt
+Fortum[FN];
+NF[FN|ABC];
+dp[FN|ABC];
+max.[HA|ROV];
+V3[FN|ABC];
+Fele[FN]; *(Mezőfele) (Er)
+Fele[FN]; *(Mezőfele) (Er)
+Köre[FN]; *(Kisköre)
+Hete[FN]; *(Hetefejércse)
+Felek[FN]; *(Erdőfelek) (Er)
+Resica[FN]; *(Rësicabánya) (Er)
+Deseda[FN]; *(patak, Kaposvár)
+Felka[FN]; *(Poprád) (Fë)
+Neretva[FN]; *(folyó, Bosznia-Hërcëgovina)
+Eszter+ház=a[FN]; *(Fertőd)
+Grid[FN]; *(Er)
+Sid[FN]; *(Dé)
+Alsó+németi[FN]; *(Fë)
+Gyimes+felső+lok[FN]; *(Er)
+Sipek[FN]; *(Nógrádsipëk)
+Beocsin[FN]; *(Bëlcsény) (Dé)
+Aden[FN]; *(Jëmën)
+Veker[FN]; *(határrész, Debrecën)
+Medgyes[FN]; *(Er)
+Bellus[FN]; *(Fë)
+Fekete+völgy[FN];rp:LOW;
+Ürmény[FN]; *(Fë)
+Petrosz[FN]; *(Er)
+Belarusz[FN]; *(Fehéroroszország, ország)
+Csegez[FN]; *(Er)
+Temes+fő[FN]; *(Er)
+Megyes[FN];isa:veznév; *vezfrq:147;
+Rada[FN];isa:veznév; *vezfrq:139;
+Melis[FN];isa:veznév; *vezfrq:136;
+Markovits[FN];isa:veznév; *vezfrq:135;
+Adamecz[FN];isa:veznév; *vezfrq:133;
+Herpai[FN];isa:veznév; *vezfrq:131;
+Göblyös[FN];isa:veznév; *vezfrq:130;
+Majláth[FN];isa:veznév; *vezfrq:128;
+Csepi[FN];isa:veznév; *vezfrq:126;
+Reichardt[FN];isa:veznév; *vezfrq:124;
+Szépvölgyi[FN];isa:veznév; *vezfrq:120;
+Sipeki[FN];isa:veznév; *vezfrq:120;
+Angeli[FN];isa:veznév; *vezfrq:116;
+Bus[FN];isa:veznév; *vezfrq:115;
+Rauch[FN];isa:veznév; *vezfrq:113;
+Laufer[FN];isa:veznév; *vezfrq:112;
+Payer[FN];isa:veznév; *vezfrq:111;
+Majtényi[FN];isa:veznév; *vezfrq:111;
+Szepessy[FN];isa:veznév; *vezfrq:110;
+Krajcsovics[FN];isa:veznév; *vezfrq:110;
+Donáth[FN];isa:veznév; *vezfrq:109;
+Szombathy[FN];isa:veznév; *vezfrq:108;
+Rónyai[FN];isa:veznév; *vezfrq:108;
+Kőmíves[FN];isa:veznév; *vezfrq:107;
+Nágel[FN];isa:veznév; *vezfrq:107;
+Herczog[FN];isa:veznév; *vezfrq:107;
+Szobonya[FN];isa:veznév; *vezfrq:107;
+Hack[FN];isa:veznév; *vezfrq:106;
+Almásy[FN];isa:veznév; *vezfrq:104;
+Lóki[FN];isa:veznév; *vezfrq:103;
+Medgyes[FN];isa:veznév; *vezfrq:102;
+Ziegler[FN];isa:veznév; *vezfrq:102;
+Adler[FN];isa:veznév; *vezfrq:101;
+Czikó[FN];isa:veznév; *vezfrq:100;
+Reinhardt[FN];isa:veznév; *vezfrq:99;
+Gránicz[FN];isa:veznév; *vezfrq:96;
+Vaszil[FN];isa:veznév; *vezfrq:96;
+Détári[FN];isa:veznév; *vezfrq:96;
+Marek[FN];isa:veznév; *vezfrq:95;
+Volf[FN];isa:veznév; *vezfrq:94;
+Patay[FN];isa:veznév; *vezfrq:93;
+Őry[FN];isa:veznév; *vezfrq:92;
+Kosztyu[FN];isa:veznév; *vezfrq:92;
+Böröndi[FN];isa:veznév; *vezfrq:92;
+Létai[FN];isa:veznév; *vezfrq:91;
+Maka[FN];isa:veznév; *vezfrq:90;
+Bakti[FN];isa:veznév; *vezfrq:89;
+Szilassy[FN];isa:veznév; *vezfrq:87;
+Glázer[FN];isa:veznév; *vezfrq:87;
+Pais[FN];isa:veznév; *vezfrq:84;
+Rigler[FN];isa:veznév; *vezfrq:84;
+Hoppál[FN];isa:veznév; *vezfrq:82;
+Ertl[FN];isa:veznév; *vezfrq:82;
+Schnell[FN];isa:veznév; *vezfrq:82;
+Nyakó[FN];isa:veznév; *vezfrq:81;
+Strasszer[FN];isa:veznév; *vezfrq:81;
+Korcsog[FN];isa:veznév; *vezfrq:78;
+Kisbenedek[FN];isa:veznév; *vezfrq:77;
+Andics[FN];isa:veznév; *vezfrq:73;
+Felkai[FN];isa:veznév; *vezfrq:72;
+Gadó[FN];isa:veznév; *vezfrq:71;
+Gyimóthy[FN];isa:veznév; *vezfrq:71;
+Frick[FN];isa:veznév; *vezfrq:71;
+Konta[FN];isa:veznév; *vezfrq:69;
+Pomozi[FN];isa:veznév; *vezfrq:68;
+Őzse[FN];isa:veznév; *vezfrq:68;
+Kiefer[FN];isa:veznév; *vezfrq:66;
+Mühl[FN];isa:veznév; *vezfrq:66;
+Váncsa[FN];isa:veznév; *vezfrq:66;
+Somody[FN];isa:veznév; *vezfrq:65;
+Rátonyi[FN];isa:veznév; *vezfrq:65;
+Miszori[FN];isa:veznév; *vezfrq:65;
+Kőszeghy[FN];isa:veznév; *vezfrq:64;
+Bellus[FN];isa:veznév; *vezfrq:64;
+Henn[FN];isa:veznév; *vezfrq:64;
+Martyin[FN];isa:veznév; *vezfrq:64;
+Zaka[FN];isa:veznév; *vezfrq:64;
+Gyuró[FN];isa:veznév; *vezfrq:63;
+Gerhardt[FN];isa:veznév; *vezfrq:62;
+Kesjár[FN];isa:veznév; *vezfrq:62;
+Schell[FN];isa:veznév; *vezfrq:61;
+Oszlányi[FN];isa:veznév; *vezfrq:59;
+Dobozy[FN];isa:veznév; *vezfrq:58;
+Cséfalvay[FN];isa:veznév; *vezfrq:58;
+Marczali[FN];isa:veznév; *vezfrq:58;
+Bátorfi[FN];isa:veznév; *vezfrq:58;
+Jablonkai[FN];isa:veznév; *vezfrq:58;
+Szaló[FN];isa:veznév; *vezfrq:57;
+Sümeghy[FN];isa:veznév; *vezfrq:56;
+Rubi[FN];isa:veznév; *vezfrq:56;
+Bozóky[FN];isa:veznév; *vezfrq:55;
+Lánczos[FN];isa:veznév; *vezfrq:55;
+Krecz[FN];isa:veznév; *vezfrq:54;
+Nikolics[FN];isa:veznév; *vezfrq:54;
+Jáksó[FN];isa:veznév; *vezfrq:53;
+Erdődy[FN];isa:veznév; *vezfrq:53;
+Lenkovics[FN];isa:veznév; *vezfrq:53;
+Miskó[FN];isa:veznév; *vezfrq:52;
+Kacz[FN];isa:veznév; *vezfrq:52;
+Tarnóczy[FN];isa:veznév; *vezfrq:52;
+Feleki[FN];isa:veznév; *vezfrq:52;
+Pajer[FN];isa:veznév; *vezfrq:51;
+Kubicsek[FN];isa:veznév; *vezfrq:51;
+Petykó[FN];isa:veznév; *vezfrq:50;
+Zeitler[FN];isa:veznév; *vezfrq:50;
+Várhidi[FN];isa:veznév; *vezfrq:50;
+Tállai[FN];isa:veznév; *vezfrq:50;
+Gaskó[FN];isa:veznév; *vezfrq:49;
+Klotz[FN];isa:veznév; *vezfrq:49;
+Legeza[FN];isa:veznév; *vezfrq:49;
+Preininger[FN];isa:veznév; *vezfrq:48;
+Vanek[FN];isa:veznév; *vezfrq:48;
+Berzi[FN];isa:veznév; *vezfrq:48;
+Kapi[FN];isa:veznév; *vezfrq:48;
+Pápics[FN];isa:veznév; *vezfrq:47;
+Chikán[FN];isa:veznév; *vezfrq:47;
+Hényel[FN];isa:veznév; *vezfrq:47;
+Gedó[FN];isa:veznév; *vezfrq:46;
+Koroknay[FN];isa:veznév; *vezfrq:46;
+Lágler[FN];isa:veznév; *vezfrq:46;
+Dunavölgyi[FN];isa:veznév; *vezfrq:46;
+Gelei[FN];isa:veznév; *vezfrq:46;
+Mundi[FN];isa:veznév; *vezfrq:44;
+Katzenbach[FN];isa:veznév; *vezfrq:44;
+Ofella[FN];isa:veznév; *vezfrq:44;
+Szalóczi[FN];isa:veznév; *vezfrq:43;
+Bazsa[FN];isa:veznév; *vezfrq:43;
+Tuka[FN];isa:veznév; *vezfrq:43;
+Baranyay[FN];isa:veznév; *vezfrq:42;
+Dunay[FN];isa:veznév; *vezfrq:42;
+Lex[FN];isa:veznév; *vezfrq:42;
+Eller[FN];isa:veznév; *vezfrq:42;
+Kacziba[FN];isa:veznév; *vezfrq:42;
+Krisán[FN];isa:veznév; *vezfrq:41;
+Dömölki[FN];isa:veznév; *vezfrq:41;
+Petneházy[FN];isa:veznév; *vezfrq:40;
+Bérczy[FN];isa:veznév; *vezfrq:40;
+Gécs[FN];isa:veznév; *vezfrq:40;
+Toman[FN];isa:veznév; *vezfrq:40;
+Rick[FN];isa:veznév; *vezfrq:40;
+Musza[FN];isa:veznév; *vezfrq:40;
+Streicher[FN];isa:veznév; *vezfrq:39;
+Hampel[FN];isa:veznév; *vezfrq:39;
+Lontai[FN];isa:veznév; *vezfrq:39;
+Wachter[FN];isa:veznév; *vezfrq:38;
+Gécsek[FN];isa:veznév; *vezfrq:38;
+Bródi[FN];isa:veznév; *vezfrq:38;
+Détár[FN];isa:veznév; *vezfrq:37;
+Funk[FN];isa:veznév; *vezfrq:37;
+Hübner[FN];isa:veznév; *vezfrq:36;
+Szeitl[FN];isa:veznév; *vezfrq:36;
+Angel[FN];isa:veznév; *vezfrq:36;
+Lóczy[FN];isa:veznév; *vezfrq:35;
+Tallós[FN];isa:veznév; *vezfrq:35;
+Ádok[FN];isa:veznév; *vezfrq:35;
+Kukorelli[FN];isa:veznév; *vezfrq:35;
+Bittera[FN];isa:veznév; *vezfrq:34;
+Sztupa[FN];isa:veznév; *vezfrq:34;
+Ferró[FN];isa:veznév; *vezfrq:33;
+Láncz[FN];isa:veznév; *vezfrq:33;
+Rott[FN];isa:veznév; *vezfrq:33;
+Brindzik[FN];isa:veznév; *vezfrq:33;
+Bagyánszki[FN];isa:veznév; *vezfrq:33;
+Gugi[FN];isa:veznév; *vezfrq:32;
+Gugik[FN];isa:veznév; *vezfrq:32;
+Graf[FN];isa:veznév; *vezfrq:32;
+Baranyó[FN];isa:veznév; *vezfrq:31;
+Mártonffy[FN];isa:veznév; *vezfrq:31;
+Lukics[FN];isa:veznév; *vezfrq:31;
+Hárskuti[FN];isa:veznév; *vezfrq:31;
+Popa[FN];isa:veznév; *vezfrq:31;
+Storcz[FN];isa:veznév; *vezfrq:30;
+Szalóczy[FN];isa:veznév; *vezfrq:30;
+Holly[FN];isa:veznév; *vezfrq:30;
+Havril[FN];isa:veznév; *vezfrq:30;
+Kutrucz[FN];isa:veznév; *vezfrq:29;
+Nádasy[FN];isa:veznév; *vezfrq:29;
+Vidus[FN];isa:veznév; *vezfrq:29;
+Ortner[FN];isa:veznév; *vezfrq:29;
+Vereszki[FN];isa:veznév; *vezfrq:29;
+Grábics[FN];isa:veznév; *vezfrq:28;
+Scher[FN];isa:veznév; *vezfrq:28;
+Manger[FN];isa:veznév; *vezfrq:28;
+Krieger[FN];isa:veznév; *vezfrq:28;
+Pepó[FN];isa:veznév; *vezfrq:27;
+Mikoly[FN];isa:veznév; *vezfrq:27;
+Kozmér[FN];isa:veznév; *vezfrq:27;
+Hímer[FN];isa:veznév; *vezfrq:27;
+Killer[FN];isa:veznév; *vezfrq:27;
+Iró[FN];isa:veznév; *vezfrq:26;
+Ferber[FN];isa:veznév; *vezfrq:26;
+Breznai[FN];isa:veznév; *vezfrq:26;
+Helmeczy[FN];isa:veznév; *vezfrq:25;
+Bory[FN];isa:veznév; *vezfrq:25;
+Kollarits[FN];isa:veznév; *vezfrq:25;
+Prukner[FN];isa:veznév; *vezfrq:25;
+Schleicher[FN];isa:veznév; *vezfrq:25;
+Mandzák[FN];isa:veznév; *vezfrq:25;
+Bischoff[FN];isa:veznév; *vezfrq:25;
+Sinai[FN];isa:veznév; *vezfrq:24;
+Hercegh[FN];isa:veznév; *vezfrq:24;
+Stipsits[FN];isa:veznév; *vezfrq:23;
+Dobson[FN];isa:veznév; *vezfrq:23;
+Teimel[FN];isa:veznév; *vezfrq:23;
+Romanek[FN];isa:veznév; *vezfrq:23;
+Szomi[FN];isa:veznév; *vezfrq:23;
+Szuhay[FN];isa:veznév; *vezfrq:22;
+Kigyós[FN];isa:veznév; *vezfrq:22;
+Gyurós[FN];isa:veznév; *vezfrq:22;
+Pomper[FN];isa:veznév; *vezfrq:22;
+Kerchner[FN];isa:veznév; *vezfrq:22;
+Rósa[FN];isa:veznév; *vezfrq:22;
+Szelecz[FN];isa:veznév; *vezfrq:21;
+Nagyváthy[FN];isa:veznév; *vezfrq:21;
+Szacsvay[FN];isa:veznév; *vezfrq:21;
+Krankovics[FN];isa:veznév; *vezfrq:21;
+Hahner[FN];isa:veznév; *vezfrq:21;
+Spéder[FN];isa:veznév; *vezfrq:21;
+Furmann[FN];isa:veznév; *vezfrq:21;
+Borbánd@i[FN];isa:veznév; *vezfrq:21;
+Zara[FN];isa:veznév; *vezfrq:21;
+Kövy[FN];isa:veznév; *vezfrq:20;
+Kávássy[FN];isa:veznév; *vezfrq:20;
+Remes[FN];isa:veznév; *vezfrq:20;
+Halbauer[FN];isa:veznév; *vezfrq:20;
+Henk[FN];isa:veznév; *vezfrq:20;
+Krause[FN];isa:veznév; *vezfrq:20;
+Pucz[FN];isa:veznév; *vezfrq:19;
+Vidovszky[FN];isa:veznév; *vezfrq:19;
+Csapody[FN];isa:veznév; *vezfrq:19;
+Antalovits[FN];isa:veznév; *vezfrq:19;
+Zacher[FN];isa:veznév; *vezfrq:19;
+Brán[FN];isa:veznév; *vezfrq:19;
+Ján[FN];isa:veznév; *vezfrq:19;
+Blank[FN];isa:veznév; *vezfrq:19;
+Gálvölgy@i[FN];isa:veznév; *vezfrq:19;
+Szieberth[FN];isa:veznév; *vezfrq:19;
+Valla[FN];isa:veznév; *vezfrq:19;
+Kukely[FN];isa:veznév; *vezfrq:18;
+Branyiczky[FN];isa:veznév; *vezfrq:18;
+Seifert[FN];isa:veznév; *vezfrq:18;
+Heck[FN];isa:veznév; *vezfrq:18;
+Barak[FN];isa:veznév; *vezfrq:18;
+Csegez@i[FN];isa:veznév; *vezfrq:18;
+Kirch[FN];isa:veznév; *vezfrq:18;
+Mig[FN];isa:veznév; *vezfrq:18;
+Sülle[FN];isa:veznév; *vezfrq:18;
+Schwab[FN];isa:veznév; *vezfrq:18;
+Szala[FN];isa:veznév; *vezfrq:18;
+Daskó[FN];isa:veznév; *vezfrq:17;
+Huszty[FN];isa:veznév; *vezfrq:17;
+Hagymásy[FN];isa:veznév; *vezfrq:17;
+Dobóczky[FN];isa:veznév; *vezfrq:17;
+Csisztu[FN];isa:veznév; *vezfrq:17;
+Bodo[FN];isa:veznév; *vezfrq:17;
+Lenk[FN];isa:veznév; *vezfrq:17;
+Kodaj[FN];isa:veznév; *vezfrq:17;
+Somorai[FN];isa:veznév; *vezfrq:17;
+Kornai[FN];isa:veznév; *vezfrq:17;
+Dietz[FN];isa:veznév; *vezfrq:16;
+Szemmelveisz[FN];isa:veznév; *vezfrq:16;
+Eisner[FN];isa:veznév; *vezfrq:16;
+Hokker[FN];isa:veznév; *vezfrq:16;
+Murcsik[FN];isa:veznév; *vezfrq:16;
+Freili[FN];isa:veznév; *vezfrq:16;
+Resz[FN];isa:veznév; *vezfrq:15;
+Feledy[FN];isa:veznév; *vezfrq:15;
+Zsigray[FN];isa:veznév; *vezfrq:15;
+Szax[FN];isa:veznév; *vezfrq:15;
+Biacs[FN];isa:veznév; *vezfrq:15;
+Végel[FN];isa:veznév; *vezfrq:15;
+Gaal[FN];isa:veznév; *vezfrq:15;
+Kark[FN];isa:veznév; *vezfrq:15;
+Pauleczki[FN];isa:veznév; *vezfrq:15;
+Burg[FN];isa:veznév; *vezfrq:15;
+Kampf[FN];isa:veznév; *vezfrq:15;
+Robb[FN];isa:veznév; *vezfrq:15;
+Fanta[FN];isa:veznév; *vezfrq:15;
+Szlankó[FN];isa:veznév; *vezfrq:14;
+Récsey[FN];isa:veznév; *vezfrq:14;
+Kepecs[FN];isa:veznév; *vezfrq:14;
+Dieter[FN];isa:veznév; *vezfrq:14;
+Ammer[FN];isa:veznév; *vezfrq:14;
+Böhler[FN];isa:veznév; *vezfrq:14;
+Decker[FN];isa:veznév; *vezfrq:14;
+Zeman[FN];isa:veznév; *vezfrq:14;
+Pechtol[FN];isa:veznév; *vezfrq:14;
+Bortnyik[FN];isa:veznév; *vezfrq:14;
+Zamecsnik[FN];isa:veznév; *vezfrq:14;
+Fábi[FN];isa:veznév; *vezfrq:14;
+Frajna[FN];isa:veznév; *vezfrq:14;
+Lásztity[FN];isa:veznév; *vezfrq:13;
+Sepsey[FN];isa:veznév; *vezfrq:13;
+Rockenbauer[FN];isa:veznév; *vezfrq:13;
+Thürmer[FN];isa:veznév; *vezfrq:13;
+Lamp[FN];isa:veznév; *vezfrq:13;
+Vityi[FN];isa:veznév; *vezfrq:13;
+Titi[FN];isa:veznév; *vezfrq:13;
+Portisch[FN];isa:veznév; *vezfrq:13;
+Vavró[FN];isa:veznév; *vezfrq:12;
+Talló[FN];isa:veznév; *vezfrq:12;
+Filipsz[FN];isa:veznév; *vezfrq:12;
+Macskássy[FN];isa:veznév; *vezfrq:12;
+Piry[FN];isa:veznév; *vezfrq:12;
+Tolvaly[FN];isa:veznév; *vezfrq:12;
+Szabóky[FN];isa:veznév; *vezfrq:12;
+Rubovszky[FN];isa:veznév; *vezfrq:12;
+Gurszky[FN];isa:veznév; *vezfrq:12;
+Lax[FN];isa:veznév; *vezfrq:12;
+Doncsev[FN];isa:veznév; *vezfrq:12;
+Prokopp[FN];isa:veznév; *vezfrq:12;
+Liebermann[FN];isa:veznév; *vezfrq:12;
+Frischmann[FN];isa:veznév; *vezfrq:12;
+Will[FN];isa:veznév; *vezfrq:12;
+Tabak[FN];isa:veznév; *vezfrq:12;
+Barbai[FN];isa:veznév; *vezfrq:12;
+Janesch[FN];isa:veznév; *vezfrq:12;
+Hónig[FN];isa:veznév; *vezfrq:12;
+Lampé[FN];isa:veznév; *vezfrq:11;
+Balassy[FN];isa:veznév; *vezfrq:11;
+Todorov[FN];isa:veznév; *vezfrq:11;
+Horst[FN];isa:veznév; *vezfrq:11;
+Kulimár[FN];isa:veznév; *vezfrq:11;
+Benson[FN];isa:veznév; *vezfrq:11;
+Kékkői[FN];isa:veznév; *vezfrq:11;
+Békes@i[FN];isa:veznév; rp:atomic; *vezfrq:11;
+Vitelk@i[FN];isa:veznév; *vezfrq:11;
+Math[FN];isa:veznév; *vezfrq:11;
+Kühne[FN];isa:veznév; *vezfrq:11;
+Gotthard[FN];isa:veznév; *vezfrq:11;
+Jelena[FN];isa:veznév; *vezfrq:11;
+Szemkeő[FN];isa:veznév; *vezfrq:10;
+Mallász[FN];isa:veznév; *vezfrq:10;
+Matavovszky[FN];isa:veznév; *vezfrq:10;
+Ast[FN];isa:veznév; *vezfrq:10;
+Reis[FN];isa:veznév; *vezfrq:10;
+Milosevics[FN];isa:veznév; *vezfrq:10;
+Schreyer[FN];isa:veznév; *vezfrq:10;
+Gansperger[FN];isa:veznév; *vezfrq:10;
+Hán[FN];isa:veznév; *vezfrq:10;
+Rim[FN];isa:veznév; *vezfrq:10;
+Rem[FN];isa:veznév; *vezfrq:10;
+Zeisel[FN];isa:veznév; *vezfrq:10;
+Aubel[FN];isa:veznév; *vezfrq:10;
+Sziebig[FN];isa:veznév; *vezfrq:10;
+Steff[FN];isa:veznév; *vezfrq:10;
+Benárd[FN];isa:veznév; *vezfrq:10;
+Hamara[FN];isa:veznév; *vezfrq:10;
+Stanga[FN];isa:veznév; *vezfrq:10;
+Rada[FN]; *frq:1;
+Deseda[FN]; *frq:10;
+Balaton+aliga[FN]; *frq:2;
+Maka[FN]; *frq:3;
+Zaka[FN]; *frq:1;
+Malakka[FN]; *frq:1;
+Jablonka[FN]; *frq:1;
+Iluska[FN]; *frq:1;
+Tuka[FN]; *frq:4;
+Szala[FN]; *frq:1;
+Valla[FN]; *frq:1;
+Olla[FN]; *frq:1;
+Sina[FN]; *frq:1;
+Herpa[FN]; *frq:3;
+Ira[FN]; *frq:1;
+Bazsa[FN]; *frq:1;
+Konta[FN]; *frq:4;
+Léta[FN]; *frq:6;
+Dubrava[FN]; *frq:2;
+Berva[FN]; *frq:7;
+Rónya[FN]; *frq:3;
+Sid[FN]; *frq:1;
+Börönd[FN]; *frq:1;
+földe[FN]; *frq:1;
+Kis+alag[FN]; *frq:1;
+Marburg[FN]; *frq:1;
+Majláth[FN]; *frq:1;
+Donáth[FN]; *frq:1;
+Szép+lak[FN]; *frq:14;
+Barak[FN]; *frq:1;
+Buda+lakk[FN]; *frq:1;
+Kark[FN]; *frq:2;
+Lók[FN]; *frq:2;
+Parcel[FN]; *frq:1;
+Kül[FN]; *frq:2;
+Hammer+stein[FN]; *frq:1;
+Tallin[FN]; *frq:1;
+Neptun[FN]; *frq:1;
+Jó+nap[FN]; *frq:1;
+Rüdiger[FN]; *frq:1;
+Veker[FN]; *frq:11;
+Buttler[FN]; *frq:1;
+Bubor[FN]; *frq:1;
+Gor[FN]; *frq:2;
+Gunaras[FN]; *frq:1;
+Tacs[FN]; *frq:1;
+Kepecs[FN]; *frq:2;
+Mocs[FN]; *frq:1;
+Alsó+gyenes[FN]; *frq:1;
+Medgyes[FN]; *frq:4;
+Melis[FN]; *frq:2;
+Metalloglobus[FN]; *frq:1;
+Vidus[FN]; *frq:1;
+Bazs[FN]; *frq:1;
+Kigyós[FN]; *frq:1;
+Duna+part[FN]; *frq:11;
+Rott[FN]; *frq:1;
+Mammut[FN]; *frq:1;
+Bét[FN]; *frq:1;
+ZÁÉV[FN]; *frq:1;
+Zsigray[FN]; *frq:1;
+Patay[FN]; *frq:2;
+Erdődy[FN]; *frq:1;
+Megy[FN]; *frq:2;
+Szép+völgy[FN]; *frq:1;
+Német+völgy[FN]; *frq:1;
+Domony+völgy[FN]; *frq:1;
+Oszoly[FN]; *frq:4;
+Eny[FN]; *frq:2;
+Ladomány[FN]; *frq:1;
+Ürmény[FN]; *frq:1;
+Bory[FN]; *frq:1;
+Szilassy[FN]; *frq:5;
+Lóczy[FN]; *frq:2;
+Meleg+víz[FN]; *frq:7;
+Sebes+víz[FN]; *frq:1;
+Gadó[FN]; *frq:1;
+Miskó[FN]; *frq:1;
+Pepó[FN]; *frq:1;
+Ró[FN]; *frq:2;
+Pest+imre[FN];
+Kincsem[FN];
+Angeli[FN]; *frq:2;
+Bakti[FN]; *frq:3;
+ÁTI[FN]; *frq:4;
+Vityi[FN]; *frq:2;
+Irád[FN];
+Gele@i[MN]; *frq:1;
+Sipek@i[MN]; *frq:5;
+Szom@i[MN]; *frq:1;
+ASP[FN|ABC];
+CCD[FN|ABC];
+Como[FN];phon:ómó;
+Corvinus[FN];phon:oinusz;
+cyber[FN];phon:szájber;
+Datanet[FN];
+DSL[FN|ABC];
+ECC[FN|ABC];
+Environnement[FN];
+Euro+barometer[FN];
+extranet[FN];
+FH[FN|ABC];
+Gartner+Group[FN];phon:aerup;
+Groep[FN];phon:rup;
+GTS[FN|ABC];
+IKB[FN|ABC];
+inter+operabilitás[FN];
+IRM[FN|ABC];
+ISDN2[FN|ABC];
+IVR[FN|ABC];
+KPMG[FN|ABC];
+KTK[FN|ABC];
+Miskó[FN];
+multi+módusú[MN];
+Netcraft[FN];
+organisation[FN];phon:oeáésön;
+para[FN];rp:!cmp1 !cmp2;
+perszonalizáció[FN];
+PKI[FN|ABC];
+Polska[FN];
+PSC[FN|ABC];
+Rüdiger[FN];
+SBS[FN|ABC];
+TA[FN|ABC];
+UMTS[FN|ABC];
+VoIP[FN|ABC];
+VPN[FN|ABC];
+VSAT[FN|ABC];
+Wim[FN];
+Windows2000[FN|ABC];
+xDSL[FN|ABC];
+törv.[FN|ROV];equ:törvény;
+Ctv.[FN|ROV];phon:övény;
+process[FN];phon:rószesz;
+Cstv.[FN|ROV];phon:övény;
+T1[FN|ABC];
+T3[FN|ABC];
+Ctv.[FN|ROV];phon:övény;
+mFt[FN|ME|ROV];equ:millió forint;
+MFt[FN|ME|ROV];equ:millió forint;
+IAS[FN|ABC];phon:iaes;
+HMV[FN|ABC];
+OJ[FN|ABC];
+AK[FN|ME|ROV];equ:arany+korona;
+Verlag[FN];phon:elág;
+KPMG[FN|ABC];
+EPA[FN|ABC];*equ:(ESD Protected Area) - ESD védett terület
+ECE[FN|ABC];*equ:Európai gazdasági bizottság
+MSC[FN|ABC];*equ:Tengeri Biztonsági Bizottság
+SSC[FN|ABC];*equ:Selective Safeguard Clause - szelektív védő záradék
+GK[FN|ABC];*equ:a Legfelsőbb Bíróság Gazdasági Kollégiumának ... számú állásfoglalása
+PK[FN|ABC];*equ:a Legfelsőbb Bíróság Polgári Kollégiumának ... számú állásfoglalása
+QPM[FN|ABC];*equ:Quantitative Project Management, Mennyiségi projektmenedzsment
+r.[FN|ROV];equ:rendelet;
+Szvt.[FN|ABC];*equ:1992. évi I. törvény a szövetkezetekről
+Ctv[FN|ABC];*equ:	1997. évi CXLV. törvény a cégnyilvántartásról, a cégnyilvánosságról és a bírósági cégeljárásról
+Gyurós[FN];isa:veznév;
+Kozmár@i[FN];isa:veznév;
+Reszin[FN];isa:ember;
+TSB[FN|ABC];
+Slovakia[FN];rp:!cmp1 !cmp2;
+China[FN];rp:!cmp1 !cmp2;
+Vienna[FN];rp:!cmp1 !cmp2;
+spa[FN];rp:!cmp1 !cmp2;
+infra[FN];rp:!cmp1 !cmp2;
+Geneva[FN];rp:!cmp1 !cmp2;
+Atlantic[FN];phon:öetik;rp:!cmp1 !cmp2;
+load[FN];phon:lód;rp:!cmp1 !cmp2;
+qualified[FN];phon:aifájd;rp:!cmp1 !cmp2;
+allied[FN];phon:elájd;rp:!cmp1 !cmp2;
+applied[FN];phon:ölájd;rp:!cmp1 !cmp2;
+demand[FN];phon:imánd;rp:!cmp1 !cmp2;
+sound[FN];rp:!cmp1 !cmp2;
+food[FN];phon:fúd;rp:!cmp1 !cmp2;
+cube[FN];phon:júb;rp:!cmp1 !cmp2;
+space[FN];phon:pész;rp:!cmp1 !cmp2;
+Prentice[FN];phon:etisz;rp:!cmp1 !cmp2;
+device[FN];phon:ivájsz;rp:!cmp1 !cmp2;
+fee[FN];phon:fí;rp:!cmp1 !cmp2;
+tree[FN];phon:rí;rp:!cmp1 !cmp2;
+guarantee[FN];phon:eötí;rp:!cmp1 !cmp2;
+safe[FN];phon:széf;rp:!cmp1 !cmp2;
+large[FN];phon:lárdzs;rp:!cmp1 !cmp2;
+make[FN];phon:mék;rp:!cmp1 !cmp2;
+scale[FN];phon:kél;rp:!cmp1 !cmp2;
+table[FN];phon:éböl;rp:!cmp1 !cmp2;
+single[FN];phon:igöl;rp:!cmp1 !cmp2;
+schedule[FN];phon:ejúl;rp:!cmp1 !cmp2;
+Rome[FN];phon:róm;rp:!cmp1 !cmp2;
+engine[FN];phon:edzsin;rp:!cmp1 !cmp2;
+machine[FN];phon:ösín;rp:!cmp1 !cmp2;
+Fortune[FN];phon:ocsön&ocsún;rp:!cmp1 !cmp2;
+core[FN];phon:kór;rp:!cmp1 !cmp2;
+Gore[FN];phon:gór;rp:!cmp1 !cmp2;
+failure[FN];phon:éjör;rp:!cmp1 !cmp2;
+nature[FN];phon:écsör;rp:!cmp1 !cmp2;
+Enterprise[FN];phon:eörájz;rp:!cmp1 !cmp2;
+reverse[FN];phon:ivörsz;rp:!cmp1 !cmp2;
+warehouse[FN];phon:eausz;rp:!cmp1 !cmp2;
+alternate[FN];phon:ótörnet;rp:!cmp1 !cmp2;
+rate[FN];phon:rét;rp:!cmp1 !cmp2;
+Estate[FN];phon:itét;rp:!cmp1 !cmp2;
+suite[FN];phon:vít;rp:!cmp1 !cmp2;
+revue[FN];phon:ijú&evü;rp:!cmp1 !cmp2;
+cooperative[FN];phon:óoörötiv;rp:!cmp1 !cmp2;
+executive[FN];phon:iejutiv;rp:!cmp1 !cmp2;
+size[FN];phon:szájz;rp:!cmp1 !cmp2;
+financing[FN];phon:fájnenszing;rp:!cmp1 !cmp2;
+Training[FN];phon:éning;rp:!cmp1 !cmp2;
+positioning[FN];phon:öiöning;rp:!cmp1 !cmp2;
+sharing[FN];phon:ering;rp:!cmp1 !cmp2;
+manufacturing[FN];phon:euecsöring;rp:!cmp1 !cmp2;
+restructuring[FN];phon:íacsöring;rp:!cmp1 !cmp2;
+lighting[FN];phon:lájting;rp:!cmp1 !cmp2;
+hosting[FN];phon:hószting;rp:!cmp1 !cmp2;
+tech[FN];phon:tek;rp:!cmp1 !cmp2;
+through[FN];phon:rú;rp:!cmp1 !cmp2;
+Haworth[FN];phon:auörsz;rp:!cmp1 !cmp2;
+Hi[FN];phon:háj;rp:!cmp1 !cmp2;
+quasi[FN];phon:vázi;rp:!cmp1 !cmp2;
+feedback[FN];phon:íbek;rp:!cmp1 !cmp2;
+truck[FN];phon:rak;rp:!cmp1 !cmp2;
+Think[FN];phon:szink;rp:!cmp1 !cmp2;
+Work[FN];phon:vörk;rp:!cmp1 !cmp2;
+Task[FN];phon:tászk;rp:!cmp1 !cmp2;
+chemical[FN];phon:eikel;rp:!cmp1 !cmp2;
+Industrial[FN];rp:!cmp1 !cmp2;
+spatial[FN];phon:ésöl;rp:!cmp1 !cmp2;
+Original[FN];phon:öiinel;rp:!cmp1 !cmp2;
+operational[FN];phon:oöésönel;rp:!cmp1 !cmp2;
+natural[FN];phon:eöröl;rp:!cmp1 !cmp2;
+Environmental[FN];phon:iáöetöl;rp:!cmp1 !cmp2;
+Continental[FN];phon:oietöl;rp:!cmp1 !cmp2;
+Crystal[FN];phon:ital;rp:!cmp1 !cmp2;
+Manual[FN];phon:ejuel;rp:!cmp1 !cmp2;
+Mutual[FN];phon:úuöl;rp:!cmp1 !cmp2;
+Model[FN];phon:model;rp:!cmp1 !cmp2;
+tunnel[FN];phon:tanel;rp:!cmp1 !cmp2;
+Level[FN];phon:evöl;rp:!cmp1 !cmp2;
+Council[FN];phon:aunszil;rp:!cmp1 !cmp2;
+oil[FN];phon:ojl;rp:!cmp1 !cmp2;
+Small[FN];phon:mól;rp:!cmp1 !cmp2;
+will[FN];phon:vil;rp:!cmp1 !cmp2;
+School[FN];phon:kúl;rp:!cmp1 !cmp2;
+Control[FN];phon:öról;rp:!cmp1 !cmp2;
+medium[FN];rp:!cmp1 !cmp2;
+Consortium[FN];rp:!cmp1 !cmp2;
+Bean[FN];phon:bín;rp:!cmp1 !cmp2;
+Dean[FN];phon:dín;rp:!cmp1 !cmp2;
+Austrian[FN];phon:oiön;rp:!cmp1 !cmp2;
+Plan[FN];phon:len;rp:!cmp1 !cmp2;
+Span[FN];phon:pen;rp:!cmp1 !cmp2;
+Taiwan[FN];phon:áván;rp:!cmp1 !cmp2;
+Walden[FN];phon:vólden;rp:!cmp1 !cmp2;
+oxygen[FN];phon:okszidzsen;rp:!cmp1 !cmp2;
+heaven[FN];phon:even;rp:!cmp1 !cmp2;
+Foreign[FN];phon:forin;rp:!cmp1 !cmp2;
+origin[FN];phon:oridzsin;rp:!cmp1 !cmp2;
+Win[FN];phon:vin;rp:!cmp1 !cmp2;
+Silicon[FN];phon:iikon;rp:!cmp1 !cmp2;
+Commission[FN];phon:öisön;rp:!cmp1 !cmp2;
+specification[FN];phon:eiiésön;rp:!cmp1 !cmp2;
+Foundation[FN];phon:auésön;rp:!cmp1 !cmp2;
+aviation[FN];phon:éiésön;rp:!cmp1 !cmp2;
+automation[FN];phon:óöésön;rp:!cmp1 !cmp2;
+Information[FN];phon:iöésön;rp:!cmp1 !cmp2;
+Operation[FN];phon:oöésön;rp:!cmp1 !cmp2;
+Cooperation[FN];phon:óoöésön;rp:!cmp1 !cmp2;
+integration[FN];phon:iiésön;rp:!cmp1 !cmp2;
+Administration[FN];phon:öiiésön;rp:!cmp1 !cmp2;
+Configuration[FN];phon:öiuésön;rp:!cmp1 !cmp2;
+Protection[FN];phon:öesön;rp:!cmp1 !cmp2;
+function[FN];phon:asön;rp:!cmp1 !cmp2;
+Production[FN];phon:öasön;rp:!cmp1 !cmp2;
+edition[FN];phon:iisön;rp:!cmp1 !cmp2;
+recognition[FN];phon:eöisön;rp:!cmp1 !cmp2;
+Acquisition[FN];phon:eiisön;rp:!cmp1 !cmp2;
+convention[FN];phon:öesön;rp:!cmp1 !cmp2;
+promotion[FN];phon:öósön;rp:!cmp1 !cmp2;
+distribution[FN];phon:iiúsön;rp:!cmp1 !cmp2;
+solution[FN];phon:öúsön;rp:!cmp1 !cmp2;
+Common[FN];rp:!cmp1 !cmp2;
+Northern[FN];phon:nordern;rp:!cmp1 !cmp2;
+Eastern[FN];rp:!cmp1 !cmp2;
+Severn[FN];rp:!cmp1 !cmp2;
+turbo[FN];phon:ubó;rp:!cmp1 !cmp2;
+Studio[FN];phon:úió;rp:!cmp1 !cmp2;
+portfolio[FN];phon:oóió;rp:!cmp1 !cmp2;
+Hypo[FN];phon:ápó;rp:!cmp1 !cmp2;
+So[FN];phon:szó;rp:!cmp1 !cmp2;
+Bravo[FN];phon:ávó;rp:!cmp1 !cmp2;
+strip[FN];rp:!cmp1 !cmp2;
+zip[FN];rp:!cmp1 !cmp2;
+Clear[FN];phon:lír;rp:!cmp1 !cmp2;
+Chamber[FN];phon:ébör;rp:!cmp1 !cmp2;
+number[FN];phon:abör&namber;rp:!cmp1 !cmp2;
+officer[FN];phon:ofiszer;rp:!cmp1 !cmp2;
+Jennifer[FN];rp:!cmp1 !cmp2;
+supplier[FN];phon:ölájer;rp:!cmp1 !cmp2;
+customer[FN];rp:!cmp1 !cmp2;
+designer[FN];phon:izájner;rp:!cmp1 !cmp2;
+scanner[FN];rp:!cmp1 !cmp2;
+paper[FN];rp:!cmp1 !cmp2;
+transporter[FN];rp:!cmp1 !cmp2;
+power[FN];phon:auer;rp:!cmp1 !cmp2;
+layer[FN];phon:éjer;rp:!cmp1 !cmp2;
+player[FN];phon:éjer;rp:!cmp1 !cmp2;
+floor[FN];phon:lór;rp:!cmp1 !cmp2;
+four[FN];phon:fór;rp:!cmp1 !cmp2;
+gas[FN];phon:gesz;rp:!cmp1 !cmp2;
+Dynamics[FN];phon:dáj-nemiksz;rp:!cmp1 !cmp2;
+Economics[FN];phon:íönomiksz;rp:!cmp1 !cmp2;
+McDonalds[FN];phon:eonáldz&öonöldz;rp:!cmp1 !cmp2;
+Standards[FN];phon:adardz&edördz;rp:!cmp1 !cmp2;
+devices[FN];phon:ivájsziz;rp:!cmp1 !cmp2;
+Services[FN];phon:öisziz;rp:!cmp1 !cmp2;
+Policies[FN];phon:olösziz;rp:!cmp1 !cmp2;
+Industries[FN];phon:iöriz;rp:!cmp1 !cmp2;
+Securities[FN];phon:ijúritiz;rp:!cmp1 !cmp2;
+Sales[FN];phon:szélz;rp:!cmp1 !cmp2;
+Rules[FN];phon:rúlz;rp:!cmp1 !cmp2;
+shares[FN];phon:serz;rp:!cmp1 !cmp2;
+Stores[FN];phon:tórz;rp:!cmp1 !cmp2;
+ventures[FN];phon:ecsörz;rp:!cmp1 !cmp2;
+Associates[FN];phon:öszósietsz;rp:!cmp1 !cmp2;
+Sites[FN];phon:szájtz;rp:!cmp1 !cmp2;
+Analysis[FN];phon:öeöszisz;rp:!cmp1 !cmp2;
+Networks[FN];phon:evörksz;rp:!cmp1 !cmp2;
+Chemicals[FN];phon:eikölz&eikelz;rp:!cmp1 !cmp2;
+Financials[FN];phon:áesölz;rp:!cmp1 !cmp2;
+materials[FN];phon:öíiölz;rp:!cmp1 !cmp2;
+Tools[FN];phon:túlz;rp:!cmp1 !cmp2;
+programs[FN];phon:rógremz;rp:!cmp1 !cmp2;
+Solutions[FN];phon:öúsönz;rp:!cmp1 !cmp2;
+Engineers[FN];phon:einírz;rp:!cmp1 !cmp2;
+workers[FN];phon:ökerz;rp:!cmp1 !cmp2;
+Partners[FN];phon:pártnerz;rp:!cmp1 !cmp2;
+Coopers[FN];phon:úpörz;rp:!cmp1 !cmp2;
+users[FN];phon:úzörz;rp:!cmp1 !cmp2;
+Centers[FN];phon:etörz;rp:!cmp1 !cmp2;
+Myers[FN];phon:májerz&ájörz;rp:!cmp1 !cmp2;
+Affairs[FN];phon:öferz;rp:!cmp1 !cmp2;
+success[FN];phon:öszesz;rp:!cmp1 !cmp2;
+fitness[FN];phon:inesz;rp:!cmp1 !cmp2;
+Progress[FN];phon:rógresz;rp:!cmp1 !cmp2;
+cross[FN];phon:rosz;rp:!cmp1 !cmp2;
+Requirements[FN];phon:iájörmentsz;rp:!cmp1 !cmp2;
+contents[FN];phon:kontentsz;rp:!cmp1 !cmp2;
+Watts[FN];phon:vatsz;rp:!cmp1 !cmp2;
+Columbus[FN];phon:oubusz;rp:!cmp1 !cmp2;
+Airbus[FN];phon:ebasz;rp:!cmp1 !cmp2;
+focus[FN];phon:ókösz;rp:!cmp1 !cmp2;
+news[FN];phon:júz;rp:!cmp1 !cmp2;
+Act[FN];phon:ekt;rp:!cmp1 !cmp2;
+Compact[FN];phon:kompekt;rp:!cmp1 !cmp2;
+draft[FN];phon:ráft;rp:!cmp1 !cmp2;
+overnight[FN];phon:óönájt;rp:!cmp1 !cmp2;
+client[FN];phon:lájent;rp:!cmp1 !cmp2;
+Environment[FN];phon:iárönment;rp:!cmp1 !cmp2;
+Government[FN];phon:avörnment;rp:!cmp1 !cmp2;
+Equipment[FN];rp:!cmp1 !cmp2;
+Development[FN];rp:!cmp1 !cmp2;
+Department[FN];phon:ipártment;rp:!cmp1 !cmp2;
+Investment[FN];rp:!cmp1 !cmp2;
+Document[FN];phon:ojument;rp:!cmp1 !cmp2;
+different[FN];phon:irent;rp:!cmp1 !cmp2;
+Content[FN];phon:kontent;rp:!cmp1 !cmp2;
+event[FN];rp:!cmp1 !cmp2;
+Point[FN];phon:pojnt;rp:!cmp1 !cmp2;
+mount[FN];rp:!cmp1 !cmp2;
+not[FN];rp:!cmp1 !cmp2;
+concept[FN];phon:konszept;rp:!cmp1 !cmp2;
+comfort[FN];rp:!cmp1 !cmp2;
+Court[FN];phon:kort;rp:!cmp1 !cmp2;
+just[FN];phon:dzsaszt;rp:!cmp1 !cmp2;
+Trust[FN];phon:raszt;rp:!cmp1 !cmp2;
+Moscow[FN];phon:okó;rp:!cmp1 !cmp2;
+Window[FN];phon:idó;rp:!cmp1 !cmp2;
+Yellow[FN];phon:eló;rp:!cmp1 !cmp2;
+complex[FN];phon:kompleksz;rp:!cmp1 !cmp2;
+Today[FN];phon:ödéj;rp:!cmp1 !cmp2;
+Ramsey[FN];phon:ezi;rp:!cmp1 !cmp2;
+Survey[FN];phon:övéj;rp:!cmp1 !cmp2;
+Verify[FN];phon:eifáj;rp:!cmp1 !cmp2;
+Technology[FN];phon:eolödzsi;rp:!cmp1 !cmp2;
+healthy[FN];phon:eszi;rp:!cmp1 !cmp2;
+Fly[FN];phon:láj;rp:!cmp1 !cmp2;
+supply[FN];phon:öláj;rp:!cmp1 !cmp2;
+Academy[FN];phon:öeömi;rp:!cmp1 !cmp2;
+Germany[FN];phon:öeni;rp:!cmp1 !cmp2;
+primary[FN];phon:ámöri;rp:!cmp1 !cmp2;
+Factory[FN];phon:eöri;rp:!cmp1 !cmp2;
+Perry[FN];phon:eri;rp:!cmp1 !cmp2;
+entry[FN];phon:eri;rp:!cmp1 !cmp2;
+Industry[FN];phon:iöri;rp:!cmp1 !cmp2;
+century[FN];phon:eöri;rp:!cmp1 !cmp2;
+Capability[FN];phon:éöiiti;rp:!cmp1 !cmp2;
+Community[FN];phon:öjúniti;rp:!cmp1 !cmp2;
+opportunity[FN];phon:oöjúniti;rp:!cmp1 !cmp2;
+Security[FN];phon:ijúriti;rp:!cmp1 !cmp2;
+Property[FN];phon:opörti;rp:!cmp1 !cmp2;
+CIT[FN|ABC];rp:!cmp1 !cmp2;
+ASP[FN|ABC];rp:!cmp1 !cmp2;
+extranet[FN];rp:!cmp1 !cmp2;
+WAN[FN|ABC];rp:!cmp1 !cmp2;
+Ro[FN|ABC];rp:!cmp1 !cmp2;
+NV[FN|ABC];rp:!cmp1 !cmp2;
+IEEE[FN|ABC];rp:!cmp1 !cmp2;
+https[FN|ABC];rp:!cmp1 !cmp2;
+www[FN|ABC];rp:!cmp1 !cmp2;
+Web-based[FN];rp:!cmp1 !cmp2;
+selected[FN];rp:!cmp1 !cmp2;phon:ietid;
+EDS[FN|ABC];rp:!cmp1 !cmp2;
+3G[FN|ABC];rp:!cmp1 !cmp2;
+TIC[FN|ABC];rp:!cmp1 !cmp2;
+Schmitz[FN];rp:!cmp1 !cmp2;phon:mitc;
+kbps[FN|ME|ROV];rp:!cmp1 !cmp2;phon:eudum;
+Millicent[FN];
+multimedia[FN];rp:!cmp1 !cmp2;
+Austria[FN];rp:!cmp1 !cmp2;phon:oia;
+Spa[FN];rp:!cmp1 !cmp2;
+strategic[FN];rp:!cmp1 !cmp2;phon:öídzsik;
+republic[FN];rp:!cmp1 !cmp2;phon:ipablik;
+electronic[FN];rp:!cmp1 !cmp2;phon:ieronik;
+asymmetric[FN];rp:!cmp1 !cmp2;phon:éierik;
+shared[FN];rp:!cmp1 !cmp2;phon:serd;
+based[FN];rp:!cmp1 !cmp2;phon:bészd;
+related[FN];rp:!cmp1 !cmp2;phon:iétid;
+integrated[FN];rp:!cmp1 !cmp2;phon:ieétid;
+field[FN];rp:!cmp1 !cmp2;phon:fíld;
+broadband[FN];rp:!cmp1 !cmp2;phon:ródbend;
+Deutschland[FN];rp:!cmp1 !cmp2;phon:oland;
+inland[FN];rp:!cmp1 !cmp2;phon:ilend;
+fund[FN];rp:!cmp1 !cmp2;phon:fand;
+record[FN];rp:!cmp1 !cmp2;phon:ekord;
+cyberspace[FN];rp:!cmp1 !cmp2;phon:ábörszpész;
+office[FN];rp:!cmp1 !cmp2;phon:ofisz;
+voice[FN];rp:!cmp1 !cmp2;phon:vojsz;
+finance[FN];rp:!cmp1 !cmp2;phon:fájnensz;
+insurance[FN];rp:!cmp1 !cmp2;phon:isúrensz&iúrönsz;
+assistance[FN];rp:!cmp1 !cmp2;phon:öitensz;
+intelligence[FN];rp:!cmp1 !cmp2;phon:ieidzsensz;
+once[FN];rp:!cmp1 !cmp2;phon:vansz;
+commerce[FN];rp:!cmp1 !cmp2;phon:omörsz&komersz;
+force[FN];rp:!cmp1 !cmp2;phon:forsz;
+source[FN];rp:!cmp1 !cmp2;phon:szorsz;
+resource[FN];rp:!cmp1 !cmp2;phon:izorsz;
+blade[FN];rp:!cmp1 !cmp2;phon:léd;
+guide[FN];rp:!cmp1 !cmp2;phon:gájd;
+worldwide[FN];rp:!cmp1 !cmp2;phon:övájd;
+committee[FN];rp:!cmp1 !cmp2;phon:öiti;
+page[FN];rp:!cmp1 !cmp2;phon:pédzs;
+usage[FN];rp:!cmp1 !cmp2;phon:júszidzs;
+language[FN];rp:!cmp1 !cmp2;phon:evidzs;
+knowledge[FN];rp:!cmp1 !cmp2;phon:nolidzs;
+the[X];rp:!cmp1 !cmp2;phon:dí;
+available[FN];rp:!cmp1 !cmp2;phon:öéöböl;
+module[FN];rp:!cmp1 !cmp2;phon:ojúl;
+time[FN];rp:!cmp1 !cmp2;phon:tájm;
+home[FN];rp:!cmp1 !cmp2;phon:hóm;
+volume[FN];rp:!cmp1 !cmp2;phon:ojúm;
+one[FN];rp:!cmp1 !cmp2;phon:van;
+phone[FN];rp:!cmp1 !cmp2;phon:fón;
+telephone[FN];rp:!cmp1 !cmp2;phon:eifón;
+care[FN];rp:!cmp1 !cmp2;phon:ker;
+share[FN];rp:!cmp1 !cmp2;phon:ser;
+secure[FN];rp:!cmp1 !cmp2;phon:ijúr;
+procedure[FN];rp:!cmp1 !cmp2;phon:óídzsör;
+signature[FN];rp:!cmp1 !cmp2;phon:iöcsör;
+architecture[FN];rp:!cmp1 !cmp2;phon:áiecsör;
+database[FN];rp:!cmp1 !cmp2;phon:étabész&étabéz;
+enterprise[FN];rp:!cmp1 !cmp2;phon:eörájsz;
+use[FN];rp:!cmp1 !cmp2;phon:júz&júsz;
+state[FN];rp:!cmp1 !cmp2;phon:tét;
+private[FN];rp:!cmp1 !cmp2;phon:rájvit;
+satellite[FN];rp:!cmp1 !cmp2;phon:eölájt;
+Hague[FN];rp:!cmp1 !cmp2;phon:hág;
+revenue[FN];rp:!cmp1 !cmp2;phon:eönyú;
+Creative[FN];rp:!cmp1 !cmp2;phon:iétiv;
+initiative[FN];rp:!cmp1 !cmp2;phon:iiötiv;
+administrative[FN];rp:!cmp1 !cmp2;phon:öiiötiv;
+innovative[FN];rp:!cmp1 !cmp2;phon:inóvétiv;
+active[FN];rp:!cmp1 !cmp2;phon:etiv;
+interactive[FN];rp:!cmp1 !cmp2;phon:iöetiv;
+directive[FN];rp:!cmp1 !cmp2;phon:ietiv;
+chief[FN];rp:!cmp1 !cmp2;phon:csíf;
+outsourcing[FN];rp:!cmp1 !cmp2;phon:auszorszing;
+Reading[FN];rp:!cmp1 !cmp2;phon:eding;
+managing[FN];rp:!cmp1 !cmp2;phon:eidzsing;
+training[FN];rp:!cmp1 !cmp2;phon:éning;
+learning[FN];rp:!cmp1 !cmp2;phon:öning;
+using[FN];rp:!cmp1 !cmp2;phon:júzing;
+following[FN];rp:!cmp1 !cmp2;phon:olóing;
+launch[FN];rp:!cmp1 !cmp2;phon:lóncs;
+with[X];rp:!cmp1 !cmp2;phon:vid;
+Gemini[FN];rp:!cmp1 !cmp2;phon:eináj&eini;
+week[FN];rp:!cmp1 !cmp2;phon:vík;
+work[FN];rp:!cmp1 !cmp2;phon:vörk;
+desk[FN];rp:!cmp1 !cmp2;phon:deszk;
+physical[FN];rp:!cmp1 !cmp2;phon:iikel;
+optical[FN];rp:!cmp1 !cmp2;phon:optikel;
+financial[FN];rp:!cmp1 !cmp2;phon:áesöl;
+commercial[FN];rp:!cmp1 !cmp2;phon:öösöl;
+differential[FN];rp:!cmp1 !cmp2;phon:iöesöl;
+normal[FN];rp:!cmp1 !cmp2;phon:omöl;
+final[FN];rp:!cmp1 !cmp2;
+personal[FN];rp:!cmp1 !cmp2;phon:öönel;
+proposal[FN];rp:!cmp1 !cmp2;phon:öózal;
+universal[FN];rp:!cmp1 !cmp2;phon:úiöszal;
+environmental[FN];rp:!cmp1 !cmp2;
+portal[FN];rp:!cmp1 !cmp2;phon:otöl&otál;
+manual[FN];rp:!cmp1 !cmp2;phon:ejuel;
+model[FN];rp:!cmp1 !cmp2;
+travel[FN];rp:!cmp1 !cmp2;
+level[FN];rp:!cmp1 !cmp2;
+council[FN];rp:!cmp1 !cmp2;phon:kanszil;
+call[FN];rp:!cmp1 !cmp2;phon:kól;
+small[FN];rp:!cmp1 !cmp2;phon:mól;
+full[FN];rp:!cmp1 !cmp2;phon:ful;
+school[FN];rp:!cmp1 !cmp2;phon:kúl;
+com[FN];rp:!cmp1 !cmp2;phon:kom;
+from[X];rp:!cmp1 !cmp2;
+form[FN];rp:!cmp1 !cmp2;
+spectrum[FN];rp:!cmp1 !cmp2;phon:eröm;
+scan[FN];rp:!cmp1 !cmp2;phon:ken;
+than[X];rp:!cmp1 !cmp2;phon:den;
+ten[FN];rp:!cmp1 !cmp2;
+foreign[FN];rp:!cmp1 !cmp2;phon:forin;
+train[FN];rp:!cmp1 !cmp2;phon:rén;
+region[FN];rp:!cmp1 !cmp2;phon:ídzsön;
+vision[FN];rp:!cmp1 !cmp2;phon:izsön;
+mission[FN];rp:!cmp1 !cmp2;phon:isön;
+commission[FN];rp:!cmp1 !cmp2;phon:oisön;
+identification[FN];rp:!cmp1 !cmp2;phon:áeiiésön;
+application[FN];rp:!cmp1 !cmp2;phon:eiésön;
+communication[FN];rp:!cmp1 !cmp2;phon:ouiésön;
+location[FN];rp:!cmp1 !cmp2;phon:óésön;
+information[FN];rp:!cmp1 !cmp2;phon:ioésön;
+transformation[FN];rp:!cmp1 !cmp2;phon:eöésön;
+generation[FN];rp:!cmp1 !cmp2;phon:eöésön;
+operation[FN];rp:!cmp1 !cmp2;phon:oöésön;
+cooperation[FN];rp:!cmp1 !cmp2;phon:óoöésön;
+administration[FN];rp:!cmp1 !cmp2;phon:eiiésön;
+implementation[FN];rp:!cmp1 !cmp2;phon:ieeésön;
+protection[FN];rp:!cmp1 !cmp2;phon:oesön;
+combustion[FN];rp:!cmp1 !cmp2;phon:öacsön;
+resolution[FN];rp:!cmp1 !cmp2;phon:eöúsön;
+common[FN];rp:!cmp1 !cmp2;phon:omön&omon;
+eastern[FN];rp:!cmp1 !cmp2;phon:ítörn&ítern;
+radio[FN];rp:!cmp1 !cmp2;phon:éió;
+Cap[FN];rp:!cmp1 !cmp2;phon:kep&kap;
+ownership[FN];rp:!cmp1 !cmp2;phon:ónörsip;
+help[FN];rp:!cmp1 !cmp2;
+desktop[FN];rp:!cmp1 !cmp2;
+set-top[FN];rp:!cmp1 !cmp2;
+subscriber[FN];rp:!cmp1 !cmp2;phon:arájber;
+number[FN];rp:!cmp1 !cmp2;phon:abör;
+cyber[FN];rp:!cmp1 !cmp2;phon:szájber;
+officer[FN];rp:!cmp1 !cmp2;phon:oiször;
+provider[FN];rp:!cmp1 !cmp2;phon:övájder;
+peer-to-peer[FN];rp:!cmp1 !cmp2;phon:ítú-pír;
+transfer[FN];rp:!cmp1 !cmp2;phon:ranszfer;
+teacher[FN];rp:!cmp1 !cmp2;phon:ícsör&ícser;
+other[FN];rp:!cmp1 !cmp2;phon:ader;
+customer[FN];rp:!cmp1 !cmp2;phon:aömör&atomer;
+consumer[FN];rp:!cmp1 !cmp2;phon:öjúmer;
+owner[FN];rp:!cmp1 !cmp2;phon:óner;
+paper[FN];rp:!cmp1 !cmp2;phon:épör&éper;
+user[FN];rp:!cmp1 !cmp2;phon:júzer;
+after[FN];rp:!cmp1 !cmp2;phon:átör&áfter;
+cluster[FN];rp:!cmp1 !cmp2;phon:laszter;
+letter[FN];rp:!cmp1 !cmp2;phon:etör&eter;
+their[X];rp:!cmp1 !cmp2;phon:der;
+processor[FN];rp:!cmp1 !cmp2;phon:óeször&oeszor;
+director[FN];rp:!cmp1 !cmp2;phon:ietör&ietor;
+as[X];rp:!cmp1 !cmp2;phon:ez;
+economics[FN];rp:!cmp1 !cmp2;phon:íönomiksz;
+standards[FN];rp:!cmp1 !cmp2;phon:ederdz&edördz;
+places[FN];rp:!cmp1 !cmp2;phon:észiz;
+practices[FN];rp:!cmp1 !cmp2;phon:eisziz;
+services[FN];rp:!cmp1 !cmp2;phon:öösziz;
+technologies[FN];rp:!cmp1 !cmp2;phon:eolödzsiz;
+companies[FN];rp:!cmp1 !cmp2;phon:apöniz;
+industries[FN];rp:!cmp1 !cmp2;phon:iöriz;
+sales[FN];rp:!cmp1 !cmp2;phon:szélz;
+files[FN];rp:!cmp1 !cmp2;phon:fájlz;
+rules[FN];rp:!cmp1 !cmp2;phon:rúlz;
+enterprises[FN];rp:!cmp1 !cmp2;phon:eörájziz;
+sites[FN];rp:!cmp1 !cmp2;phon:szájtz;
+yes[FN];rp:!cmp1 !cmp2;phon:jesz;
+this[X];rp:!cmp1 !cmp2;phon:disz;
+analysis[FN];rp:!cmp1 !cmp2;phon:öeöszisz;
+benchmarks[FN];rp:!cmp1 !cmp2;phon:emárksz;
+networks[FN];rp:!cmp1 !cmp2;phon:evörksz;
+Brussels[FN];rp:!cmp1 !cmp2;phon:aszölz;
+details[FN];rp:!cmp1 !cmp2;phon:ítélz;
+tools[FN];rp:!cmp1 !cmp2;phon:túlz;
+applications[FN];rp:!cmp1 !cmp2;phon:eiésönz;
+communications[FN];rp:!cmp1 !cmp2;phon:ouésön;
+telecommunications[FN];rp:!cmp1 !cmp2;phon:eiöúiésönz;
+operations[FN];rp:!cmp1 !cmp2;phon:oöésönz;
+groups[FN];rp:!cmp1 !cmp2;phon:rúpsz;
+computers[FN];rp:!cmp1 !cmp2;phon:öútörz&ojúterz;
+affairs[FN];rp:!cmp1 !cmp2;phon:öferz;
+process[FN];rp:!cmp1 !cmp2;phon:rószesz;
+wireless[FN];rp:!cmp1 !cmp2;phon:ájölesz;
+address[FN];rp:!cmp1 !cmp2;phon:öresz;
+progress[FN];rp:!cmp1 !cmp2;phon:rógresz;
+markets[FN];rp:!cmp1 !cmp2;phon:márkitsz;
+rights[FN];rp:!cmp1 !cmp2;phon:rájtsz;
+requirements[FN];rp:!cmp1 !cmp2;phon:iájörmentsz;
+documents[FN];rp:!cmp1 !cmp2;phon:oumöntsz;
+points[FN];rp:!cmp1 !cmp2;phon:pojntsz;
+accounts[FN];rp:!cmp1 !cmp2;phon:öauntsz;
+BUS[FN|ABC];rp:!cmp1 !cmp2;phon:basz;
+surveys[FN];rp:!cmp1 !cmp2;phon:övéjz;
+don't[FN];rp:!cmp1 !cmp2;phon:dónt;
+at[X];rp:!cmp1 !cmp2;phon:et;
+Acrobat[FN];rp:!cmp1 !cmp2;phon:eöbet&aobat;
+that[X];rp:!cmp1 !cmp2;phon:det;
+act[FN];rp:!cmp1 !cmp2;
+project[FN];rp:!cmp1 !cmp2;phon:rodzsekt;
+direct[FN];rp:!cmp1 !cmp2;phon:irekt;
+product[FN];rp:!cmp1 !cmp2;phon:odakt;
+budget[FN];rp:!cmp1 !cmp2;phon:badzsit;
+soft[FN];rp:!cmp1 !cmp2;phon:szoft;
+parliament[FN];rp:!cmp1 !cmp2;phon:alament;
+engagement[FN];rp:!cmp1 !cmp2;phon:iément;
+procurement[FN];rp:!cmp1 !cmp2;phon:ojúrment;
+environment[FN];rp:!cmp1 !cmp2;phon:iárönment;
+government[FN];rp:!cmp1 !cmp2;phon:avörnment;
+equipment[FN];rp:!cmp1 !cmp2;phon:iiment;
+development[FN];rp:!cmp1 !cmp2;
+assessment[FN];rp:!cmp1 !cmp2;phon:öemönt&öement;
+department[FN];rp:!cmp1 !cmp2;
+investment[FN];rp:!cmp1 !cmp2;
+document[FN];rp:!cmp1 !cmp2;phon:ojument;
+content[FN];rp:!cmp1 !cmp2;phon:kontent;
+point[FN];rp:!cmp1 !cmp2;phon:pojnt;
+smart[FN];rp:!cmp1 !cmp2;
+support[FN];rp:!cmp1 !cmp2;
+transport[FN];rp:!cmp1 !cmp2;
+broadcast[FN];rp:!cmp1 !cmp2;phon:ókászt;
+list[FN];rp:!cmp1 !cmp2;phon:liszt;
+you[X];rp:!cmp1 !cmp2;phon:jú;
+review[FN];rp:!cmp1 !cmp2;phon:ijú;
+how[X];rp:!cmp1 !cmp2;phon:au;
+low[FN];rp:!cmp1 !cmp2;phon:ló;
+workflow[FN];rp:!cmp1 !cmp2;phon:öló;
+now[FN];rp:!cmp1 !cmp2;phon:au;
+know[FN];rp:!cmp1 !cmp2;phon:nó;
+pay[FN];rp:!cmp1 !cmp2;phon:péj;
+by[X];rp:!cmp1 !cmp2;phon:báj;
+privacy[FN];rp:!cmp1 !cmp2;phon:iöszi;
+frequency[FN];rp:!cmp1 !cmp2;phon:íöszi;
+survey[FN];rp:!cmp1 !cmp2;phon:övi;
+technology[FN];rp:!cmp1 !cmp2;phon:eolodzsi;
+family[FN];rp:!cmp1 !cmp2;phon:eili;
+fully[X];rp:!cmp1 !cmp2;phon:fuli;
+very[X];rp:!cmp1 !cmp2;phon:íri;
+industry[FN];rp:!cmp1 !cmp2;phon:idasztri;
+quality[FN];rp:!cmp1 !cmp2;phon:valiti;
+utility[FN];rp:!cmp1 !cmp2;phon:ju-tiliti;
+community[FN];rp:!cmp1 !cmp2;phon:ojunity;
+authority[FN];rp:!cmp1 !cmp2;phon:ószoriti;
+security[FN];rp:!cmp1 !cmp2;phon:ejuriti;
+party[FN];rp:!cmp1 !cmp2;phon:párti;
+buy[FN];rp:!cmp1 !cmp2;phon:báj;
+path[FN];rp:!cmp1 !cmp2;phon:pasz;
+Xa[FN|ABC];
+hexa[ELO];
+C15[FN|ABC];
+SAB[FN|ABC];
+TD[FN|ABC];
+GSK[FN|ABC];
+SP[FN|ABC];
+CO[FN|ABC];
+SR[FN|ABC];
+1b[FN|ABC];
+starch[FN];phon:szatrcs;rp:!cmp1 !cmp2;
+fresh[FN];phon:res;rp:!cmp1 !cmp2;
+Honey[FN];phon:hani;rp:!cmp1 !cmp2;
+Lilly[FN];phon:ili;rp:!cmp1 !cmp2;
+GlaxoSmithKline[FN];phon:eóilájn;
+Schering-Plough[FN];phon:eiló;
+Benckiser[FN];phon:eiszer;
+Reckitt[FN];phon:ekit;
+Biologicals[FN];phon:áóoikölz&áóoikalsz;
+Allegra[FN];rp:!cmp1 !cmp2;
+penta[FN];rp:!cmp1 !cmp2;
+Teva[FN];rp:!cmp1 !cmp2;
+Pliva[FN];rp:!cmp1 !cmp2;
+Prozac[FN];phon:ozak;rp:!cmp1 !cmp2;
+Nord[FN];phon:nord;rp:!cmp1 !cmp2;
+Orange[FN];phon:orindzs;rp:!cmp1 !cmp2;
+Henning[FN];rp:!cmp1 !cmp2;
+Vital[FN];rp:!cmp1 !cmp2;
+Petroleum[FN];rp:!cmp1 !cmp2;
+Aspirin[FN];phon:aszpirin;rp:!cmp1 !cmp2;
+Resolution[FN];rp:!cmp1 !cmp2;
+Jenson[FN];phon:eszon;rp:!cmp1 !cmp2;
+bio[FN];phon:ió;rp:!cmp1 !cmp2;
+Depo[FN];phon:epó;rp:!cmp1 !cmp2;
+Hungaro[FN];phon:uaró;rp:!cmp1 !cmp2;
+Hermes[FN];phon:emesz;rp:!cmp1 !cmp2;
+dens[FN];phon:densz;rp:!cmp1 !cmp2;
+Fleet[FN];rp:!cmp1 !cmp2;
+Depot[FN];rp:!cmp1 !cmp2;++depot;
+Plavix[FN];phon:laviksz;rp:!cmp1 !cmp2;
+Oxy[FN];phon:okszi;rp:!cmp1 !cmp2;
+Console[FN];phon:oszol;
+Daimler[FN];phon:dajmler;
+Steyr[FN];phon:ejer;
+nehéz+üteg[FN];
+mély+víz@i[MN];
+légi+bázis[FN];
+mély+víz[FN];
+Schuler[FN];phon:súler;isa:ember;
+rugó@s+tag[FN];
+hord+szíj[FN];
+perceptron[FN];
+slip[FN];
+liftel[IGE];
+Patriot[FN];
+blank[MN];
+FM[FN|ABC];
+Hughes[FN];phon:júz&júsz;
+inter+operabilitás[FN];
+PRO[FN|ABC];
+sáv+széles%ség[FN];
+légi+forg%alom[FN];
+új[MN]+[NOM]+[SPACE]+kelet@ű[MN]; lexseg:új++** **+kelet@ű; rp:badorth; ***spcfix
+egy[SZN]=első+[SORSZ]+[NOM]+[SPACE]+szám@ú[MN]; lexseg:első++** **+szám@ú; rp:badorth; ***spcfix
+emelt[MN]+[NOM]+[SPACE]+szint@ű[MN]; lexseg:emelt++** **+szint@ű; rp:badorth; ***spcfix
+ez[DET|NM]+[NOM]+[SPACE]+irány@ú[MN]; lexseg:ez++** **+irány@ú; rp:badorth; ***spcfix
+fehér[MN]+[NOM]+[SPACE]+galléros[FN]; lexseg:fehér++** **+gallér@os; rp:badorth; ***spcfix
+felső[MN]+[NOM]+[SPACE]+vezető[FN]; lexseg:felső++** **+vezető; rp:badorth; ***spcfix
+hosszú[MN]=hossz+abb[FOK]+[NOM]+[SPACE]+táv@ú[MN]; lexseg:hossz+abb++** **+táv@ú; rp:badorth; ***spcfix
+igény[FN]+be[ILL]+[SPACE]+vesz[IGE]; lexseg:igény+be+** **+vesz; rp:badorth; ***spcfix
+keskeny[MN]+[NOM]+[SPACE]+sáv[FN]; lexseg:keskeny++** **+sáv; rp:badorth; ***spcfix
+kék[MN]+[NOM]+[SPACE]+galléros[FN]; lexseg:kék++** **+galléros; rp:badorth; ***spcfix
+kézi[MN]+[NOM]+[SPACE]+számító+gép[FN]; lexseg:kézi++** **+számító+gép; rp:badorth; ***spcfix
+légi[MN]+[NOM]+[SPACE]+forgalom[FN]; lexseg:légi++** **+forgalom; rp:badorth; ***spcfix
+menet[FN]+[NOM]+[SPACE]+közben@i[MN]; lexseg:menet++** **+közben@i; rp:badorth; ***spcfix
+nyitva[HA]+[SPACE]+tart[IGE]; lexseg:nyitva++** **+tart; rp:badorth; ***spcfix
+szint[FN]+en[SUP]+[SPACE]+tart[IGE]; lexseg:szint+en+** **+tart; rp:badorth; ***spcfix
+szám[FN]+on[SUP]+[SPACE]+kér[IGE]; lexseg:szám+on+** **+kér; rp:badorth; ***spcfix
+széles[MN]+[NOM]+[SPACE]+sáv[FN]; lexseg:széles++** **+sáv; rp:badorth; ***spcfix
+teljes[MN]+[NOM]+[SPACE]+kör@ű[MN]; lexseg:teljes++** **+kör@ű; rp:badorth; ***spcfix
+valós[MN]+[NOM]+[SPACE]+ide@jű[MN]; lexseg:valós++** **+ide@jű; rp:badorth; ***spcfix
+zár@t[MN]+[NOM]+[SPACE]+cél@ú[MN]; lexseg:zárt++** **+cél@ú; rp:badorth; ***spcfix
+egy[SZN]+[NOM]+[SPACE]+idő[FN]+ben[INE]; lexseg:egy++** **+idő+ben; rp:badorth; ***spcfix
+öntött[MN]+[NOM]+[SPACE]+fal@as[MN]; lexseg:öntött++** **+fal@as; rp:badorth; ***spcfix
+meleg[MN]+[NOM]+[SPACE]+víz[FN]; lexseg:meleg++** **+víz; rp:badorth; ***spcfix
+rövid[MN]+[NOM]+[SPACE]+le+járat@ú[MN]; lexseg:rövid++** **+le+járat@ú; rp:badorth; ***spcfix
+meleg[MN]+[NOM]+[SPACE]+étel[FN]; lexseg:meleg++** **+étel; rp:badorth; ***spcfix
+légi[MN]+[NOM]+[SPACE]+jár#+mű[FN]; lexseg:légi++** **+jár#*mű; rp:badorth; ***spcfix
+zár@t[MN]+[NOM]+[SPACE]+vég@ű[MN]; lexseg:zárt++** **+vég@ű; rp:ESS_Vn;rp:badorth; ***spcfix
+nyílt[MN]+[NOM]+[SPACE]+vég@ű[MN]; lexseg:nyílt++** **+vég@ű; rp:ESS_Vn;rp:badorth; ***spcfix
+egy[SZN]+[NOM]+[SPACE]+összeg[FN]+ben[INE]; lexseg:egy++** **+összeg+ben; rp:badorth; ***spcfix
+könyv[FN]+[NOM]+[SPACE]+szerint@i[MN]; lexseg:könyv++** **+szerint@i; rp:badorth; ***spcfix
+bér[FN]+be[ILL]+[SPACE]+vesz[IGE]; lexseg:bér+be+** **+vesz; rp:badorth; ***spcfix
+vonal[FN]+[NOM]+[SPACE]+ment@i[MN]; lexseg:vonal++** **+ment@i; rp:badorth; ***spcfix
+figyelem[FN]+be[ILL]+[SPACE]+vesz[IGE]; lexseg:figyelem+be+** **+vesz; rp:badorth; ***spcfix
+teljes[MN]+[NOM]+[SPACE]+kör@ű[MN]; lexseg:teljes++** **+kör@ű; rp:ESS_Vn;rp:badorth; ***spcfix
+hideg[MN]+[NOM]+[SPACE]+víz[FN]; lexseg:hideg++** **+víz; rp:badorth; ***spcfix

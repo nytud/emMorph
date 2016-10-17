@@ -1,0 +1,318 @@
+################################################## START OF LICENSE ##################################################
+#
+#  This file is part of the emMorph / Humor morphological analyzer description for Hungarian.
+#  Copyright (C) 2001-2016 Attila Novák
+#  
+#  The author of the database and the database compilation environment is Attila Novák (novakat@gmail.com).
+#  The resource is available from: https://github.com/dlt-rilmta/emMorph
+#  
+#  The database files are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+#  (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
+#  with the following amendments:
+#  
+#  By downloading/cloning this database and tools you accept the following terms:
+#  1. Please inform the author at novakat@gmail.com about your use of the database/tools clearly indicating what you use them for
+#  as soon as you start working on your application/experiment/resource involving this database or tool.
+#  2. Even in the case of non-academic use, you promise to publish a scientific paper about 
+#  each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting
+#  the articles below, and inform the author at novakat@gmail.com about each article you publish.
+#  If you definitely cannot publish an article, please contact the author.
+#  
+#  Articles to quote are listed at https://github.com/dlt-rilmta/emMorph, the list is currently the following:
+#  (See the BibTeX file quotethis.bib in the root directory):
+#  
+#  Attila Novák (2014): A New Form of Humor – Mapping Constraint-Based Computational Morphologies to a Finite-State Representation.
+#  In: Proceedings of the 9th International Conference on Language Resources and Evaluation (LREC-2014). Reykjavík, pp. 1068–1073 (ISBN 978-2-9517408-8-4)
+#  
+#  Attila Novák; Borbála Siklósi; Csaba Oravecz (2016): A New Integrated Open-source Morphological Analyzer for Hungarian
+#  In: Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016). Portorož, pp. 1315–1322.
+#  
+#  Novák Attila (2003): Milyen a jó Humor? [What is good Humor like?] In: Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2003). Szegedi Tudományegyetem, pp. 138–145
+#  
+#  3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
+#  4. If you are interested in using or adapting the resource for commercial purposes, please contact the author.
+#  ***
+#  
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#
+################################################## END OF LICENSE ##################################################
+
+#the consonants (and zero) that may appear
+#at the beginning of the instrumental sfx v0Al
+@CAl=('',qw/b c d f g h j k l m n p r s t v z/);
+
+my root;
+my phon;
+my sfxalt;
+my* lp;
+my* lr;
+
+;;root:$phon;
+#;;rp:atomic;
+;;sufx;
+
+rp:mcat_infl;;infsfx;
+
+#make these global properties local
+if(gp:/./)
+{
+ gp:([IO])N;lp:$1N;gp:![IO]N;
+ gp:-ék;rp:-ék;gp:!-ék;
+}
+if(glr:/./)
+{
+ glr:-ék;lr:-ék;;
+ glr:grad;lr:grad;;
+ glr:(ESS_.*);lr:$1;;
+ glr:(loc_.*);lr:$1;;
+ glr:(cat_.*);lr:$1;;
+ ;;glr:~(-ék|grad|(?:ESS|loc|cat)_.*);
+}
+
+#mark 3rd person suffixes
+#humor:/3$/;;3p;
+
+#unstable sfx-initial A/O/U (+LO0n,+LU0nk,+LA0cskA etc.)
+root:/^L?([OUA])0/&&sfxalt:VC[AOU]?
++0///;Vfin;;
++0//$1/;Cfin;;
+
+#lowerable unstable initial linking vowel
+#possessive markers: Vm,Vd,VtOk
+#derivational suffixes: VstUl,Vnként,VntA,VcskA,Vsít,VsOd=ik,Vl,Vz
+#the low vowel a/e may only appear after consonant final stems
+root:/^L?V/&&sfxalt:VCL[zl]?
++0///;Vfin;;
++0//A/;Cfin LOW;;
++0//Q/;Cfin !LOW;;
+
+#derivational suffixes: Vsít,VsOd=ik
+#the low vowel a/e may appear after i final adjectival stems
+root:/^L?V/&&sfxalt:VCLs
++0///;Vfin !=VskOd;;
++0//A/;Cfin LOW;;
++0//A/;ifin =VskOd LOW;;
++0//Q/;Cfin !LOW;;
+
+#inverted tag order for the generation of comparative adverb of manner suffixed forms
+# -Ul
+root:/^L?Ul\+$/&&restr:g
++0//{Ul\+>Abb+Ul}/;Cfin;;
++0//{Ul\+>bb+Ul}/;Vfin;;
+# -Vn
+root:/^L?Vn\+$/&&restr:g
++0//{n\+>bb+An}/;Vfin !LOW;;
++0//{An\+>bb+An}/;Vfin LOW;;
++0//{Qn\+>Abb+An}/;Cfin !LOW;;
++0//{An\+>Abb+An}/;Cfin LOW;;
+
+#lowerable unstable initial linking vowel in the plural suffix Vk
+#and adverb of manner forming Vn
+#the low vowel a/e may also appear after vowel final (adj) stems
+root:/^L?V/&&sfxalt:VLCL
++0///;Vfin !LOW;;
++0///;Vfin =_s;restr:a;
++0//A/;LOW;LOWini;
++0//Q/;Cfin !LOW;;
+
+#lowerable unstable initial linking vowel in the derivational suffix Vs
+#the low vowel a/e may also appear after i-final (adj) stems
+root:/^L?V/&&sfxalt:VLCLs
++0///;Vfin =_s;;
++0//A/;LOW =Vs;;
++0//Q/;Cfin !LOW;;
+
+#unstable initial low vowel in the privative suffix A0tA0lAn
+#the low vowel a/e may also appear after i-final (adj) stems
+root:/^L?A0tA0/&&sfxalt:VLCLpriv
++0//t/;Vfin !=AtlAn;;
++0//At/;=AtlAn;VZA;
++0//tA/;Cfin !=AtlAn;;
+
+#lowerable stable initial vowel in the fractional suffix Vd (always vowel-initial)
+root:/^L?V/&&sfxalt:VL
++0//A/;LOW;;
++0//A/;Vfin;;
++0//Q/;Cfin !LOW;;
+
+#lowerable unstable initial linking vowel in the accusative suffix Vt
+root:/^L?V/&&sfxalt:VCLt
++0///;=_t;;
++0//A/;=Vt LOW;;
++0//Q/;=Vt !LOW;;
+
+#lowerable unstable initial linking vowel and -s- in the derivational suffix Vs0kOd=ik
+root:/^L?Vs0/&&sfxalt:VCLsk
++0//s/;Vfin !=VskOd;;
++0///;Cfin =kOd;;
++0//As/;=VskOd LOW;;
++0//Qs/;Cfin =VskOd !LOW;;
+
+#the N>A derivational suffix i
+#does not appear after i-final stems
+root:/i/&&sfxalt:Vi
++0;Vfin !i_fin;;
++0;Cfin;;
+#+0///;Vfin i_fin;;
+
+#2sg verbal inflection Asz
+#only after non-sibilant-final stems
+root:/A0/&&sfxalt:VC-S
++0///;=sz;;
++0//A/;=Asz;;
+
+#n-initial verbal inflections: pl3: A0nak, cond: A0n..., inf: A0ni,
+#also: A0nivaló
+root:/.0/&&sfxalt:VCn
++0///;=nXX;;
++0/(.)0/$1/;=AnXX;;
+
+#S:1sg,O:2 transitive verbal inflection A0lAk
+root:/^A0/&&sfxalt:VClak
++0///;=lAk -lAk;;
++0//A/;=AlAk -lAk;;
++0/A0l//;=Ak;;
+
+#2pl verbal inflection O0tOk
+root:/^O0/&&sfxalt:VCtok
++0///;=tOk;;
++0//O/;=OtOk;;
+
+#'frequentative' suffix O0gAt
+#initial vowel appears only after monosyllabic stems
+root:/^O0/&&sfxalt:V\$C\$\$
++0///;=gAt;;
++0//O/;=OgAt;;
+
+#past 3sg non-definite-object verbal inflection O0t0t
+#now also: past participle
+root:/^O0t0/&&sfxalt:VCtt
++0//t/;=tt;;
++0///;=t;;
++0//Ot/;=Ott;;
+
+#the other past verbal inflections
+root:/^O0t0/&&sfxalt:VCta
++0//t/;=ttAm;;
++0///;=tAm;;
++0//Ot/;=OttAm;;
+
+#past participle (if it differs from past 3sg)
+root:/^O0t0/&&sfxalt:VCtt'
++//t/;=tt;;
++///;(=t|=t2);;
++//Ot/;(=Ott|=Ott2);;
+
+#verbal 1pl-3def definite object inflection j2Uk
+root:/^j2?/&&sfxalt:Cdef
++0//j/;=jUk;;
++0//s/;=sUk;;
++0//z/;=zUk;;
+
+#verbal subjunctive/imperative marker j and (2sg-3def) d
+root://&&sfxalt:Csub
++0/^j1?/j/;=j;;
++0/^j1?/s/;=s;;
++0/^j1?/z/;=z;;
++0/^j1(?=.)/gy/;=gy;;
++0/^d/d/;=d;;
++0/^d/dd/;=dd;;
++0/^d/sd/;=sd;;
++0/^d//;=0d;;
+
+#derivational suffix (inalianable property): [Adj+N]+j0U
+root:/^Lj0/&&sfxalt:VC
++0//j/;Vfin;PVS;
++0///;Cfin;;
+
+#3rd person possessive suffixes: j0A, j0Uk
+elsif(sfxalt:VCja)
+{
+root:/^Lj/
+#the following causes =ja not to be attached to VHVF stems
+#+0;=jA;Vini PVS;
+#we rather do allow that
++0;=jA;PVS;
+#the following allows (virág)+A/jA/Ai/jAi to be encoded as =jAi =A
+#+;=jAi;;
+root:/^L[^j]/
++0;=A;;
+}
+
+#plural possessee possessive suffixes: j0Ai...
+elsif(sfxalt:VCjai)
+{
+root:/^LjAi/
+#the following causes =jai not to be attached to VHVF stems
+#+0;=jAi;Vini PVS;
+#we rather do allow that
++0;=jAi;PVS;
+root:/^LAi/
++0;=Ai;;
+#the following allows (virág)+A/jA/Ai/jAi to be encoded as =jAi =A
+#+;=A;;
+root:/^Li/
++0;=i;PVS;
+}
+
+#the instrumental (v0Al) and the translative-factive suffixes (v0A)
+root:/^Lv0/&&sfxalt:Cval
+#+//v/;Vfin;;
++0//@{CAl}/;=@{CAl}Al;Cini;
+
+#the initial consonant of ([ntkrb]-initial) inflections does not appear
+#after identical geminate-final nominal stems (common nouns and Hungarian
+#given names)
+root:/^L?F?([ntkrb])/&&lr:cat_Nom&&type:infl&&sfxalt:C
++0;;Cini;
++0///;$1_fin =Al;Cini;
+
+#the same applies to -né
+root:/^né/
++0;;Cini;
++0///;$1_fin =Al;Cini;
+
+#szerte
+#szerű
+root:/^F?szër/
++0;!=-fele;szeru Cini;
++0/^(F?)sz/$1/;=Al =eru;szeru Cini;
++0/^/-/;=-fele;szeru Cini;
+
+#féle, fajta
+root:/^F?(?:féle|fajta|forma)/
++0;!=-fele;;
++0/^/-/;=-fele;;
+
+#the other suffixes do not alternate
+root:/$/
++0;;;
+
+for(@allomfs)
+{
+ allomf:/^L?[ij]/;;PVS;
+ allomf:/^LA\+LrA$|^LAk\+Lé/;;rp:atomic;
+ if($zarte_ana)
+ {
+  allomf:s/Q/O/g;;;
+ }
+}
+
+#add a - initial allomorph of denominal case lowering suffixes that can be attached to (multiword) proper names (in this case they are not case lowering)
+map(@allomfs)
+{
+ dup(!^lp:comp2&&^rp:mcat_deriv&&^lr:(cat_N|cat_Nom|-i|-Vs|priv|grad))
+ {
+  ;;;
+  allomf:s/^/-/;=-fele;comp2;
+ }
+}

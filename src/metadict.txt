@@ -1,0 +1,697 @@
+################################################## START OF LICENSE ##################################################
+#
+#  This file is part of the emMorph / Humor morphological analyzer description for Hungarian.
+#  Copyright (C) 2001-2016 Attila Novák
+#  
+#  The author of the database and the database compilation environment is Attila Novák (novakat@gmail.com).
+#  The resource is available from: https://github.com/dlt-rilmta/emMorph
+#  
+#  The database files are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+#  (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
+#  with the following amendments:
+#  
+#  By downloading/cloning this database and tools you accept the following terms:
+#  1. Please inform the author at novakat@gmail.com about your use of the database/tools clearly indicating what you use them for
+#  as soon as you start working on your application/experiment/resource involving this database or tool.
+#  2. Even in the case of non-academic use, you promise to publish a scientific paper about 
+#  each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting
+#  the articles below, and inform the author at novakat@gmail.com about each article you publish.
+#  If you definitely cannot publish an article, please contact the author.
+#  
+#  Articles to quote are listed at https://github.com/dlt-rilmta/emMorph, the list is currently the following:
+#  (See the BibTeX file quotethis.bib in the root directory):
+#  
+#  Attila Novák (2014): A New Form of Humor – Mapping Constraint-Based Computational Morphologies to a Finite-State Representation.
+#  In: Proceedings of the 9th International Conference on Language Resources and Evaluation (LREC-2014). Reykjavík, pp. 1068–1073 (ISBN 978-2-9517408-8-4)
+#  
+#  Attila Novák; Borbála Siklósi; Csaba Oravecz (2016): A New Integrated Open-source Morphological Analyzer for Hungarian
+#  In: Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016). Portorož, pp. 1315–1322.
+#  
+#  Novák Attila (2003): Milyen a jó Humor? [What is good Humor like?] In: Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2003). Szegedi Tudományegyetem, pp. 138–145
+#  
+#  3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
+#  4. If you are interested in using or adapting the resource for commercial purposes, please contact the author.
+#  ***
+#  
+#  The Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA)
+#  license is available at: https://creativecommons.org/licenses/by-nc-sa/4.0/
+#  
+#  Disclaimer of Warranties and Limitation of Liability.
+#  
+#  Unless otherwise separately undertaken by the Licensor, to the extent possible,
+#  the Licensor offers the Licensed Material as-is and as-available, and makes no
+#  representations or warranties of any kind concerning the Licensed Material,
+#  whether express, implied, statutory, or other. This includes, without
+#  limitation, warranties of title, merchantability, fitness for a particular
+#  purpose, non-infringement, absence of latent or other defects, accuracy, or the
+#  presence or absence of errors, whether or not known or discoverable. Where
+#  disclaimers of warranties are not allowed in full or in part, this disclaimer
+#  may not apply to You.
+#  
+#  To the extent possible, in no event will the Licensor be liable to You on any
+#  legal theory (including, without limitation, negligence) or otherwise for any
+#  direct, special, indirect, incidental, consequential, punitive, exemplary, or
+#  other losses, costs, expenses, or damages arising out of this Public License or
+#  use of the Licensed Material, even if the Licensor has been advised of the
+#  possibility of such losses, costs, expenses, or damages. Where a limitation of
+#  liability is not allowed in full or in part, this limitation may not apply to You.
+#
+################################################## END OF LICENSE ##################################################
+
+@ME.FORMAT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+######## FLAGS #########
+
+$flags=
+{
+#  'vpfx',	'xx',	#verbal prefixes encountered
+#  'no_vpfx',	'00',	#no verbal prefixes encountered
+#  '1_vpfx',	'01',	#one verbal prefix encountered
+# changed (+vpfx to vpfx and (-vpfx to !vpfx
+  'vpfx',	'x',	#verbal prefixes encountered
+  'no_vpfx',	'0',	#no verbal prefixes encountered
+  '1_vpfx',	'1',	#one verbal prefix encountered
+  'sup',	'x<2',	#superlative prefix encountered
+  'lcase',	'x<3',	#case lowering suffix encountered
+  'ezer',	'x<4',	#"ezer" (1000) encountered
+  'hyph',	'x<5',	#hyphen encountered
+  'cat_err',	'x<6',	#incompatible category after hyphen
+  'cmpdm',	'x<7',	#compound word member encountered
+  'cmpd',	'x<8',	#compound construction was applied
+#  'roman',	'0000001<9',	#category: roman number
+  'noun',	'001<9',	#category: noun
+  'verb',	'010<9',	#category: verb
+  'adj',	'011<9',	#category: adjective
+  'adv',	'100<9',	#category: adverb
+  'pron',	'101<9',	#category: pronoun
+  'num',	'110<9',	#category: numeral
+  'roman',	'111<9',	#category: roman numeral
+  'do_not_sug',	'1<31',	#do not suggest
+  'nosug_cpd',	'1<12', #do not suggest in compound
+  'lcase2',	'x<14',	#case lowering suffix encountered
+};
+
+#6-3 rule applies if cmpd and cmpdm are both true
+
+#for a state to be final:
+
+#vpfx must be 00 (no_vpfx) except in the VPFX states (there it must be 01 (1_vpfx))
+#sup must be 0
+#cat_err must be 0
+
+########### MACROS ###############
+
+#inf=inflection Advdercmp=adverbial derivational suffix which licenses the superlative prefix
+#inf requires sup to be false (no unlicensed superlative prefix is allowed)
+#Advdercmp licenses the superlative prefix
+#@inf=(['inf','?{!sup no_vpfx}'],['NKENT_sfx','?{!sup no_vpfx}'],['Advdercmp','?{no_vpfx}	={lcase !sup}']);
+#@infhyph=(['inf','?{hyph !sup no_vpfx}'],['NKENT_sfx','?{hyph !sup no_vpfx}'],['Advdercmp','?{hyph no_vpfx}	={lcase !sup}']);
+@inf=(['inf','?{!sup no_vpfx}'],['NKENT_sfx','?{!sup no_vpfx}'],['Advdercmp','?{no_vpfx}	={lcase lcase2 !sup}']);
+@infhyph=(['inf','?{hyph !sup no_vpfx}'],['NKENT_sfx','?{hyph !sup no_vpfx}'],['Advdercmp','?{hyph no_vpfx}	={lcase lcase2 !sup}']);
+
+#category checking for roman numbers
+#set the roman flag if no hyphen has been encountered
+#check the roman flag if a hyphen has been encountered
+@roman=('?{!hyph}	={roman}','?{hyph roman}');
+
+#some numerals and adjectives license the superlative prefix:
+#these delete the sup flag, others do not
+@sup=(['_sup','!sup'],['_!sup','']);
+
+#compound word members increment the cmpdm flag, others do not
+@cmp=(['_cmpd','cmpdm'],['_!cmpd','']);
+
+#roman number which requires a dot
+@romandot=('roman_1+dot','roman_10+dot','roman_100+dot','roman_1000+dot');
+
+@nstem1=('nstem1','nstem12');
+@nstem2=('nstem2','nstem12');
+
+#handle suggestion suppression
+#do not ever suggest
+@nosug=(['_nosug','do_not_sug'],['','']);
+
+START:%
+@nstem1@sup[0]@cmp[0] ->	N1	FAM		={@sup[1] @cmp[1]}	LCA{lcase}
+nstem@cmp[0]@nosug[0] ->	N2u	FAM		={@cmp[1] @nosug[1]}	LCA{lcase}
+acron@cmp[0] ->	N2u	FAM		={@cmp[1] do_not_sug}
+astem@sup[0]@cmp[0] ->	ADJ	FAM		={@sup[1] @cmp[1]}	LCA{lcase}
+qstem@sup[0]@cmp[0]@nosug[0] ->	NUM	FAM		={@sup[1] @cmp[1] @nosug[1]}	LCA{lcase}
+npron ->	INFREQ	FAM
+npron_deix ->	DEIX	FAM
+uninfl+dot ->	DOTREQ	FAM	?{!sup !hyph}
+nstem_uninfl+dot ->	DOTREQ	FAM	?{!sup}
+nstem_uninfl_cmp2+dot ->	DOTREQ	FAM	?{!sup}
+uninfl@nosug[0] ->	UNINFL	FAM	?{!sup !hyph}	={@nosug[1]}
+Adv_!sup ->	UNINFL	FAM	?{!sup}
+Adv_sup ->	UNINFL	FAM
+nstem2+inf@cmp[0] ->	END	FAM		={@cmp[1]}
+vstem@cmp[0] ->	V	FAM		={@cmp[1]}
+vstem+inf@cmp[0] ->	END	FAM		={@cmp[1]}
+#prefixes
+pfx_V ->	VPFX	FAM	?{!sup}	={vpfx}
+pfx_V ->	VPFX_SUP	FAM	?{sup}	={vpfx}
+pfx_sup ->	START	FAM	?{!sup}	={sup}
+pfx_Adj ->	ADJ_PFX	FAM
+pfx_N ->	pfx_N	FAM			LCA{lcase}
+#prefixes used in nominalized forms are counted as a verbal prefix (e.g. ön...)
+pfx_VNom ->	PFXVNOM	FAM		={vpfx}	LCA{lcase}
+#numbers written as text
+num_1@cmp[0] ->	N12	FAM		={@cmp[1]}
+num_10@cmp[0] ->	N10	FAM		={@cmp[1]}
+num_100@cmp[0] ->	N100	FAM		={@cmp[1]}
+num_1000@cmp[0] ->	N1000	FAM	?{!ezer}	={ezer @cmp[1]}
+num_1eX@cmp[0] ->	N2u	FAM		={@cmp[1]}
+num+dot@cmp[0] ->	DOTREQ	FAM		={@cmp[1]}
+#numbers written as digits
+num_0dig ->	DIG00
+num_1dig ->	DIG1
+num_1dig+dot ->	DOTREQ
+#roman numbers
+roman_1 ->	R1	={nosug}	@roman
+roman_10 ->	R10	={nosug}	@roman
+roman_100 ->	R100	={nosug}	@roman
+roman_1000 ->	R1000	={nosug}	@roman
+@romandot ->	DOTREQ	={nosug}	@roman
+#left punctution
+lpunct ->	START		?{!sup}
+hyphen ->	HYPHEN		?{!sup}
+
+#verbal prefix at the beginning
+VPFX:$
+pfx_N ->	N1
+@nstem1@sup[0]@cmp[0] ->	N1	FAM		={@sup[1] @cmp[1]}	LCA{lcase}
+#nstem2 ->	N1				LCA{lcase}
+nstem@cmp[0]@nosug[0] ->	N2u			={@cmp[1] @nosug[1]}	LCA{lcase}
+#acron@cmp[0] ->	N2u			={@cmp[1]}
+astem@sup[0]@cmp[0] ->	ADJ			={@sup[1] @cmp[1]}	LCA{lcase}
+qstem@sup[0]@cmp[0] ->	NUM			={@sup[1] @cmp[1]}	LCA{lcase}
+vstem@cmp[0] ->	V			={!vpfx @cmp[1]}
+vstem+inf@cmp[0] ->	END		?{!sup 1_vpfx}	={!vpfx @cmp[1]}
+rpunct ->	RPUNCT
+dotpunct ->	DOT
+#numbers written as text
+num_1@cmp[0] ->	N12			={@cmp[1]}
+num_10@cmp[0] ->	N10			={@cmp[1]}
+num_100@cmp[0] ->	N100			={@cmp[1]}
+num_1000@cmp[0] ->	N1000		?{!ezer}	={ezer @cmp[1]}
+#end of word if a hyphen follows (right punctuation may follow)
+hyphen ->               VPFX+HYPH
+
+#verbal prefix may not be final if superlative prefix had been encountered
+VPFX_SUP:
+pfx_N ->	N1
+@nstem1@sup[0]@cmp[0] ->	N1	FAM		={@sup[1] @cmp[1]}	LCA{lcase}
+nstem@cmp[0]@nosug[0] ->	N2u			={@cmp[1] @nosug[1]}	LCA{lcase}
+astem@sup[0]@cmp[0] ->	ADJ			={@sup[1] @cmp[1]}	LCA{lcase}
+qstem@sup[0]@cmp[0] ->	NUM			={@sup[1] @cmp[1]}	LCA{lcase}
+vstem@cmp[0] ->	V			={!vpfx @cmp[1]}
+#vstem+inf@cmp[0] ->	END		?{!sup 1_vpfx}	={!vpfx @cmp[1]}
+#numbers written as text
+num_1@cmp[0] ->	N12			={@cmp[1]}
+num_10@cmp[0] ->	N10			={@cmp[1]}
+num_100@cmp[0] ->	N100			={@cmp[1]}
+num_1000@cmp[0] ->	N1000		?{!ezer}	={ezer @cmp[1]}
+
+#a prefix of adjectives found
+ADJ_PFX:
+astem@sup[0]@cmp[0] ->	ADJ			={@sup[1] @cmp[1] cmpd}	LCA{lcase}
+
+#numeral 1-2 encountered
+N12:
+#egy+emelet
+@nstem1@sup[0]_!cmpd ->	NUM+N		?{!cmpdm !cmpd}	={cmpd}
+#egy+kattint
+vstem_!cmpd ->	NUM+V		?{!cmpdm !cmpd}	={cmpd}
+#egy+öt(öd) etc.
+num_1_!cmpd ->	NUM+NUM		?{!cmpdm !cmpd}	={cmpd}
+num_10_!cmpd ->	NUM+NUM		?{!cmpdm !cmpd}	={cmpd}
+num_100_!cmpd ->	NUM+NUM		?{!cmpdm !cmpd}	={cmpd}
+num_1000@cmp[0] ->	N1eX		?{!ezer}	={ezer @cmp[1]}
+num_1eX@cmp[0] ->	N1eX		?{!ezer}	={@cmp[1]}
+
+#numeral 1-99 encountered
+N10:
+@inf[0] ->	END		@inf[1]
+nder ->	ADJ		?{!hyph}	={lcase}
+nder ->	ADJ		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N2
+vder ->	V			={!vpfx}
+#tíz+emelet
+@nstem1@sup[0]_!cmpd ->	NUM+N		?{!cmpdm !cmpd}	={cmpd}
+#tíz+kattint
+vstem_!cmpd ->	NUM+V		?{!cmpdm !cmpd}	={cmpd}
+#tíz+öt(öd) etc.
+num_1_!cmpd ->	NUM+NUM		?{!cmpdm !cmpd}	={cmpd}
+num_10_!cmpd ->	NUM+NUM		?{!cmpdm !cmpd}	={cmpd}
+num_100_!cmpd ->	NUM+NUM		?{!cmpdm !cmpd}	={cmpd}
+num_1000@cmp[0] ->	N2u		?{!ezer}	={ezer @cmp[1] cmpd}
+num_2000@cmp[0] ->	N1eX		?{!ezer}	={ezer @cmp[1] cmpd}
+num_1eX@cmp[0] ->	N1eX		?{!ezer}	={@cmp[1] cmpd}
+
+#numeral 100,200,...,900 encountered
+N100:
+@inf[0] ->	END		@inf[1]
+nder ->	ADJ		?{!hyph}	={lcase}
+nder ->	ADJ		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N2
+vder ->	V			={!vpfx}
+#száz+emelet
+@nstem1@sup[0]_!cmpd ->	NUM+N		?{!cmpdm !cmpd}	={cmpd}
+#száz+kattint
+vstem_!cmpd ->	NUM+V		?{!cmpdm !cmpd}	={cmpd}
+num_1000@cmp[0] ->	N2u		?{!ezer}	={ezer @cmp[1] cmpd}
+num_2000@cmp[0] ->	N1eX		?{!ezer}	={ezer @cmp[1] cmpd}
+num_1eX@cmp[0] ->	N1eX		?{!ezer}	={@cmp[1] cmpd}
+num_1@cmp[0] ->	N10			={@cmp[1] cmpd}
+num_10@cmp[0] ->	N10			={@cmp[1] cmpd}
+#száz+hússzoros
+#astem_!sup_!cmpd  ->	ADJ		?{!sup}	={cmpd}
+#száz+hússzor
+#Adv_!sup ->	UNINFL		?{!sup}	={cmpd}
+#száz+hússzoroz
+#vstem_!cmpd ->	V			={cmpd}
+
+#numeral 1000 or a number above 1999 and a hyphen encountered
+#hundreds/tens/ones may follow
+N1000:
+@inf[0] ->	END		@inf[1]
+nder ->	ADJ		?{!hyph}	={lcase}
+nder ->	ADJ		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N2
+vder ->	V			={!vpfx}
+#ezer+emelet
+@nstem1@sup[0]_!cmpd ->	NUM+N		?{!cmpdm !cmpd}	={cmpd}
+#ezer+kattint
+vstem_!cmpd ->	NUM+V		?{!cmpdm !cmpd}	={cmpd}
+num_1@cmp[0] ->	N10			={@cmp[1] cmpd}
+num_10@cmp[0] ->	N10			={@cmp[1] cmpd}
+num_100@cmp[0] ->	N100			={@cmp[1] cmpd}
+num_1000@cmp[0] ->	N2u		?{!ezer}	={ezer @cmp[1] cmpd}
+#ezer+hússzoros
+#astem_!sup_!cmpd  ->	ADJ		?{!sup}	={cmpd}
+#ezer+hússzor
+#Adv_!sup ->	UNINFL		?{!sup}	={cmpd}
+#ezer+hússzoroz
+#vstem_!cmpd ->	V			={cmpd}
+
+#a number above 1999: other numbers may only follow after a hyphen
+N1eX:
+@inf[0] ->	END		@inf[1]
+nder ->	ADJ		?{!hyph}	={lcase}
+nder ->	ADJ		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N2
+vder ->	V			={!vpfx}
+hyphen ->	N1000
+
+#other numeral
+NUM:
+@inf[0] ->	END		@inf[1]
+nder ->	ADJ		?{!hyph}	={lcase}
+nder ->	ADJ		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N2
+vder ->	V			={!vpfx}
+#sok+emelet
+@nstem1@sup[0]_!cmpd ->	NUM+N		?{!cmpdm !cmpd}	={cmpd}
+#sok+kattint
+vstem_!cmpd ->	NUM+V		?{!cmpdm !cmpd}	={cmpd}
+#allow 13/A
+hyphen ->	NUM+HYPH
+
+#allow 13/A
+NUM+HYPH:
+qstem_!sup_!cmpd_nosug ->	NUM
+
+NUM+V:
+#egy+kattint+ás
+nder ->	NUM+N
+
+NUM+N:
+#sok+emelet+es
+119sfx ->	N2
+NKENT_sfx ->	END		?{!sup no_vpfx}
+nder2 ->	ADJ+N
+hyphen ->	HYPHEN			={hyph}
+
+NUM+NUM:
+#hat+öt+öd
+FRACT_sfx ->	N2			={!cmpd}
+
+#non-zero digit
+DIG1:
+@inf[0] ->	END		@inf[1]
+nder ->	N2		?{!hyph}	={lcase}
+nder ->	N2		?{hyph}	={lcase2}
+ndercmp ->	N2		?{!hyph}	={lcase !sup}
+ndercmp ->	N2		?{hyph}	={lcase2 !sup}
+
+nder2_adj ->	ADJ
+nder2 ->	N2
+vder ->	V			={!vpfx}
+num_1dig ->	DIG1
+num_0dig ->	DIG0
+dotcom ->	DIG00
+num_fdig ->	N2
+num_1dig+dot ->	DOTREQ
+num_fdig+dot ->	DOTREQ
+
+#zero digit - non-zero preceded
+DIG0:
+num_1dig ->	DIG1
+num_0dig ->	DIG0
+num_1dig+dot ->	DOTREQ
+dotcom ->	DIG00
+
+#zero digit - no non-zero preceded
+DIG00:
+qstem_!sup_!cmpd ->	NUM
+num_1dig ->	DIG1
+num_0dig ->	DIG00
+dotcom ->	DIG00
+#num_fdig ->	N2
+num_1dig+dot ->	DOTREQ
+num_fdig+dot ->	DOTREQ
+
+#roman 1000
+R1000:
+@inf[0] ->	END		@inf[1]
+roman_1 ->	R1
+roman_10 ->	R10
+roman_100 ->	R100
+roman_1+dot ->	DOTREQ
+roman_10+dot ->	DOTREQ
+roman_100+dot ->	DOTREQ
+
+#roman 100
+R100:
+@inf[0] ->	END		@inf[1]
+roman_1 ->	R1
+roman_10 ->	R10
+roman_1+dot ->	DOTREQ
+roman_10+dot ->	DOTREQ
+
+#roman 10
+R10:
+nder ->	ADJ
+@inf[0] ->	END		@inf[1]
+roman_1 ->	R1
+roman_1+dot ->	DOTREQ
+
+#roman 1
+R1:
+nder ->	ADJ
+@inf[0] ->	END		@inf[1]
+
+#verbal stem found
+V:
+@inf[0] ->	END		@inf[1]
+vder ->	V
+HAT-sfx ->	HAT
+#nder ->	N1
+#mos+ó+N
+O-sfx ->	N1
+#mos+ás+N
+AS-sfx ->	N1
+nder-O ->	ADJ
+
+#deictic pronoun (ez/az) at the beginning
+DEIX:
+@inf[0] ->	END		@inf[1]
+nstem@cmp[0]@nosug[0] ->	N2			={@cmp[1] cmpd @nosug[1]}	LCA{lcase}
+Adv ->	UNINFL			={cmpd}
+
+#a prefix used in nominalized forms encountered (e.g. ön[+V+Ás/Ó])
+#a verb is required
+#handled as a verbal prefix
+PFXVNOM:
+pfx_V ->	N+P			={cmpd}
+@nstem2_!sup@cmp[0] ->	N2			={@cmp[1] cmpd}	LCA{lcase}
+vstem@cmp[0] ->	N+V			={@cmp[1] cmpd !vpfx}
+
+#possible left compound member found
+N1:
+##allow fejbever (and a lot of other errors)
+@inf[0] ->	N1END		@inf[1]
+119sfx ->	ADJ		?{!hyph}	={lcase}
+119sfx ->	ADJ		?{hyph}	={lcase2}
+nder-119 ->	N1		?{!hyph}	={lcase}
+nder-119 ->	N1		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N1
+vder ->	V		?{!hyph}	={lcase !vpfx}
+vder ->	V		?{hyph}	={lcase2 !vpfx}
+@nstem2@sup[0]@cmp[0] ->	N2			={@sup[1] @cmp[1] cmpd}	LCA{lcase}
+nstem2+inf@cmp[0] ->	END		?{!sup no_vpfx}	={@cmp[1] cmpd}
+nstem_uninfl_cmp2+dot ->	DOTREQ		?{!sup no_vpfx}	={cmpd}
+pfx_V ->	N+P			={vpfx cmpd}
+vstem@cmp[0] ->	N+V			={@cmp[1] cmpd}
+astem@sup[0]@cmp[0] ->	N+ADJ			={@sup[1] @cmp[1] cmpd}	LCA{lcase}
+#hyphen ->	HYPHEN			={hyph}
+
+#Noun prefix found
+pfx_N:
+@nstem2@sup[0]@cmp[0] ->	N2			={@sup[1] @cmp[1] cmpd}	LCA{lcase}
+nstem2+inf@cmp[0] ->	END		?{!sup no_vpfx}	={@cmp[1] cmpd}
+nstem_uninfl_cmp2+dot ->	DOTREQ		?{!sup no_vpfx}	={cmpd}
+pfx_V ->	N+P			={vpfx cmpd}
+vstem@cmp[0] ->	N+V			={@cmp[1] cmpd}
+astem@sup[0]@cmp[0] ->	N+ADJ			={@sup[1] @cmp[1] cmpd}	LCA{lcase}
+hyphen ->	HYPHEN			={hyph}
+
+#an inflection must follow
+INFREQ:
+@inf[0] ->	END		@inf[1]
+
+#noun+preverb sequence (verb and AS/O must follow)
+N+P:
+@nstem1@sup[0]@cmp[0] ->	N+P+N			={@sup[1] @cmp[1]}	LCA{lcase}
+#nstem2 ->	N+P+N				LCA{lcase}
+vstem@cmp[0] ->	N+V			={!vpfx @cmp[1]}
+
+#noun+adj sequence (verb or noun forming suffix must follow)
+N+ADJ:
+nder-119 ->	N2		?{!hyph}	={lcase}
+nder-119 ->	N2		?{hyph}	={lcase2}
+nder2 ->	N2
+vder ->	N+V
+
+#noun+verb sequence (AS/O/Ott+sÁg must follow)
+N+V:
+nder-O ->	N+V+der
+O-sfx ->	N2
+AS-sfx ->	N1
+vder ->	N+V
+
+#noun+verb+Adjsfx sequence sÁg must follow
+N+V+der:
+nder ->	N2
+vder ->	N+V
+
+#right compound member found
+N2:
+##allow mutliple compounding
+@nstem2@sup[0]@cmp[0] ->	N2			={@sup[1] @cmp[1] cmpd}	LCA{lcase}
+@inf[0] ->	END		@inf[1]
+119sfx ->	ADJ		?{!hyph}	={lcase}
+119sfx ->	ADJ		?{hyph}	={lcase2}
+nder-119 ->	N2		?{!hyph}	={lcase}
+nder-119 ->	N2		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N2
+vder ->	V		?{!hyph}	={lcase}
+vder ->	V		?{hyph}	={lcase2 !vpfx}
+
+#end of uncompoundable word
+N2u:
+##allow mutliple compounding
+@inf[0] ->	END		@inf[1]
+119sfx ->	ADJ		?{!hyph}	={lcase}
+119sfx ->	ADJ		?{hyph}	={lcase2}
+nder-119 ->	N2		?{!hyph}	={lcase}
+nder-119 ->	N2		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N2
+vder ->	V		?{!hyph}	={lcase}
+vder ->	V		?{hyph}	={lcase2 !vpfx}
+
+#Adjective found
+#or nominal case-lowering derivational suffix found
+ADJ:
+@inf[0] ->	END		@inf[1]
+#@{nstem2}_!cmpd ->	N2			={cmpd}	LCA{lcase}
+#A+N-N compounds
+#@nstem2_!sup@cmp[0] ->	ADJ+N			={@cmp[1] cmpd}	LCA{lcase}
+@nstem2@sup[0]@cmp[0] ->	ADJ+N			={@sup[1] @cmp[1] cmpd}	LCA{lcase}
+##allow ADJ+N compounds
+nospace ->	N1
+119sfx ->	ADJ		?{!hyph}	={lcase}
+119sfx ->	ADJ		?{hyph}	={lcase2}
+nder-119 ->	N1		?{!hyph}	={lcase}
+nder-119 ->	N1		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N2
+vder ->	V			={!vpfx}
+
+#Adjective+Noun compound: hyphen required or Adj+Noun+119sfx+nder-119 (kék+orr+ú+ság)
+ADJ+N:
+nder2 ->	ADJ+N
+hyphen ->	HYPHEN			={hyph}
+119sfx ->	ADJ+N+U		?{!hyph}	={lcase}
+
+@infhyph[0] ->	END		@infhyph[1]
+119sfx ->	ADJ		?{hyph}	={lcase}
+nder-119 ->	N2		?{hyph}	={lcase}
+ndercmp ->	ADJ		?{hyph}	={lcase !sup}
+vder ->	V		?{hyph}	={!vpfx}
+
+#Adj+Noun+119sfx found (kék+orr+ú)
+#nder-119 required (kék+orr+ú+ság)
+ADJ+N+U:
+nder-119 ->	N2		?{!hyph}	={lcase}
+nder-119 ->	N2		?{hyph}	={lcase2}
+
+#noun+preverb+noun sequence (verbalizer suffix+AS/O required)
+N+P+N:
+nder ->	N+P+N		?{!hyph}	={lcase}
+nder ->	N+P+N		?{hyph}	={lcase2}
+ndercmp ->	N+P+N		?{!hyph}	={lcase !sup}
+ndercmp ->	N+P+N		?{hyph}	={lcase2 !sup}
+nder2 ->	N+P+N
+vder ->	N+V			={!vpfx}
+
+#uninflectible stem found
+UNINFL:$
+119sfx ->	ADJ		?{!hyph}	={lcase}
+119sfx ->	ADJ		?{hyph}	={lcase2}
+nder-119 ->	N1		?{!hyph}	={lcase}
+nder-119 ->	N1		?{hyph}	={lcase2}
+ndercmp ->	ADJ		?{!hyph}	={lcase !sup}
+ndercmp ->	ADJ		?{hyph}	={lcase2 !sup}
+nder2_adj ->	ADJ
+nder2 ->	N2
+rpunct ->	RPUNCT
+dotpunct ->	DOT
+qtag ->	QTAG
+#start over if a hyphen is encountered
+hyphen ->	HYPHEN			={hyph}
+-beli-sfx ->	ADJ
+
+#the modal verbal suffix -hAt found, an inflection must follow
+HAT:
+@inf[0] ->	END		@inf[1]
+
+#end of the word
+#right punctuation may follow
+END:$
+rpunct ->	RPUNCT
+dotpunct ->	DOT
+qtag ->	QTAG
+#start over if a hyphen is encountered
+hyphen ->	HYPHEN			={hyph}
+-beli-sfx ->	ADJ
+
+N1END:$
+rpunct ->	RPUNCT
+dotpunct ->	DOT
+qtag ->	QTAG
+#start over if a hyphen is encountered
+hyphen ->	HYPHEN			={hyph}
+-beli-sfx ->	ADJ
+##allow fejbever etc.
+nospace ->		VPFX
+
+#a dot must follow (seen an abbreviation or cardinal numeral written in digits)
+DOTREQ:
+dotpunct ->	DOT
+
+#question tag '-e' found
+QTAG:$
+rpunct ->	RPUNCT
+dotpunct ->	DOT
+#start over if a hyphen is encountered
+hyphen ->	HYPHEN			={hyph}
+-beli-sfx ->	ADJ
+
+#seen a dot, only other right punctuation or a hyphen may follow
+DOT:$
+rpunct ->	RPUNCT
+hyphen ->	HYPHEN			={hyph}
+-beli-sfx ->	ADJ
+
+#seen a non-dot right punctuation
+RPUNCT:$
+rpunct ->	RPUNCT
+dotpunct ->	DOT
+-beli-sfx ->	ADJ
+
+#seen a hyphen: start over or non-dot right punctuation may follow
+#the lcase flag is reset --- why??
+HYPHEN:$
+@nstem1@sup[0]@cmp[0]->	N1	FAM		={@sup[1] @cmp[1] !lcase}	LCA{lcase2}
+nstem@cmp[0]@nosug[0] ->	N2	FAM		={@cmp[1] @nosug[1] !lcase}	LCA{lcase2}
+acron@cmp[0] ->	N2	FAM		={@cmp[1] !lcase}
+astem@sup[0]@cmp[0] ->	ADJ	FAM		={@sup[1] @cmp[1]}	LCA{lcase2}
+qstem@sup[0]@cmp[0] ->	NUM	FAM		={@sup[1] @cmp[1] !lcase}	LCA{lcase2}
+nstem_uninfl+dot ->	DOTREQ	FAM	?{!sup}	={!lcase}
+nstem_uninfl_cmp2+dot ->	DOTREQ	FAM	?{!sup}	={!lcase}
+npron ->	INFREQ	FAM		={!lcase}
+npron_deix ->	DEIX	FAM		={!lcase}
+Adv_!sup ->	UNINFL	FAM	?{!sup}	={!lcase}
+Adv_sup ->	UNINFL	FAM		={!lcase}
+nstem2+inf@cmp[0] ->	END	FAM		={@cmp[1] !lcase}
+vstem@cmp[0] ->	V	FAM		={@cmp[1]}
+vstem+inf@cmp[0] ->	END	FAM		={@cmp[1]}
+#prefixes
+pfx_V ->	VPFX	FAM	?{!sup}	={vpfx}
+pfx_V ->	VPFX_SUP	FAM	?{sup}	={vpfx}
+pfx_sup ->	START	FAM	?{!sup}	={sup}
+pfx_Adj ->	ADJ_PFX	FAM
+pfx_N ->	pfx_N	FAM		={!lcase}	LCA{lcase2}
+#prefixes used in nominalized forms are counted as a verbal prefix (e.g. ön...)
+pfx_VNom ->	PFXVNOM	FAM		={vpfx !lcase}	LCA{lcase2}
+#numbers written as text
+num_1@cmp[0] ->	N12	FAM		={@cmp[1] !lcase}
+num_10@cmp[0] ->	N10	FAM		={@cmp[1] !lcase}
+num_100@cmp[0] ->	N100	FAM		={@cmp[1] !lcase}
+num_1000@cmp[0] ->	N1000	FAM	?{!ezer}	={ezer @cmp[1] !lcase}
+num_1eX@cmp[0] ->	N2	FAM		={@cmp[1] !lcase}
+num+dot@cmp[0] ->	DOTREQ	FAM		={@cmp[1] !lcase}
+#numbers written as digits
+num_0dig ->	DIG00
+num_1dig ->	DIG1
+num_1dig+dot ->	DOTREQ
+#roman numbers
+roman_1 ->	R1		@roman
+roman_10 ->	R10		@roman
+roman_100 ->	R100		@roman
+roman_1000 ->	R1000		@roman
+@romandot ->	DOTREQ		@roman
+
+rpunct ->	RPUNCT
+
+#verbal prefix+hyphen: right punctuation or another verbal prefix may follow
+VPFX+HYPH:$
+rpunct ->	RPUNCT
+pfx_V ->	VPFX

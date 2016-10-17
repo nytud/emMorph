@@ -1,0 +1,2323 @@
+################################################## START OF LICENSE ##################################################
+#
+#  This file is part of the emMorph / Humor morphological analyzer description for Hungarian.
+#  Copyright (C) 2001-2016 Attila Novák
+#  
+#  The author of the database and the database compilation environment is Attila Novák (novakat@gmail.com).
+#  The resource is available from: https://github.com/dlt-rilmta/emMorph
+#  
+#  The database files are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+#  (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
+#  with the following amendments:
+#  
+#  By downloading/cloning this database and tools you accept the following terms:
+#  1. Please inform the author at novakat@gmail.com about your use of the database/tools clearly indicating what you use them for
+#  as soon as you start working on your application/experiment/resource involving this database or tool.
+#  2. Even in the case of non-academic use, you promise to publish a scientific paper about 
+#  each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting
+#  the articles below, and inform the author at novakat@gmail.com about each article you publish.
+#  If you definitely cannot publish an article, please contact the author.
+#  
+#  Articles to quote are listed at https://github.com/dlt-rilmta/emMorph, the list is currently the following:
+#  (See the BibTeX file quotethis.bib in the root directory):
+#  
+#  Attila Novák (2014): A New Form of Humor – Mapping Constraint-Based Computational Morphologies to a Finite-State Representation.
+#  In: Proceedings of the 9th International Conference on Language Resources and Evaluation (LREC-2014). Reykjavík, pp. 1068–1073 (ISBN 978-2-9517408-8-4)
+#  
+#  Attila Novák; Borbála Siklósi; Csaba Oravecz (2016): A New Integrated Open-source Morphological Analyzer for Hungarian
+#  In: Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016). Portorož, pp. 1315–1322.
+#  
+#  Novák Attila (2003): Milyen a jó Humor? [What is good Humor like?] In: Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2003). Szegedi Tudományegyetem, pp. 138–145
+#  
+#  3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
+#  4. If you are interested in using or adapting the resource for commercial purposes, please contact the author.
+#  ***
+#  
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#
+################################################## END OF LICENSE ##################################################
+
+$V="[ëaeiouüöAEIOUÜÖ]";  #short vowels
+$VV="[áéíóúőűÁÉÍÓÚŐŰ]"; #long vowels
+$V_="[ëaeiouüöáéíóúőűAEIOUÜÖÁÉÍÓÚŐŰ]"; #all vowels
+$V__="(?:[ëaeiouüöáéíóúőűAEIOUÜÖÁÉÍÓÚŐŰ][\@=+-]*|^[\@=+])"; #all vowels and @
+$C="(?:dzs|[ds]z|[cz]s|[ltgn]y|[rtpsdfghjklcvbnmz])"; #consonants
+$C2="(?:dzs|[ds]z|[cz]s|[ltgn]y)"; #digraphs
+$Cl="(?:dzs|[ds]z|[cz]s|[ltgn]y|[rtpsdfghjkcvbnmz])"; #all consonants but l
+$Ch="(?:dzs|[ds]z|[cz]s|[ltgn]y|[rtpsdfgjklcvbnmz])"; #all consonants but h
+$Cgkln="(?:dzs|[ds]z|[cz]s|[ltgn]y|[rtpsdfhjcvbmz])"; #all consonants but g k n and l
+$C0="[rtpsdfghjklcvbnmzqwx]"; #single consonant letters
+#$C00="[rtpsdfghjklcvbnmz]";#single Hungarian consonant letters
+$P="(?:dzs|[ds]z|[cz]s|[ltgn]y|[aeiouüöáéíóúőűrtpsdfghjklcvbnmz])";#all Hungarian phonetic letters (not qxy)
+$lc0="ëaeiouüöáéíóúőűrtpsdfghjklcvbnmz";
+$lc="(?:[$lc0])";#all lowercase Hungarian word-initial letters (not qxyw)
+$Sn="(?:[rjln]|[ln]y)"; #sonorants
+$Sb="(?:sz|zs|[sz])"; #sibilants
+$sfin="(?=[})\"]*(?:_.*)?\$)"; #characters that may occur at the end of the value of seg
+$ik1='(?:(?:át|túl|szét|rá|ott|meg|le|kinn|ki|jót|jól|helyt|fönn|föl|fenn|fel|el|benn|be)(?:\[IK\])?)'; #monosyllabic prefixes of verbs do not count as separate compound members
+
+$cmpsep='*+';#compound separator character
+#$cmpseps="[$cmpsep]";#compound separator character
+
+#numbers
+@num1=qw/. egy kettő három négy öt hat hét nyolc kilenc/;
+@num10=qw/. tíz húsz harminc negyven ötven hatvan hetven nyolcvan kilencven/;
+
+if(!$zarte_ana)
+{
+ @ppron=qw/én te ő mi ti ő/;#personal pronouns
+ @psfxneki=qw/em[e1] ed[e2] i[e3] ünk[t1] tek[t2] ik[t3]/;
+}
+else
+{
+ @ppron=qw/én të ő mi ti ő/;#personal pronouns
+ @psfxneki=qw/ëm[e1] ëd[e2] i[e3] ünk[t1] tëk[t2] ik[t3]/;
+}
+@ppronpl=qw/mi ti ő/;#personal pronouns
+@ppron1=qw/[e1] [e2] [e3] [t1] [t2] k[t3]/;#personal pronoun nominal endings
+@poss_sfxj=qw/Vm Vd jA U0nk VtOk jUk/;
+@poss_sfx0=qw/Vm Vd A U0nk VtOk Uk/;
+@poss_sfxL=qw/Am Ad A U0nk AtOk Uk/;
+@poss_sfx_cat=qw/[PSe1] [PSe2] [PSe3] [PSt1] [PSt2] [PSt3]/;
+@psfxj=qw/Vm[e1] Vd[e2] jA[e3] U0nk[t1] VtOk[t2] jUk[t3]/;
+@psfx0=qw/Vm[e1] Vd[e2] A[e3] U0nk[t1] VtOk[t2] Uk[t3]/;
+@psfx0a=qw/Vm[e1] Vd[e2] U0nk[t1] VtOk[t2] Uk[t3]/;
+@psfxVpl=qw/U0nk[t1] VtOk[t2] Uk[t3]/;
+@psfxipl=qw/Unk[t1] OtOk[t2] Uk[t3]/;
+@psfxi2pl=qw/Aink[t1] AitOk[t2] Aik[t3]/;
+@psfxi3pl=qw/ink[t1] itOk[t2] ik[t3]/;
+@psfxjukpl=qw/U0nk[t1] VtOk[t2] jUk[t3]/;
+@psfxVplo=qw/Ónk[t1] ÓtOk[t2] ÓjUk[t3] tOk[t2]/;
+@psfx0L=qw/Vm Vd Á U0nk VtOk Uk/;
+@psfx0LL=qw/Am Ad Á U0nk AtOk Uk/;
+@psfxtag=qw/[e1] [e2] [e3] [t1] [t2] [t3]/;
+@psfxfin=('=Vt =mAl C','=Vt =dAl C','=Vt =kAl C','=Vt =kAl C','=Vt =kAl C');
+@psfx0juk=qw/m[e1] d[e2] [e3] nk[t1] tOk[t2] jUk[t3]/;
+
+#make these freqently used attributes local (more efficient)
+my* root;
+my* seg;
+my equ;
+my* phon;
+my humor;
+my* stemalt;
+my lexphon;
+my* X;
+
+#$root=$seg; #the root is the same as seg
+#$root=~s/["?!#=%@^(){}]|[<[].*?[]>]|\.\.\.//g; #remove special segmentation characters from root
+#$phon=$mrf->{equ} if !$phon; #phon (=pronunciation) is the same as equ if no phon is given in the entry
+#$phon=$root if !$phon; #phon is the same as the root unless already defined
+#$phon=~tr/A-ZÁÉÍÓÚÖÜŐŰ/a-záéíóúöüőű/; #decapitalize phon
+#$phon=~s/([^lntg${cmpsep}])y/$1i/g; #y is pronounced as i unless it is part of a digraph
+#$phon=~s/[${cmpsep}]/F/g; #compound members containing neutral vowels normally have front harmony (e.g. szóda+víz+ben)
+
+if($zarte_ana)
+{
+  $seg=zarte($seg,$mrf->{'zarte'},$humor);
+  for $_(@allomfs)
+  {
+   $_->{'allomf'}=zarte($_->{'allomf'},$mrf->{'zarte'},$humor);
+  }
+}
+
+seg:s/^[?!](?=.)//;;;
+
+#lowercase irregular -i suffixed forms coming from the lexicon
+if(lexseg:/\+\@i/&&humor:/\+IKEP/)
+{
+ seg:s/^(.*?)(?=\+)/alllc($1)/e;;
+}
+
+seg:s/(\([IV]+)\)/\\$1\\)/g;;;
+;;root:$seg; #the root is the same as seg
+#seg:s/\{([^}]*)>[^}]*\}|[&]/$1/g;;; #change {a>á} to a
+seg:s/\{([^}]*)>[^}]*\}/$1/g;;; #change {a>á} to a
+root:s/\{[^}]*>([^}]*)\}/$1/g;;; #change {a>á} to á
+#!humor:PUNCT&&root:/^(?!\.\.\.$)..|^[=@]/&&root:s/["?!#=%@^&(){}]|[<[].*?[]>]|\.\.\.|_.*//g;;; #remove special segmentation characters from root
+!humor:PUNCT&&root:/^(?!\.\.\.$)..|^[=@]/&&root:s/(?<!\\)["?!=%@^(){}]|(?<![\\\&])#|[<[].*?[]>]|\.\.\.|_.*//g;;; #remove special segmentation characters from root
+#seg:s/\\(?!\\)//g;;;
+root:s/\\(?!\\)//g;;;
+#for mmo: -Ózik lemma for -Ódzik verbs
+seg:s/([\@\%][óő])dz=ik$/$1z=ik/;;;
+#mark tag of relative pronouns
+#seg:/^a[${cmpsep}](?!vég|mell|nélk|köz|szer|hogy)/&&$mrf->{humor}=~s/\|NM(?!\|Rel)/|NM|Rel/;;
+seg:/^a[${cmpsep}](?!vég|mell|nélk|köz|szer|$)/&&$mrf->{humor}=~s/\|NM(?!\|Rel)/|NM|Rel/;;
+
+#seg:/$cmpsep/;;cmpd; #mark compounds as such
+$cmpd=0;
+$A63='0';
+$B63='0';
+if(!humor:PUNCT)
+{
+ $B63=$root=~tr/aeiouáéíóúúöüőűë//;
+ $B63='0' if !$B63;
+ $B63=7 if $B63>7;
+}
+if($seg=~/[${cmpsep}]/)
+{
+ $cmpd=($seg=~tr/*//);
+ $cmpd+=($humor=~s/(\+(?:[FM]N|SZN|IGE|HA))/$1/go)-($root=~s/((?:^|[^${lc0}])$ik1(?:[${cmpsep}]))/$1/goi);
+}
+if($cmpd)
+{
+ $rp.=' cmpd';
+ #additional marking for the "6-3" rule
+ #compound
+ $A63='2';
+ if($cmpd>=2)
+ {
+  $A63='3';
+ }
+ #exceptional words exempt from the 6-3 rule
+ if($B63==7 || isa:/település/)
+ {
+  $A63='2';
+ }
+ #compound number
+ if(rp:num_10*)
+ {
+  $A63='C';
+ }
+}
+elsif(!mcat_.*)
+{
+ #verbal prefix
+ if(humor:IK)
+ {
+  $A63='I';
+  #monosyllabic verbal prefix
+#  if(!root:/$V_.*$V_/)
+#  {
+#   $A63='I';
+#  }
+ }
+ #non-compound stem
+ elsif(!root:/[0-9]/)
+ {
+  $A63='1';
+  #non-compound number
+  if(rp:num_10*)
+  {
+   $A63='B';
+  }
+ }
+}
+#-szerű, féle etc. are considered compound members
+elsif(mcat_deriv&&!humor:/^DIM/&&lp:comp2)
+{
+ $A63='1';
+}
+#do not suggest strange words
+humor:X;;rp:nosug;
+humor:IK&&!cat:X;;mcat_pfx pfx_V;
+else humor:FF;;mcat_pfx pfx_sup;
+elsif(seg:s/(.)\.\.\.${sfin}/$1/)
+{
+ ;;mcat_pfx;
+ !pfx_.*;;pfx_N;
+}
+elsif(!cat:X)
+{
+ cat:(N|Adj|Num|V|Adv)&&!cat_.*&&!humor:IGE\|ROV;;cat_$1;
+ #else seg:/^[\@=][ji]/&&mcat_(deriv|infl);;lp:PVS;
+ seg:/."$/;;!cat_.* cat_N not_cmp1 not_cmp2;
+
+ cat_V&&seg:/=?ik$sfin/&&root:s/ik$//;;-ik;
+ phon:/./&&cat:Num&&root:/[0-9]\.?$/&&!num_0dig;;stemalt:1-; #suffixes must be attached with a hyphen to numbers written with digits
+ !phon:/./;;phon:$equ; #phon (=pronunciation) is the same as equ if no phon is given in the entry
+ phon:/./;;lexphon:1; #
+ !phon:/./;;phon:$root; #phon is the same as the root unless already defined
+ !lexphon:1&&phon:s/([rtdgklbnm])h$/$1/g;;lexphon:1; #Ch is C
+ phon:tr/A-ZËÁÉÍÓÚÖÜŐŰ/a-zëáéíóúöüőű/;;lexphon:1; #decapitalize phon
+ phon:s/([^lntg${cmpsep}])y/$1i/g;;lexphon:1; #y is pronounced as i unless it is part of a digraph
+ phon:s/[${cmpsep}]+\@*i$/i/g;;lexphon:1; #IKEP is not compound
+ phon:s/[${cmpsep}]/F/g;;lexphon:1; #compound members containing neutral vowels normally have front harmony (e.g. szóda+víz+ben)
+ phon:s/x/ksz/g;;lexphon:1; #x is pronounced as ksz
+ phon:tr/qw/kv/;;lexphon:1; #q,w is pronounced as k,v
+
+ $B63=$phon=~tr/aeiouáéíóúúöüőűë// if(!$cmpd||!$lexphon);
+ $B63A=$B63;
+ $B63A=8 if $B63A>8;
+ $B63=7 if $B63>7;
+ if(mcat_infl)
+ {
+  $B63='A';
+ }
+
+ #if the "word" ends in digits, supply the pronunciation of the digits
+ if(phon:/[0-9]$/)
+ {
+  ;lexphon:1;;
+  phon:/[^56]$/;;LOW;
+  $phon=~s/.*([1-9])$/$num1[$1]/;
+  $phon=~s/.*([1-9])0$/$num10[$1]/;
+  $phon=~s/.*000$/ezer/;
+  $phon=~s/.*00$/száz/;
+  $phon=~s/.*0$/nulla/;;!LOW;
+ }
+
+ $vhrm=vhrm($phon);
+ $vhrm='VHFU' if $seg=~/[\%\@=]$C*e$C*$/o;
+ $phon=~tr/F+//d;
+}
+#/;
+rp:s/!/not_/g;;;
+
+####do nothing if all allomorphs are listed in the lexicon
+#if(mcat_stem\+infl)
+#{
+#}
+####nominal stems
+#if(cat:(N|Adj|Num)||cat_(N|Adj|Num))
+if(cat_(N|Adj|Num|Part))
+{
+
+ ##add properties reflecting the quality of final segment (letter)
+
+ #consonant-final
+ #phon:/($C)$/;;Cfin $1_fin;
+ if(phon:/$C$/&&!Vfin)
+ {
+  ;;Cfin; #add the property Cfin to rp
+  #mark geminate-final stems as such
+  if(root:/(?:ddzs|(?:ss|dd)z|(?:cc|zz)s|(?:nn|tt|gg|ll)y|([rtpsdfghjklcvbnm])\1)$/)
+  {
+   $finC2=$1;
+   if($finC2&&$phon=~/$finC2$/a)
+   {
+    ;;GEM;
+   }
+   else
+   {
+    phon:/(?:ddzs|(?:ss|dd)z|(?:cc|zz)s|(?:nn|tt|gg|ll)y|([rtpsdfghjklcvbnm])\1)$/;;GEM;
+   }
+  }
+  #digraph-final
+  phon:/$C2$/;;DIG;
+  if(root:/$V_$/)
+  {
+   !root:/${V}i$/||!phon:/j$/;;stemalt:-;
+  }
+  #Miterrand-nal
+  else phon:/([rlnm])\+*$/&&!root:/$1\+*$|ł\+*$/a&&!stemalt:/./;;stemalt:-;
+  #Georges-zsal
+  else root:/[aeiouy]s\+*$/&&!phon:/sz?$|z$/;;stemalt:-;
+  #orthographically V-final (unpronounced e...)
+ }
+ #vowel-final
+ elsif(!Vfin&&!Cfin)
+ {
+  phon:/$V_$/;;Vfin;
+  #phonetically i-final
+  phon:/[ií]$/;;ifin;
+  #orthographically i-final
+  root:/[ií]$/;;i_fin;
+  #orthographically C-final
+  if(!stemalt:/./)
+  {
+    root:/$C0\+*$/&&!root:/${V_}h$/||phon:/a$/&&!root:/ah?\+*$/||phon:/e$/&&!root:/[äëe]h?\+*$/||root:/(${V_})y\+*$/&&!phon:/$1i$/a||root:/[ae]ux?\+*$/&&phon:/[óő]$/;;stemalt:-;
+  }
+ }
+
+ #uppercase nouns are marked proper unless a given name
+ if(root:/^[^${lc0}wx]|'[A-Z]/&&cat_N&&!cmp2||isa:/hely|telep|víz|név|táj|ország|megye/)
+ {
+  #-fele and -szeru are attached to proper names with a hyphen
+  #-i may also be attached
+  ;;not_cmp1 not_cmp2 =-fele;
+#  !humor:/FN\|p[mf]n/;;proper;
+  !isa:/ffi|női/;;proper;
+ }
+
+ #rename =t to =_t to avoid conflict with =t past suffix property
+ =t;;!=t =_t
+
+ #stemalt:- for abbreviations and words in all capitals
+ #neither can they be compound members
+ if(humor:/\|ROV|\|ABC(?!x)/||seg:/^[A-ZËÜÖÁÉÍÓÚŐŰ-]+$|[^\.]\.${sfin}/)
+ {
+  ;;stemalt:-;rp:not_cmp1;
+  !cmp2;;not_cmp2;
+ }
+ #mark acronyms: they may not be decapitalized
+ #humor:/\|ABC(?!x)|FN\|.*ROV/&&!mcat_deriv&&root:/[A-ZËÜÖÁÉÍÓÚŐŰ]/||root:/[A-ZËÜÖÁÉÍÓÚŐŰ][A-ZËÜÖÁÉÍÓÚŐŰ]/&&!humor:/ROMAN/;;rp:acron;
+ humor:/\|ABC(?!x)|FN\|.*ROV/&&!mcat_deriv||root:/[A-ZËÜÖÁÉÍÓÚŐŰ][A-ZËÜÖÁÉÍÓÚŐŰ]/&&!humor:/ROMAN/;;rp:acron;
+ #stemalt:- for these too
+ if(root:/${C}e$/&&phon:/i$/)
+ {
+ }
+ else
+ {
+  root:/[^ae][ea]$|ea$/&&phon:/[^ae]$/;;stemalt:-;
+ }
+
+ seg:/(?:(?:[${cmpsep}]|^)(?:mi|hány|perc|óra)|(\@[áé]s))${sfin}/;;-kor;
+
+ #pronouns may not be compounded or derived
+ #humor:/FN\|NM/;;not_cmp1 not_cmp2 not_der;
+ humor:/FN\|NM|DET\|NM/&&!cat_Adj&&!cat_X;;!cat_N cat_Npron;
+ #adjectives may not normally be compounded
+ #else cat:/Adj|Num/&&!cmp[12];;not_cmp1 not_cmp2;
+
+ elsif(!rr:/[^!](?:POSS|CASE)/)
+ {
+  if(cat_N)
+  {
+   humor:/FN/;;!ESS_.*;
+   #we now let all nouns take the -i and privative suffixes
+   !not_-i&&!seg:/ió$/;;-i priv;
+   #we now let all nouns take the privative suffix
+   ;;priv;
+
+   #nouns can usually take the -nyi suffix
+   !not_-nyi;;-nyi;
+   #nouns can usually take the -s suffix
+   !not_-Vs;;-Vs;
+   #-tt/-i/-beli/-Ú/-AlOm final nouns are lowering
+   seg:/[%@]([oëeö]?tt|t|s?i|beli|j?[úű]|(?:[ae]d)?[ae]l[oe]m)${sfin}/&&!rp:/LOW/;;LOW;
+   #-s/-Ó/-tAlAn final nouns are not lowering
+   seg:/[%@](?:[aoeëö]?s|[óő]|t[ae]?l[ae]n)${sfin}/;;!LOW;
+
+   #mark units
+   humor:/\|ME/;;unit;
+   #male names and surnames get the male feature
+   #(-né can be attached)
+   isa:(?:ffi|vez)név;;male;
+   #do not allow o/ö final foreign words in compounds
+   seg:/[oö]$/;;rp:!cmp1 !cmp2;
+  }
+  elsif(cat_(Adj|Part))
+  {
+   #@i adjectives can usually take the -s suffix
+   seg:/\@i${sfin}/&&!not_-Vs;;-Vs;
+   humor:/OKEP$/;;-Vs;
+
+   #attributive-only adjectives are not normally gradable
+   humor:/MNa/;;not_grad not_sÁg ESS_no;
+   seg:/^([^${cmpsep}]*)\@.?bb${sfin}/||humor:/FOK$/;;not_grad not_sÁg sup =jA -ik;
+   humor:/MN\|(nat|col)/;;-Vs;
+   humor:/MN\|nat/&&!seg:/\@i${sfin}/||seg:/%[ae]t[ae]g${sfin}|[ae]?t[ae]?l[ae]n${sfin}|(?:ánus|x|[ëe]r)${sfin}/;;not_LOW;
+
+   #adjectives are gradable by default
+   !not_grad;;grad;
+   #delete the not_grad feature
+   #not_grad;;!not_grad;
+
+   #adjectives normally trigger lowering
+   #seg:/[@%](s?i|beli|nyi|j?[úű]|[óő]|h[ae]t[óő]|[ae]nd[óő])$|[+#@%](szerű|nemű)$|$C$/&&!not_LOW;;LOW;
+   phon:/(id|kus|ns)$/||humor:/MN\|lat/&&!rp:/LOW/;;LOW+;
+   seg:/[@%](s?i|b[ëe]li|nyi|j?[úű]|[óő]|h[ae]t[óő]|[ae]nd[óő])${sfin}|(sz[ëe]rű|nemű|való)${sfin}|$Cgkln${sfin}|ik${sfin}/&&!rp:/LOW/||humor:/UKEP|IKEP$/;;LOW;
+   #the possessive of -ív final adjectives is =jA
+   root:/ív$/&&!=[*_j0]*A;;=jA;
+  }
+
+  #the -sÁg suffix can normally be attached
+  !root:/ss$/&&!not_sÁg;;-sÁg;
+  #delete the not_sÁg feature
+  #not_sÁg;;!not_sÁg;
+
+  if(cat_Num)
+  {
+   #mark numbers (quantifiers) with lp:num
+   !mcat_der&&!roman_10*;lp:num;;
+   #mark digits with lp:digit
+   #num_.dig;lp:digit;;
+   #1-e,3-a etc may not be followed by a digit
+   num_1dig&&!stemalt:1-;!digit;;
+   #mark non-numeral quantifiers with not_num
+   seg:/[@%](nyi)${sfin}/&&!rp:/LOW/;;LOW;
+   !rp:/num_|roman_/;;not_num;
+   #numerals can usually take the -s suffix
+   !not_-Vs;;-Vs;
+   !-kor;;-kor;
+  }
+
+ }
+
+  #specially inflected allomorphs that appear only as second compound members
+  seg:s/^\.\.\.//;;cmp2 not_cmp1;
+  lexseg:/^\.\.\./&&lexseg:s/^\.\.\.//;;;
+  cmp2&&!mcat_deriv;lp:comp2;!cat_Adj cat_N;
+
+ ###create stem allomorphs and add properties
+
+ unless(phon:/(?:[aeëoö]|$C2)$/||root:/(?:[aeëoö])$/||GEM||stemalt:/./||rr:POSS&&seg:/=((j?)[ae](i?))${sfin}/||rr:PL)
+ {
+  root:/[úű]$/&&cat_Adj&&!rp:/LOW/
+  #&&!not_LOW
+#  +;;;
+  +;;LOW+;
+  #i final proper nouns
+  root:/i$/&&proper
+  +;;;
+  +/^([A-ZÁÉÍÓÚÖÜŐŰË].*)$/alllc($1)."+[IKEP]"/e;;!cat_N cat_Adj LOW; if(isa:/hely|telep|táj|víz|ország|megye/)
+  #/;
+
+  #Windows
+  #Windowszal, Windows-zal
+  root:/s$/&&phon:/[^s]z$/
+  +;;;
+  +/$/-/;INS;;restr:a;
+
+  #dühvel, csehvel, juh, rüh, méh, céh, pléh
+  root:/(pléh|oláh)$/i
+  +;;;
+  +;;=*_t =vAl;
+
+  #dühvel, csehvel, juh, rüh, méh, céh, pléh
+  root:/(düh|cseh|juh|rüh|méh|céh|pléh|oláh)$/i
+  +;;;
+  +;;=vAl;
+#  +/uh$/uh+val[INS]/;;mcat_stem+infl;
+#  +/uh$/uh+vá[FAC]/;;mcat_stem+infl;
+#  +/([^u]h)$/$1+vel[INS]/;;mcat_stem+infl;
+#  +/([^u]h)$/$1+vé[FAC]/;;mcat_stem+infl;
+
+  #the most common case: no alternation
+  root:/$/
+  +;;;
+ }
+
+ elsif(!stemalt:/./)
+ {
+  if(rr:POSS)
+  {
+   if(seg:/=((j?)[ae](i?))${sfin}/)
+   {
+    ;;root:$seg;
+    root:s/["?!#%@^(){}]|[<[].*?[]>]|\.\.\.//g;;; #remove special segmentation characters from root except =
+    root:/$C=j?[ae]$|$V_=[ae]$/;;!Vfin Cfin; #fi(=a) must also be marked as Cfin :(
+    seg:s/L=/=/g;;; #remove lowering mark from seg
+
+    #possessive-only stems
+    root:/[aeëouüöáéóúőű]=j[ae]$/&&rr:POSS
+    +/=j[ae]$//;;=jA =i;
+
+    root:/=((j?)[ae](i?))$/&&rr:POSS
+    +///&&!$3;;=$2A =$2Ai;
+    +///&&$3;PL;=$2Ai !ifin !i_fin; #/;
+   }
+   else
+   {
+    root:/$/
+    +;;;
+   }
+  }
+  elsif(seg:/=[aoëeö]?k${sfin}/&&rr:PL)
+  {
+   root:/ak$/&&!LOW
+   +///;;LOW;
+   root:/ak$/
+   +///;;
+   root:/[oeëö]k$/
+   +///;;
+   root:/k$/
+   +///;;!Cfin Vfin
+  }
+
+  #not for madárlátta...
+   #jötte röpte holta
+   root:/[ae]$/&&seg:/\@(?:[oeëö]t)?t=?[ae]${sfin}/&&cat:N&&!rr:/CASE/&&!PL
+   +///;!PL (POSS|PVS);=A -kor !Vfin Cfin !-i not_cmp2; #///;
+   #léptei
+   root:/[ae]$/&&seg:/\@(?:[oeëö]t)?t=?[ae]${sfin}/&&cat:N&&!rr:/CASE/&&PL
+   +///;POSS;=A =Ai -kor !Vfin Cfin !PL not_cmp2; #///;
+
+  ##productive alternations
+  #mark all open-class alternating stems with the stmalt feature
+  #just to make nominal matrices not exceed 256 rows
+  # not needed any more...
+  #;;stmalt;
+
+  #oo/ee-final: no lengthening
+  root:/([eoöë])\1$|[ae][ae]$/&&!phon:/[aeë]$/
+  +;;;
+
+  #final vowel lengthening kutya -> kutyá
+  root:/[aeë]\+*$/&&phon:/[aeë]\+*$/
+  +;!FVL;;
+  +/a(?=\+*$)/á/;FVL;;
+  +/[eë](?=\+*$)/é/;FVL;;
+  +/^([eëöa]dik)[ae](?=\+*$)/$1+i[IKEP]/;;!cat_N cat_Adj LOW;
+
+  root:/e(?=\+*$)/&&phon:/i$/
+  +;;;
+
+  root:/ä$/
+  +;;;
+
+  #digraph-final fagy -> faggy(al)
+  #if the root is non-geminate dzs-final
+  root:/dzs$/&&!GEM&&DIG
+  +;;DIG;
+  +//ddzs/;INS;=Al;
+
+  #wellness
+  #wellnesszel, wellness-szel
+  root:/ss$/&&phon:/sz$/
+  +;;DIG;
+  +/$/z/;(INS|szeru);=Al =eru;;if(!proper)
+  +/$/-sz/;(INS|szeru);=Al =eru;restr:a;if(!proper)
+  +/$/-sz/;(INS|szeru);=Al =eru;if(proper)
+
+  #Dynamics
+  #Dynamicsszel, Dynamics-szel
+  root:/cs$/&&phon:/sz$/
+  +;;DIG;
+  +/$/sz/;(INS|szeru);=Al =eru;if(!proper)
+  +/$/-sz/;(INS|szeru);=Al =eru;restr:a;if(!proper)
+  +/$/-sz/;INS;=Al;if(proper)
+
+  #if the root is non-geminate sz-final
+  root:/sz$/&&!GEM&&DIG
+  +;!szeru;DIG;if(!proper)
+  +/(.)(.)$/$1$1$2/;(INS|szeru);=Al =eru;if(!proper)
+  +;;DIG;if(proper)
+  +/(.)(.)$/$1$1$2/;INS;=Al;if(proper)
+
+  #if the root is non-geminate digraph-final
+  root:/([ds]z|[cz]s|[ltgn]y)$/&&!GEM&&DIG
+  +;;DIG;
+  +/(.)(.)$/$1$1$2/;INS;=Al;
+
+  #foreign digraph-final Milosevic -> Miloseviccs(el)
+  !root:/$C2$/&&phon:/($C2)$/#!!$finC2=$1
+  +;;DIG;
+  +/$/$finC2/;INS;=Al;
+
+  #geminate-final common nouns
+  root:/$C$/&&GEM&&!proper
+  +/($C)$/$1/;!$1_ini;=Al;if(!root:/[bknrt]$/)
+  +/($C)$/$1/;!$1_ini;=Al $1_fin;if(root:/[bknrt]$/)
+  +/($C)$/$1-/;$1_ini&comp2;;if(cat_N)
+
+  #geminate-final proper nouns
+  root:/$C$/&&GEM&&proper&&phon:/($C)$/#!!$finC2=$1
+  +/($C)$/$1/;!$1_ini;;
+  +/($C)$/$1-/;$1_ini;=$&Al;if(!DIG)
+  +/($C)$/$1-$finC2/;INS;=Al;if(DIG)
+
+  #o-final lengthening Oslo -> Osló
+  root:/[oö]$/&&!proper
+  +;(0mrf|comp2);;
+  +/o$/ó/;!0mrf !comp2;;
+  +/ö$/ő/;!0mrf !comp2;;
+
+  #o-final lengthening Oslo -> Osló
+  # Oslo-féle
+  # Osló-i
+  root:/[oö]$/&&proper
+  +;(0mrf|comp2) !vST;;
+  +/o$/ó/;!0mrf;;
+  +/ö$/ő/;!0mrf;;
+
+  #ah/eh final with pron:a/e, no alternation
+  root:/[ae]h$/&&phon:/[ae]$/
+  +;;;
+
+  #we should never get here
+  #the rest: no alternation
+  #root:/$/
+  #+;;!stmalt;
+
+ }
+
+ #orthographical variation in abbreviations and foreign words (ABC -> ABC-)
+ elsif(stemalt:-)
+ {
+  #delete the =-fele feature if suffixes are attached to the word with a hyphen anyway
+  ;;!=-fele;
+  roman_10*;;lp:roman;
+  #roman dot final
+  root:/\.$/&&roman_10*
+  +//+[NOM]/;dot_punct;mcat_stem+infl dot_fin;
+  +/$/-/;!0mrf !roman;;
+  #I-gyel IV-gyel
+  root:/$/&&roman_10*&& phon:/($C2)$/#!!$finC2=$1
+  +;(0mrf|roman);DIG;
+  +/$/-/;!0mrf !roman;DIG;
+  +/$/-$finC2/;INS;=Al;
+  root:/$/&&roman_10*
+  +;(0mrf|roman);;
+  +/$/-/;!0mrf !roman;;
+
+  #foreign digraph-final Bretagne -> Bretagne-ny(al)
+  !root:/$C2$/&&phon:/($C2)$/#!!$finC2=$1
+  +;0mrf;DIG;
+  +/$/-/;!0mrf;DIG;
+  +/$/-$finC2/;INS;=Al;
+
+ # dot final abbreviations have a dotless allomf which must be followed by . or ...
+  root:/\.$/
+  +//+[NOM]/;dot_punct;mcat_stem+infl dot_fin;
+  +/$/-/;!0mrf;;
+
+  root:/$/
+  +;0mrf;;
+  +/$/-/;!0mrf;;
+ }
+ #optional stemalt -
+# elsif(stemalt:-\+)
+# {
+#  +;;;
+#  +/$/-/;!0mrf;;
+# }
+ ##improductive stem alternations
+
+ else
+ {
+  #mark all closed-class alternating stems with the stmalt feature
+  #just to make nominal matrices not exceed 256 rows
+  # not needed any more...
+  #;;stmalt;
+
+  #vowel-zero alternation (nominal) lélek -> lelk, bokor -> bokr..., fészek -> fészk...,
+  if(stemalt:VZA\+?)
+  {
+   seg:/\%(?:[ae]d)?[ae]l[oeë]m${sfin}/&&!LOW;;LOW;
+
+   root:/($V_$C)[eëoöau]($C)$/
+   +;!VZA;;if(stemalt:VZA)
+   #+;;!stmalt;if(stemalt:VZA\+)
+   +;rp:!LOW;restr:a;if(stemalt:VZA\+)
+   +;!VZA;rp:!LOW;restr:g;if(stemalt:VZA\+)
+   +/lél[eë]k$/lelk/;VZA;=Vt; #lélek
+   +/(?!él[ëe]k$)($V_$Ch)[eëoöau]($C)$/$1$2/;VZA;=Vt; #non-metathetic stems
+   +/($V)(h)[eëoö](r|ly)$/$1$3$2/;VZA;=Vt; #metathetic stems
+   #and an extra allomf for digraph-final stems kapocs -> kapoccs(al)
+   +/(.)(.)$/$1$1$2/;INS;=Al;if(root:/([ds]z|[cz]s|[ltgn]y)$/&&!GEM)
+  }
+
+  #stem vowel shortening (nyár -> nyar)
+  elsif(stemalt:SVSM?\+?)
+  {
+   #root:/(?:^|[${cmpsep}#])hét/
+   #+;!SVS;!-i;
+   #+/hét/het/;!SVS;LOW;
+
+   #ész: észt, eszëm stb
+   root:/((?:^|[${cmpsep}#])ész$)/
+   +;(!SVS|ACC);;
+   +/ész$/esz/;SVS;;
+   +/ész$/éssz/;INS;=Al;
+
+   #hét: heti is exceptional
+   root:/((?:^|[${cmpsep}#])hét$)/
+   +;!SVS;!-i;
+   +/hét$/het/;(SVS|119);;
+
+   #this is better unless gúnarak exists
+   #root:/((?:^|[${cmpsep}#])(?:(?:$C?$V)?$C)?)[áéíűú]($C$)/
+   #this allows gúnarak
+   root:/((?:^|[${cmpsep}#])(?:(?:$C?$V_)?$C)?)[áéíűú]($C$)/
+   +;!SVS;;if(stemalt:SVSM?)
+   #+;;!stmalt;if(stemalt:SVS\+)
+   +;;restr:a;if(stemalt:SVSM?\+)
+   +;!SVS;restr:g;if(stemalt:SVSM?\+)
+   +/á($C$)/a$1/;SVS;LOW;
+   +/é($C$)/e$1/;SVS;LOW;if(!$zarte_ana)
+   +/é($C$)/e$1/;SVS;LOW;if($zarte_ana&&stemalt:SVS\+?)
+   +/é($C$)/ë$1/;SVS;LOW;if($zarte_ana&&stemalt:SVSM\+?)
+   +/í($C$)/i$1/;SVS;LOW;
+   +/ú($C$)/u$1/;SVS;LOW;
+   +/ű($C$)/ü$1/;SVS;LOW;
+   #and an extra allomf for digraph-final stems légy -> léggy(el)
+   +/(.)(.)$/$1$1$2/;INS;=Al;if(root:/([ds]z|[cz]s|[ltgn]y)$/&&!GEM)
+  }
+
+  #v insertion mű -> műv
+  elsif(stemalt:vins)
+  {
+   ;;!Vfin;
+   root:/((?:^|[${cmpsep}#])$C[íúőű])$/
+   +;!vST;Vfin;
+   +//$1v/;vST;LOW Cfin;
+  }
+
+  #v insertion and vowel shortening (nouns) tó -> tav
+  elsif(stemalt:vshrt\+?)
+  {
+   ;;!Vfin;
+   root:/^szó$/&&!not_cmp1
+   +;(!vST|ACC|SUP);Vfin;
+   +;(!vST|ACC|SUP|PL|POSS|PVS);Vfin =i =jA;restr:a;
+   +/ó$/av/;vST !ACC !SUP;LOW Cfin;
+
+   root:/[${cmpsep}#]szó$/||root:/szó$/&&not_cmp1
+   +;(!vST|ACC|SUP|PL|POSS|PVS);Vfin =i =jA;
+   +/ó$/av/;vST !ACC !SUP;LOW Cfin;
+
+   root:/^tó$/&&!not_cmp1
+   +;(!vST|PVS|SUP);Vfin -*i;
+   +/ó$/av/;vST;LOW Cfin;
+
+   root:/[${cmpsep}#]tó$/||root:/tó$/&&not_cmp1
+   +;(!vST|PVS|SUP|ACC|POSS);Vfin =*i =*jA -*i;
+   +/ó$/av/;vST;LOW Cfin;
+
+   root:/((?:^|[${cmpsep}#])$C)[úűóőé]$/
+   +;!vST;Vfin;if(stemalt:vshrt)
+   #+;;Vfin !stmalt;if(stemalt:vshrt\+)
+   +;restr:a;Vfin;if(stemalt:vshrt\+)
+   +;!vST;Vfin;restr:g;if(stemalt:vshrt\+)
+   +/((?:^|[${cmpsep}#])$C)ú$/$1uv/;vST;LOW Cfin;
+   +/((?:^|[${cmpsep}#])$C)ű$/$1üv/;vST;LOW Cfin;
+   +/((?:^|[${cmpsep}#])l)ó$/$1ov/;vST;LOW Cfin;
+   +/((?:^|[${cmpsep}#])$Cl)ó$/$1av/;vST;LOW Cfin;
+   +/((?:^|[${cmpsep}#])$C)ő$/$1öv/;vST;LOW Cfin;
+   +/((?:^|[${cmpsep}#])$C)é$/$1ev/;vST;LOW Cfin;
+  }
+
+  #this is not used
+  #v insertion and vowel shortening (verbs) ró -> rov and ló->lov!
+  #elsif(stemalt:vshrtV)
+  #{
+  #;;!Vfin;
+  #root:/((?:^|[${cmpsep}#])$C)[űóő]$/
+  #+;!vST;Vfin;
+  #+/((?:^|[${cmpsep}#])$C)ű$/$1üv/;vST;LOW Cfin;
+  #+/((?:^|[${cmpsep}#])$C)ó$/$1ov/;vST;LOW Cfin;
+  #+/((?:^|[${cmpsep}#])$C)ő$/$1öv/;vST;LOW Cfin;
+  #}
+
+  #final high vowel-v alternation falu -> falv, tetű -> tetv
+  elsif(stemalt:vVST\+?)
+  {
+   root:/(daru|odú)$/
+   +;;;
+   +/[uűú]$/v/;vST !SUP;LOW !Vfin Cfin;
+   root:/tetű$/
+   +;;;
+   +/ű$/v/;vST !SUP;LOW !Vfin Cfin !VHFR VHFU;
+   root:/falu$/
+   +;;;
+   +/u$/v/;vST !ACC !SUP (PL|!POSS);LOW !Vfin Cfin !-Vs;
+   #+/$/+si[IKEP]/;!cat_N cat_Adj LOW;
+   root:/hamu$/
+   +;;;
+   +/u$/v/;vST (POSS|PL|-jÚ);LOW !Vfin Cfin;
+  }
+
+  #Final ú deletion (borjú -> borj(ak)) and (mag->magv(ak))
+  elsif(stemalt:UDEL)
+  {
+   root:/[úű]$/&&cat:Adj
+   +;;;
+   +/ú$/$1+an[ESSMOD]!/;;!LOW !Vfin !cat_Adj cat_Adv;
+   +/ú$/$1+abb[FOK]!/;gp:sup;LOW !Vfin Cfin !grad =Vt;
+   +/ú$/$1+abb[FOK]+ik[KIEM]!/;gp:sup;LOW !Vfin Cfin !grad =Vt;
+   +/ű$/$1+en[ESSMOD]!/;;!LOW !Vfin !cat_Adj cat_Adv;
+   +/ű$/$1+ebb[FOK]!/;gp:sup;LOW !Vfin Cfin !grad =Vt;
+   +/ű$/$1+ebb[FOK]+ik[KIEM]!/;gp:sup;LOW !Vfin Cfin !grad =Vt;
+
+   root:/[úű]$/
+   +;;;
+   +///;UDEL;LOW !Vfin Cfin;restr:a;
+
+   root:/mag$/
+   +;;;
+   +/$/v/;UDEL;LOW;restr:a;
+  }
+
+  #"possessive vowel shortening" ajtó->ajta(ja)
+  elsif(stemalt:PVS)
+  {
+   ;;!-i;
+
+   root:/ajtó$/
+   +;!-jÚ;=*jA =i;
+   +/ó$/a/;!TER PVS;=jA =*jAi;
+
+   root:/disznó$/
+   +;;=jA =i;
+   +/ó$/a/;!TER PVS;=*jA =*i;
+
+   root:/zászló$/
+   +;;=jA =i;
+   +/ó$/a/;!TER PVS;=jA;
+
+   root:/ó$/
+   +;;=jA =i;
+   +/ó$/a/;!TER !-jÚ PVS;=jA;
+
+   root:/szülő$/
+   +;;=jA -i ;
+   +/ő$/e/;!TER PVS;=jA =i;
+
+   root:/idő$/
+   +;!-jÚ;=*jA =i;restr:a;
+   +;!-jÚ !TER;=*jA =i;restr:g;
+   +/ő$/e/;PVS;=jA -i;
+
+   root:/esztendő$/
+   +;!-jÚ;=jA =i;
+   +/ő$/e/;!-jÚ PVS;=jA -i;
+
+   root:/(erdő|mező)$/
+   +;;=*jA =i -*i;
+   +/ő$/e/;!TER PVS;=jA =i -i;
+
+   root:/(erő|tüdő)$/
+   +;!-jÚ;=*jA =i;
+   +/ő$/e/;!TER PVS;=jA;
+
+   root:/(csípő|vessző|szőlő)$/
+   +;;=jA =i;
+   +/ő$/e/;!TER PVS;=jA =i;
+
+   root:/(velő)$/
+   +;;=jA =i -i;
+   +/ő$/e/;!TER PVS;=jA =i;
+
+   root:/(belső|külső|tető)$/
+   +;;=jA =i;
+   +/(^(?!.*[${cmpsep}]).*)ő$/$1e/;!TER PVS;=jA;gp:sup;
+   +/([${cmpsep}].*)ő$/$1e/;!TER PVS;=jA;
+   +/ő$/ej+i[IKEP]/;;cat_Adj !cat_N LOW;gp:sup;
+
+   root:/vő$/
+   +;!-jÚ;=*jA =i;
+   +/ő$/e/;!TER PVS;=jA =jAi;
+
+   root:/ő$/
+   +;;=jA =i;
+   +/ő$/e/;!TER PVS;=jA =jAi;
+  }
+
+  #kinship terms (apa->ap(ja))
+  elsif(stemalt:KST)
+  {
+   root:/[ae]$/
+   +;!FVL;;
+   +/a$/á/;FVL;=i;
+   +/e$/é/;FVL;=i;
+   +/[ae]$//;POSS 3P;=jA !Vfin Cfin;
+   +/a$/á/;POSS 3P;=jA;restr:a;
+
+   root:/öcs$/
+   +;!POSS;;
+   +/$/é/;POSS (!3P|PL);Vfin !Cfin !VHFR VHFU =i;
+   +/cs$/ccs/;(3P|INS);=A =Ai =Al;
+   +/cs$/ccs/;POSS PL;=A =Ai =Al;restr:a;#öccseim/d only in the analyzer
+
+   root:/báty$/
+   +;(!POSS|3P);=jA =jAi;
+   +/$/á/;POSS (!3P|PL);Vfin !Cfin =i;
+   +/ty$/tty/;INS;=A =Al;
+  }
+
+  #other special aternations, e.g. száj->szá(nk)
+  elsif(stemalt:SPEC)
+  {
+   root:/szép$/
+   +;;!grad;
+   +//sze+bb[FOK]/;gp:sup;LOW !Vfin Cfin !grad;
+
+   root:/^száj$/
+   +;;;
+   +/j$//;POSS !3P;!LOW !Cfin Vfin;
+
+   root:/száj$/
+   +;;;
+
+   root:/olaj$/
+   +;!ACC;;
+   +;ACC;LOW;
+  # +/$/+at[ACC]/;;mcat_stem+infl;
+
+   #the rest: no allomorphs added: only the lexically defined ones
+   #root:/$/;;
+
+  }
+  #possessive-only
+  elsif(stemalt:poss[1-3]?)
+  {
+   ;;root:$seg;
+   stemalt:poss1&&root:s/=(j?[ae]i?)$/$1/;;
+   root:s/["?!#%@^(){}]|[<[].*?[]>]|\.\.\.//g;;; #remove special segmentation characters from root except =
+   root:/$C=j?[ae]/;;!Vfin Cfin;
+   seg:s/[BL]+=/=/g;;; #remove lowering mark from seg
+
+   root:/=((j?)[ae](i?))$/&&stemalt:poss
+   +///&&!$3;POSS;=$2A =$2Ai;
+   +///&&$3;POSS PL;=$2Ai !ifin !i_fin; #/;
+
+   root:/=((j?)[ae](i?))$/&&stemalt:poss3
+   +///&&!$3;POSS 3P;=$2A =$2Ai;
+   +///&&$3;POSS PL 3P;=$2A =$2Ai; #/;
+
+   root:/=j?[ae]/&&stemalt:poss1
+   +/L=[ae](.*)/@{poss_sfxL}$1!+@{poss_sfx_cat}/;(CASE|ANP);;
+   +/([^L])=[ae](.*)/$1@{poss_sfx0}$2!+@{poss_sfx_cat}/;(CASE|ANP);;
+   +/=j[ae](.*)/@{poss_sfxj}$1!+@{poss_sfx_cat}/;(CASE|ANP);;
+
+   root:/=[ae]/&&stemalt:poss2
+   +/L=[ae](.*?)L=[ae](.*)/@{poss_sfxL}$1@{poss_sfxL}$2!+@{poss_sfx_cat}/;(CASE|ANP);;
+   +/L=[ae](.*?[^L])=[ae](.*)/@{poss_sfxL}$1@{poss_sfx0}$2!+@{poss_sfx_cat}/;(CASE|ANP);;
+   +/([^L])=[ae](.*?)L=[ae](.*)/$1@{poss_sfx0}$2@{poss_sfxL}$3!+@{poss_sfx_cat}/;(CASE|ANP);;
+   +/([^L])=[ae](.*?[^L])=[ae](.*)/$1@{poss_sfx0}$2@{poss_sfx0}$3!+@{poss_sfx_cat}/;(CASE|ANP);;
+
+   #ele=i
+   root:/=i$/&&stemalt:poss
+   +///;POSS PL;=i !ifin !i_fin;
+  }
+
+  elsif(stemalt:pers_poss23)
+  {
+    root:/=?[ae]$/
+    +//+Vd![PSe2]/;(ANP|CASE);LOW =Vt =dAl Cfin !Vfin !=vAl;
+    +//+VtOk![PSt2]/;(ANP|CASE);LOW =Vt =kAl Cfin !Vfin !=vAl;
+    +/(s[éá]g)=?[ae]$/$1+tOk![PSt2]/;(ANP|CASE);LOW =Vt =kAl Cfin !Vfin !=vAl;restr:a;
+    +/(.*)=?[ae]$/te*$1+Vd![PSe2]/;(ANP|CASE);LOW =Vt =dAl Cfin !Vfin !=vAl;restr:a;lexseg:te*\%$seg;
+    +/(.*)=?[ae]$/ti*$1+VtOk![PSt2]/;(ANP|CASE);LOW =Vt =kAl Cfin !Vfin !=vAl;restr:a;lexseg:ti*\%$seg;
+    +/(.*s[éá]g)=?[ae]$/ti*$1+tOk![PSt2]/;(ANP|CASE);LOW =Vt =kAl Cfin !Vfin !=vAl;restr:a;lexseg:ti*\%$seg;
+#    +//+A![PSe3]/;(ANP|CASE);=_t =vAl Vfin;
+#    +//+Uk![PSt3]/;(ANP|CASE);LOW =Vt =kAl Cfin;
+    +///;POSS 3P !PL;=A;;
+    +/(.*)=?[ae]$/ő*$1/;POSS 3P !PL;=A;;lexseg:ő*$seg;
+  }
+  #the forms of the maga pronoun
+  elsif(stemalt:pers)
+  {
+   ;;!.-?fin;
+   root:/(.*)[ae]$/
+   +//$1L+@{psfx0a}!/;(ANP|CASE);LOW @{psfxfin}fin;
+   +//$1L+A[e3]!/;(ANP|CASE) !FVL;LOW =_t =vAl Vfin;
+   +//$1L+Á[e3]!/;(ANP|CASE) FVL;LOW =_t =vAl Vfin;
+   +/^maga$/mag+am[e1]+[ACC]/;;mcat_stem+infl;lexseg:$seg+
+   +/^maga$/mag+ad[e2]+[ACC]/;;mcat_stem+infl;lexseg:$seg+
+   +/^mag[ae]$/magL+@{psfx0}!+féle[FELE]/;!FVL;!cat_Npron cat_Adj Vfin;
+   +/^mag[ae]$/magL+@{psfx0}!+félé[FELE]/;FVL;!cat_Npron cat_Adj Vfin;
+   +/^mag[ae]$/magL+@{psfx0}!+fajta[FAJTA]/;!FVL;!cat_Npron cat_Adj Vfin;
+   +/^mag[ae]$/magL+@{psfx0}!+fajtá[FAJTA]/;FVL;!cat_Npron cat_Adj Vfin;
+   +/^mag[ae]$/magL+@{psfx0}!+forma[FORMA]/;!FVL;!cat_Npron cat_Adj Vfin;
+   +/^mag[ae]$/magL+@{psfx0}!+formá[FORMA]/;FVL;!cat_Npron cat_Adj Vfin;
+   #+//@{ppron}+$1L+@{psfx0}!/;;
+  }
+  #these stand only with plural endings
+  #melyikük, melyikőjük
+  elsif(stemalt:plpers)
+  {
+   ;;!.-?fin;
+   root:/három$/
+   +/rom/rmL+@{psfxVpl}!/;(ANP|CASE);LOW =Vt =kAl Cfin cat_Npron;
+   +/rom/rm+ójuk[t3]/;(ANP|CASE);LOW =Vt =kAl Cfin cat_Npron;
+   root:/minden(%?ik)?$/
+   +/$/+@{psfxipl}!/;(ANP|CASE);LOW =Vt =kAl Cfin cat_Npron;
+   +/$/+tek[t2]/;(ANP|CASE);LOW =Vt =kAl Cfin cat_Npron;
+   #annyi, mennyi
+   root:/i$/
+   +/$/+@{psfxipl}!/;(ANP|CASE);LOW =Vt =kAl Cfin cat_Npron;
+   +/$/+@{psfxVplo}!/;(ANP|CASE);LOW =Vt =kAl Cfin cat_Npron;
+   root:/$V_$/&&cat:N
+   +/$/$1L+@{psfxjukpl}!/;(ANP|CASE);LOW =Vt =kAl !Vfin !i_fin Cfin cat_Npron;
+   root:/(ik)$/
+   +;(ANP|CASE|POSS);LOW =Vt =kAl !Vfin !i_fin Cfin !=[j0*]*Ai? !cat_Adj cat_Npron;
+   +//$1\[FN|NM]L+@{psfxVpl}!/;(ANP|CASE);LOW =Vt =kAl !Vfin !i_fin Cfin !=[j0*]*Ai? !cat_Adj cat_Npron;
+   +//$1\[FN|NM]L+@{psfxVplo}!/;(ANP|CASE);LOW =Vt =kAl !Vfin !i_fin Cfin !=[j0*]*Ai? !cat_Adj cat_Npron;
+   #+//@{ppron}+$1L+@{psfx0}!/;;
+   root:/$/&&cat:N
+   +//L+@{psfxVpl}!/;(ANP|CASE);LOW =Vt =kAl !Vfin !i_fin Cfin cat_Npron;
+#   root:/nyi$/&&!cat:N
+#   +//+@{psfxVpl}!/;(ANP|CASE);LOW =Vt =kAl Cfin cat_Npron !cat_.*;
+#   root:/(ik)$/&&cat:Adj
+  }
+
+  #deictic pronouns ez/az
+  elsif(stemalt:az)
+  {
+   root:/z$/&&humor:/FN/
+   +///;pp Cini;deix !Cfin Vfin;
+   +//b+béli[BELI]/;;LOW =_t =Vs =jA =jAi =vAl !cat_Npron cat_Adj VHFU;
+   +//f+féle[FELE]/;!FVL;=_t =_s =jA =jAi =vAl !cat_Npron cat_Adj VHFU;
+   +//f+félé[FELE]/;FVL;=_t =_s =jA =jAi =vAl !cat_Npron cat_Adj VHFU;
+   +//d+dig[TER]+ra[SUB]/;;mcat_stem+infl;
+
+   {
+   root:/z$/
+   +;0mrf|POSS|PL|ANP|ACC|SUP|INS|CAU|(pp Vini);deix =_t =Vs =A =Ai =zAl;
+   +//b/;b_ini CASE;;
+   +//n/;n_ini CASE;;
+   +//r/;r_ini CASE;;
+   +//h/;h_ini CASE;;
+   +//t/;t_ini !ACC CASE;;
+   +//v+vAl[INS]!/;;mcat_stem+infl;restr:a;
+   #+//h+hOz[ALL]!/;;mcat_stem+infl;
+   #+//t+tÓl[ABL]!/;;mcat_stem+infl;
+   +//d+dig[TER]/;;mcat_stem+infl;
+   +//k+ként[FOR]/;;mcat_stem+infl -i;
+   +//k+kor[TEM]/;;mcat_stem+infl -i;
+   #+//@{ppron}+$1L+@{psfx0}!/;;
+   }
+  }
+  elsif(stemalt:1-)
+  {
+   #1-gyel 4-gyel +-szal
+   root:/[0-9+\x3b]$/&& phon:/($C2)$/#!!$finC2=$1
+   +;(0mrf|digit|dollar);DIG;
+   +/$/-/;!0mrf !digit !dollar;DIG -kor;
+   +/$/-$finC2/;INS;=Al;
+   #2-t
+   root:/[0-9+\x3b]$/
+   +;(0mrf|digit|dollar);;
+   +/$/-/;!0mrf !digit !dollar ;-kor;
+   #non-digit-finals may not be followed by another digit
+   #3.-ról
+   # dot final abbreviations have a dotless allomf which must be followed by . or ...
+   root:/[0-9]\.$/
+   +//+[NOM]/;dot_punct;mcat_stem+infl dot_fin;
+   +/$/-/;!0mrf !digit;;
+   #other non-digit-finals...
+   root:/[+.0-9]/
+   +;0mrf;;
+   +/$/-/;!0mrf !digit;;
+
+  }
+  elsif(stemalt:none)
+  {
+    root:/$/
+    +;;;
+  }
+#  elsif(stemalt:datum)
+#  {
+#   ;;Vfin;
+#   root:/([1-9][12]|[4579])$/
+#   +//$1-+e[DATUM]/;!FVL;-i VHFU;
+#   +//$1-+é[DATUM]/;FVL;-i VHFU;
+#   +//$1-+[DATUM]+i[IKEP]/;;!cat_Num cat_Adj ifin VHFU;
+#
+#   root:/(^2|[368])$/
+#   +//$1-+a[DATUM]/;!FVL;-i VHB;
+#   +//$1-+á[DATUM]/;FVL;-i VHB;
+#   +//$1-+i[IKEP]/;;!cat_Num cat_Adj ifin VHB;
+#
+#   root:/(^1)$/
+#   +//$1-+je[DATUM]/;!FVL;-i VHFU;
+#   +//$1-+jé[DATUM]/;FVL;-i VHFU;
+#   +//$1-+ji[IKEP]/;;!cat_Num cat_Adj ifin VHFU;
+#  }
+
+ }
+
+ ##add properties of allomorphs
+ for(@allomfs)
+ {
+  #add morpheme-level properties to each allomorph
+  #to inflected forms add category only
+  if(dot_fin)
+  {
+   &addlexprops;
+   ^rp:(cat_.*);;$1;
+   ^rp:(not_num);;$1;
+  }
+  elsif(mcat_stem\+infl|cat_Adv)
+  {
+   &almftags;
+   ^rp:(cat_.*);;$1;
+  }
+  else
+  {
+   &addprops;
+  }
+ }
+ #this must be done here so that ACC and jA get the correct
+ #specification for the LOW variant of LOW+ stems
+ map(@allomfs)
+ {
+  #split allomorphs having specifications LOW+
+  #to one being LOW and another not being LOW
+  dup(LOW\+)
+  {
+   rp:s/LOW\+/LOW/g;;rp:!ESS_.*;  #/;
+   !restr:/^g/;;!LOW\+;restr:a;
+  }
+ }
+
+ for(@allomfs)
+ {
+  if(!dot_fin&&!mcat_stem\+infl|cat_Adv)
+  {
+  unless(stemalt:plpers|pers|az|poss[1-3]?||rr:POSS)
+  {
+   $phon=$_->{'allomf'} unless($lexphon);
+  #the v-final allomf of V->v stems
+  #Cfin;;!Vfin;#this caused errors
+
+  unless(rr:/CASE/)
+  {
+  #the 0 allomf of -i[IKEP]
+  humor:IKEP&&allomf:/^$/;;=_t =Vs =AtlAn;
+
+  #derivational -s
+  #allomf:/[óő]$/&&LOW;;=_s;
+  if(!=Vs&&!=_s)
+  {
+   phon:/i$/&&LOW&&cat_Adj;;=Vs =AtlAn;
+   else phon:/i$/&&LOW;;=V0_*s =AtlAn;
+   else isa:veznév&&phon:/i$/;;=V0_*s =AtlAn LOW;
+   else seg:/\@s?i${sfin}|(cz|[srfda]|sz?k)y${sfin}/&&phon:/i$/;;=V0_*s =AtlAn LOW;
+   else allomf:/fi$/&&LOW;;=V0_*s =AtlAn;
+   else !seg:/\@[aeëoö]?s${sfin}/&&Cfin;;=Vs
+   else cat_N&&Vfin;;=_s;
+   else seg:/[\@%]j?[úű]${sfin}/&&Vfin&&LOW;;=Vs;
+   else phon:/[aeëáéóőuüúű]$/&&Vfin;;=_s;
+  }
+  #adv forming -Vn/-Ul
+  cat_Adj&&!ESS.*&&seg:/(?:[óősúűae]|\@(?:bel)?i|[@%](?:[oeëö]?tt|t)|ív|id)${sfin}/;;ESS_Vn;
+  cat_Adj&&!ESS.*&&seg:/(?:t[ae]?l[ae]n)${sfin}/;;ESS_Ul;
+  cat_Adj&&!ESS.*&&!seg:/(?:\@[ae]?bb)${sfin}/;;ESS_Vn_gen;
+  #archaic/dialectal forms
+  # atlan with zero ending as adverb
+  cat_Adj&&seg:/t[ae]?l[ae]n${sfin}/;;ESS_0;
+  #privative -AtlAn
+  Cfin&&LOW&&!=tAlAn;;=AtlAn;
+
+  #-kOdik
+  seg:/\@[aeëoöó]?s${sfin}/;;=kOd
+  else phon:/(?:^|[${cmpsep}])$C*$V_$C+$/||phon:/[pbtdkg]$/;;=VskOd;
+  else LOW&&Cfin;;=VskOd;
+  else LOW&&ifin;;=VskOd;
+  else Cfin;;=kOd;
+
+  #jA(i)
+  if(!stemalt:(KST|PVS)&&!rr:/!vST/)
+  {
+   #non-i vowel final
+   Vfin&&!ifin&&!rr:vST;;=jA =i;
+   #i final
+   else ifin&&!rr:vST&&!=j[*0]*A;;=jA =jAi;
+   #SVS/vST/VZA allomorph takes =A =Ai unless something else is specified
+   elsif(rr:(SVS|vST|VZA)||rr:/[(|]SVS/)
+   {
+    ;;!=j[*0]*Ai? !=i;
+    !^=[j*0]*A;;=A =Ai;
+    !=Ai&&=A;;=Ai;
+   }
+   #non-SVS/vST/VZA allomorph takes =jA =jAi if so specified in the lexicon
+   elsif(stemalt:(SVS|vins|vshrtV?)\+?)
+   {
+    ;;!=Ai?;
+    rp:s/=j[*0]*A/=jA/g&&!=jAi;;=jAi;
+   }
+   #else phon:/(?:sz|zs|[sz]|[tgn]y|i|cs?|dzs?|s[áé]g|t[oe]r|um)$/&&!=jA;;=A =Ai;
+   #if nothing is given in the lexicon
+   elsif(!=[j*0]*A)
+   {
+    phon:/(?:[szcjy]|s[áé]g|t[oeë]r|um|szor)$/;;=A =Ai;
+    else seg:/(?:\%[ae]t)${sfin}/;;=A =Ai;
+    else LOW;;=A =Ai;
+    #else phon:/(?:$C$C|f)$/&&!=A;;=jA =jAi;
+    else stemalt:VZA\+?;;=*jA =*jAi;
+    else ;;=jA =jAi;
+   }
+   #if something is given in the lexicon
+   else
+   {
+   #=jA&&=jAi&&=A&&=Ai;;=x[j]A[i];
+    #plural is normally the same as sg3
+    =jA&&=A;;!=j?A =*j0A;
+    =jAi&&=Ai;;!=j?Ai =*j0Ai;
+    seg:/[%@][oëeö]?tt${sfin}/&&cat_N&&!=A&&!=[j*0]*Ai;;=j0*Ai
+    !=[j*0]*A?i&&=([j*0]*A);;=$1i;
+   }
+  }
+  }
+  #accusative sfx -t/Vt
+  if(!=[_*V0]+t)
+  {
+#   phon:/(${VV}j?[mlj]$Sb|[jlr]s?z|ss|ssz|zz|n$Sb|$V_$Sb|$Sn$Sn|$V_$Sn|$V_)$/&&!LOW||Vfin||phon:/${V_}n$/&&!cat:Num&&!stemalt:/./;;=_t;
+   phon:/nsz$/&&!LOW;;=V0_*t;
+   else phon:/[jlr]s?z$/&&!LOW;;=_0V*t;
+   else phon:/(${VV}j?[mlj]$Sb|ss|ssz|zz|n$Sb|$V_$Sb|$Sn$Sn|$V_$Sn|$V_)$/&&!LOW||Vfin||phon:/${V_}n$/&&!cat:Num&&!stemalt:/./;;=_t;
+   else seg:/^(?=[\@=+])[^_]*($V__$Sb|$V__$Sn)${sfin}/&&!LOW;;=_t;
+   else phon:/($V__$Sb|$V__$Sn)${sfin}/&&!LOW;;=_t;
+   #else allomf:/$V_$/&&LOW;;=_t;
+   else phon:/$V_$/&&!rr:vST;;=_t;
+   #else allomf:/$C$/&&LOW;;=Vt;
+   else ;;=Vt;
+  }
+
+  #-vAl (instrumental)
+  Vfin;;=vAl;
+  else !=v?Al&&!GEM&&!DIG&&phon:/($C0)$/;;=$1Al;
+
+  #-nyi
+  allomf:/[^n]ny$/&&!=vAl;;!-nyi;
+  allomf:/nny$/&&-nyi&&=Al;;!-nyi -nyi-i;
+    #the default locative for nouns is bAn (should it be nÁl?)
+  cat_N&&!loc_.*;;loc_in;
+  }
+  }
+
+  #ít, Ul, Odik
+  if(cat_Adj)
+  {
+   allomf:/(?:^|[${cmpsep}])[?~!]*$C*$V_$C*$/&&!seg:/^[@%]/;;1syl;
+   if(Cfin&&!seg:/(?:[@%]|^)(?:[oeëö]?tt|t)${sfin}/)
+   {
+    !not_-ít;;-ít;
+    !1syl;;-Vdik;
+    1syl;;-AVUl;
+   }
+   elsif(Vfin&&!allomf:/[aeáé]$/&&!seg:/[@%](beli|nyi|[óő]|h[ae]t[óő]|[ae]nd[óő])${sfin}/)
+   {
+    !not_-ít;;-Vsít;
+    !1syl;;-VsOdik;
+   }
+   ;;!1syl;
+  }
+  #the default locative for pronouns is nÁl
+  else cat_Npron&&!loc_.*;;loc_at;
+
+ }
+
+}
+
+####properties of verbs
+#elsif(cat:V||cat_V)
+elsif(cat_V)
+{
+ #move lexically given allomorphs to @lex_allomfs
+ @lex_allomfs=@allomfs;
+ @allomfs=();
+# seg:/=ik$/&&root:s/ik$//;;-ik;
+# else seg:/%[ae]d$/;;-Ad;
+# verbs with lexical verbal prefix may not follow a productive verbal prefix
+ humor:/^IK\+/;;lr:!pfx_V;
+ seg:/%[ae]d${sfin}/;;-Ad;
+ else seg:/=i${sfin}/&&root:s/i$//;;; #sínyli
+ root:/(?:^|[${cmpsep}])$C*$V_$C*$/&&!seg:/^[@%]/;;1syl;
+ seg:s/^\.\.\.//;;;
+ lexseg:s/^\.\.\.//;;;
+ if(irreg||stemalt:/^[^d]/)
+ {
+ ##verbs marked as irregular
+ if(irreg)
+ {
+  #nincs
+  root:/(^|[${cmpsep}])[ns]incs$/
+  +L;; -03 =AnAk
+  +L/$/en/;; -03
+  #jön
+  root:/(^|[${cmpsep}])jön$/
+  +L;; -03 =nA =nAk
+  +L//$1jő+ve[HIN]/;;atomic !cat_V cat_Adv;
+  +L//$1jő+vén[HINN]/;;atomic !cat_V cat_Adv;
+  +L//$1jö/;; -hAt =ttAm =tt
+  +L//$1jöj/;; =j
+  +L//$1jös/;; =sz
+  #+L//jöt/;; =tOk =tAm =t
+  +L//$1jöt+tök[t2]/;; mcat_stem+infl;
+  +L//$1jösz+tök[t2]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L//$1jöv/;; -Ok -Unk -Ás -Ó -AndÓ -AtlAn =OgAt
+  +L//$1gyer+e[Pe2]/;; mcat_stem+infl
+  +L//$1jöv+el[Pe2]/;restr:a; mcat_stem+infl
+  +L//$1jer+[Pe2]/;restr:a; mcat_stem+infl
+  +L//$1gyer+tOk![Pt2]/;; mcat_stem+infl
+  +L//$1jer+tOk![Pt2]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L//$1gyer+ünk[Pt1]/;; mcat_stem+infl
+  #van
+  root:/(^|[${cmpsep}])van$/&&$zarte_ana
+  +L;; -03 =nAk
+  +L//$1vagy/;; -Ok -Unk =02 =OgAt =tOk
+  +L//$1vol/;!INF; =nA =tAm =t
+  +L//$1van+ni[INF]/;; mcat_stem+infl;restr:a;
+  +L//$1lë/;;  VHFU -hAt =gy;
+  +L//$1lën/;; VHFU =nA;restr:a;
+  +L//$1lën/;; VHFU =ni;
+  +L//$1lëv/;; VHFU -Ás -Ó;
+  +L//$1lé/;; VHFU -vA;
+  +L//$1lév/;; VHFU -Ás -Ó;restr:a;
+  +L//$1lé+gy[Pe2]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L//$1lë+gyél[Pe2]/;restr:g; mcat_stem+infl;#unless($generator)
+  root:/(^|[${cmpsep}])van$/
+  +L;; -03 =nAk
+  +L//$1vagy/;; -Ok -Unk =02 =OgAt =tOk
+  +L//$1vol/;!INF; =nA =tAm =t
+  +L//$1van+ni[INF]/;; mcat_stem+infl;restr:a;
+  +L//$1le/;;  VHFU -hAt =gy;
+  +L//$1len/;; VHFU =nA;restr:a;
+  +L//$1len/;; VHFU =ni;
+  +L//$1lev/;; VHFU -Ás -Ó;
+  +L//$1lé/;; VHFU -vA;
+  +L//$1lév/;; VHFU -Ás -Ó;restr:a;
+  +L//$1lé+gy[Pe2]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L//$1le+gyél[Pe2]/;restr:g; mcat_stem+infl;#unless($generator)
+  #megy
+  root:/(^|[${cmpsep}])m[ëe]gy$/
+  +L;; -03 -Ok -Unk =OgAt
+  #më
+  +L/gy$//;; -hAt
+  #mën
+  +L/gy$/n/;; -vA =j -Ás -Ó =nA =nAk =tOk =tAm =t -tAbAn
+  +L//$1mé/;; =sz
+  +L//$1mé+gy[e2]/;restr:a; mcat_stem+infl;#unless($generator)
+  #esz=ik
+  root:/(^|[${cmpsep}])[ëe]sz$/
+  +L;; -Ok -Om -Unk =Ol =OgAt =lAk =nAk =tOk
+  +L/$/+[e3]/;;mcat_stem+infl;restr:a;
+  #ë
+  +L/sz$//;; -hAt =gy =dd =tAt =ttAm -*vÁn
+  #ën
+  +L/sz$/n/;; =nA
+  #ëss
+  +L/sz$/ss/;; =zUk
+  #ëv
+  +L/sz$/v/;; -Ás -Ó -AndÓ -AtlAn =Ott
+  +L//$1é/;; -vA
+  +L//$1é+gy[Pe2]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L/sz$/+vén[HINN]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L/sz$/+gyél[Pe2]/;restr:g; mcat_stem+infl;#unless($generator)
+  #isz=ik
+  root:/(^|[${cmpsep}])isz$/
+  +L;; -ik -Ok -Om -Unk =Ol =OgAt =lAk =nAk =tOk
+  +L//$1i/;; -hAt =gy =dd =tAt =ttAm -vÁn
+  +L//$1in/;; =nA
+  +L//$1iss/;; =zUk
+  +L//$1iv/;; -Ás -Ó -AndÓ -AtlAn =Ott
+  +L//$1í+va[HIN]/;;mcat_stem+infl;
+  +L/isz$/í+ván[HINN]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L/sz$/+gyál[Pe2]/;restr:g; mcat_stem+infl;#unless($generator)
+  #lesz
+  root:/(^|[${cmpsep}])l[eë]sz$/
+  +L;; -03 -Ok -Unk =Ol =OgAt =lAk =nAk =tOk
+  #le
+  +L/sz$//;; -hAt =gy -AndÓ =ttAm =tt
+  #len
+  +L/sz$/n/;; =nA
+  #lev
+  +L/sz$/v/;; -Ás -Ó
+  +L//$1lé/;; -vA
+  +L//$1lév/;; -Ás -Ó;restr:a;
+  +L//$1lé+gy[Pe2]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L//$1lé+gyen[Pe3]/;restr:a; mcat_stem+infl;X:only=hist;#unless($generator)
+  +L/sz$/+gyél[Pe2]/;restr:g; mcat_stem+infl;#unless($generator)
+  #tesz
+  root:/(^|[${cmpsep}])t[ëe]sz$/
+  +L;; -03 -Ok -Unk =Ol =OgAt =lAk =nAk =tOk
+  #te
+  +L/sz$//;; -hAt =gy =dd =tAt -AndÓ =ttAm =tt -*vÁn
+  #ten
+  +L/sz$/n/;; =nA
+  #tess
+  +L/sz$/ss/;; =zUk
+  #tev
+  +L/sz$/v/;; -Ás -Ó
+  +L//$1té/;; -vA
+  +L//$1té+gy[Pe2]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L/sz$/+gyél[Pe2]/;restr:g; mcat_stem+infl;#unless($generator)
+  #vesz
+  root:/(^|[${cmpsep}])v[ëe]sz$/
+  +L;; -03 -Ok -Unk =Ol =OgAt =lAk =nAk =tOk
+  +L/sz$//;; -hAt =gy =dd =tAt -AndÓ =ttAm =tt -*vÁn
+  +L/sz$/n/;; =nA
+  +L/sz$/ss/;; =zUk
+  +L/sz$/v/;; -Ás -Ó
+  +L//$1vé/;; -vA =tAt
+  +L//$1vé+gy[Pe2]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L/sz$/+gyél[Pe2]/;restr:g; mcat_stem+infl;#unless($generator)
+  #hisz
+  root:/(^|[${cmpsep}])hisz$/
+  +L;; -03 -Ok -Unk =Ol =OgAt =lAk =nAk =tOk
+  +L//$1hi/;; -hAt =dd =tAt -AndÓ =ttAm =tt
+  +L//$1hig/;; =gy
+  +L//$1hin/;; =nA
+  +L//$1hiss/;; =zUk
+  +L//$1hív/;; -Ás -Ó
+  +L//$1hí+ve[HIN]/;;mcat_stem+infl;
+  +L//$1hi+vén[HINN]/;;mcat_stem+infl;
+  +L//$1hig+gy[Pe2]/;;mcat_stem+infl;#unless($generator)
+  #visz
+  root:/(^|[${cmpsep}])visz$/
+  +L;; -03 -Ok -Unk =Ol =OgAt =lAk =nAk =tOk
+  +L//$1vi/;; -hAt =gy =dd =tAt -AndÓ =ttAm =tt
+  +L//$1vin/;; =nA
+  +L//$1viss/;; =zUk
+  +L//$1viv/;; -Ás -Ó
+  +L//$1ví+ve[HIN]/;;mcat_stem+infl;
+  +L//$1vi+vén[HINN]/;;mcat_stem+infl;
+  +L//$1ví+gy[Pe2]/;restr:a; mcat_stem+infl;#unless($generator)
+  +L/sz$/+gyél[Pe2]/;restr:g; mcat_stem+infl;#unless($generator)
+  #nyug%sz=ik
+  root:/(^|[${cmpsep}])nyugsz$/
+  +L;; -ik -Ok -Om -Unk =Ol =*AnAk =*OtOk
+  +L//$1nyugod/;; =jUk =j =d =tAt =gAt =lAk =nAk =nA =tOk =tAm =Ott -hAt -*ik -*Ok -*Om -*Unk =*sz -*Ás -*Ó -vA
+  +L//$1nyug/;; -*hAt =tAt
+  +L//$1nyugv/;; -Ás -Ó
+  +L//$1nyugov/;; -Ás -Ó;restr:a;
+  #fek%sz=ik
+  root:/(^|[${cmpsep}])feksz$/
+  +L;; -ik -Ok -Om -Unk =Ol =AnAk =*OtOk
+  +L//$1feküsz/;restr:a; VHFR -ik -Ok -Om -Unk =Ol =nAk =tOk =lAk atomic
+  +L//$1feküd/;; VHFR =jUk =j =d =tAt =gAt =lAk =*nAk =nA =tOk =tAm =t -*hAt -*ik -*Ok -*Om -*Unk =*sz -*Ás -*Ó -*vA
+  +L//$1fek/;; -hAt -vA =tAt
+  +L//$1fekv/;; -Ás -Ó
+  #al%sz=ik
+  root:/(^|[${cmpsep}])alsz$/
+  +L;; -ik -Ok -Om -Unk =Ol =AnAk =*OtOk
+  +L//$1alud/;; =jUk =j =d =tAt =gAt =lAk =*nAk =nA =tOk =tAm =t -*hAt -*ik -*Ok -*Om -*Unk =*sz -*Ás -*Ó -*vA
+  +L//$1al/;; -hAt -vA =tAt
+  +L//$1alv/;; -Ás -Ó -AtlAn
+  +L//$1aluss/;restr:a; =zUk;#unless($generator)
+  +L//$1alusz/;restr:a; -ik -Ok -Unk =Ol =nAk =tOk;#unless($generator)
+ }
+
+ ###verbs with regular stem alternations
+ ##vowel-zero alternation
+ elsif(stemalt:VZA)
+ {
+  ;;irreg;
+  #oml.ik/ugr.ik
+  root:/($C)([lr])$/&&-ik&&1syl
+  +L;; VZverb -ik -Ok -Unk -Ás -Ó -AndÓ -AtlAn =At =Asz =*AlAk =AnA =AnAk =OtOk =OttAm =Ott
+  +L//$1O$2!/;; -hAt -vA =jUk =j =d =*tAt =gAt =*sz =lAk =*nA =*nAk =*tOk =*tAm
+  #fürd.ik
+  root:/($C)d$/&&-ik&&1syl
+  +L;; VZverb -ik -Ok -Unk -Ás -Ó -AndÓ -AtlAn =At =Asz =*AlAk =*AnA =*AnAk =*OtOk =Ott
+  +L//$1Od!/;; -hAt -vA =jUk =j =d =gAt =*sz =lAk =nA =nAk =tOk =tAm
+  #hangz.ik
+  root:/($C)z$/&&-ik&&1syl
+  +L;; VZverb -ik -Ok -Unk =Ol -Ás -Ó -AndÓ -AtlAn =*AlAk =AnA =AnAk =OtOk =OttAm =Ott
+  +L//$1Oz!/;; -hAt -vA =zUk =z =d =tAt =gAt =lAk =*nA =*nAk =*tOk =*tAm
+  #haldokl.ik
+  root:/($C)l$/&&-ik&&!1syl
+  +L;; VZverb -ik -Ok -Unk -Ás -Ó -AndÓ -AtlAn =Asz =*AlAk =*AnA =*AnAk =*OtOk =*OttAm =Ott
+  +L//$1Ol!/;; -hAt -vA =jUk =j =d =tAt -*Unk =gAt =*sz =lAk =nA =nAk =tOk =tAm
+  #virágz.ik
+  root:/($C)z$/&&-ik&&!1syl
+  +L;; VZverb -ik -Ok -Unk =Ol -Ás -Ó -AndÓ -AtlAn =Ol =*AlAk =*AnA =*AnAk =*OtOk =*OttAm =Ott
+  +L//$1Oz!/;; -hAt -vA =zUk =z =d =tAt -Unk =gAt =lAk =nA =nAk =tOk =tAm
+  #becsül
+  root:/ü(l)$/&&!-ik
+  +L;; -03 -hAt -vA =jUk =j =d =tAt -*Ok -*Unk -*Ás -*Ó -*AndÓ -*AtlAn =gAt =sz =lAk =nA =nAk =tOk =tAm =t
+  +L//$1/;; VZverb !VHFR VHFU -Ok -Unk -Ás -Ó -AndÓ;
+  #jósol
+  root:/$V(l)$/&&!-ik
+  +L;; -03 -hAt -vA =jUk =j =d =tAt -Ok -Unk -*Ás -*Ó -*AndÓ -*AtlAn =gAt =sz =lAk =nA =nAk =tOk =tAm =t
+  +L//$1/;; VZverb -*Ok -*Unk -Ás -Ó -AndÓ -AtlAn
+  #kevesell
+  root:/$V(l)l$/&&!-ik
+  +L;; -03 -hAt -vA =jUk =j =d =tAt -*Ok -*Unk -*Ás -*Ó -*AndÓ -*AtlAn =gAt =sz =lAk =nA =nAk =tOk =tAm =*Ot0t
+  +L//$1/;; VZverb -Ok -Unk -Ás -Ó -AndÓ -AtlAn =*AnA =*AnAk =*OtOk =*OttAm =*Ott
+  #kotor
+  root:/$V(r)$/&&!-ik
+  +L;; -03 -hAt -vA =jUk =j =d =tAt -*Ok -*Unk -*Ás -*Ó -*AndÓ -*AtlAn =gAt =sz =lAk =nA =nAk =tOk =tAm =t
+  +L//$1/;; VZverb -Ok -Unk -Ás -Ó -AndÓ -AtlAn =*At
+  #terem
+  root:/${V}m$/&&!-ik
+  +L;; -03 -hAt -vA =jUk =j =d -*Unk =gAt =sz =lAk =nA =nAk =tOk =tAm
+  +L//m/;; VZverb -Ok -Unk -Ás -Ó -AndÓ -AtlAn =*OttAm =Ott
+  #forog
+  root:/${V}g$/&&!-ik
+  +L;; -03 -hAt -vA =jUk =j =d =*tAt -*Unk =sz =lAk =nA =nAk =tOk =tAm
+  +L//g/;; VZverb -Ok -Unk -Ás -Ó -AndÓ -AtlAn =At =Ott
+  #őriz
+  root:/(őr)iz$/
+  +L;; -03 -hAt -vA =zUk =z =d =tAt -*Ok -*Unk =*Ol -*Ás -*Ó -*AndÓ -*AtlAn =gAt =lAk =nA =nAk =tOk =tAm =*Ott
+  +L//$1z/;; VZverb VHFR -Ok -Unk =Ol -Ás -Ó -AndÓ -AtlAn =Ott
+  #sebez
+  root:/${V}z$/&&!-ik
+  +L;; -03 -hAt -vA =zUk =z =d =tAt -*Ok -*Unk =*Ol -*Ás -*Ó -*AndÓ -*AtlAn =gAt =lAk =nA =nAk =tOk =tAm =*Ott
+  +L//z/;; VZverb -Ok -Unk =Ol -Ás -Ó -AndÓ -AtlAn =Ott
+ }
+ elsif(stemalt:szdv?)
+ {
+  #defectives: -Agsz,-Aksz,-Alsz,gyarapsz...
+  #dsz(v) verbs
+  #root:/[pbfjrlnmkg]sz$/
+  #+L;;irreg -Ok -Om -Unk =Ol =*AnAk =*OtOk
+  #+L/sz/Od!/;;=Ott =sz =nAk =tOk =tAm =lAk =d =j =jUk
+  ;;irreg;
+  ;;gseg:$seg;
+  seg:s/[aeou]?[dz](?==)/sz/;;;
+  if(stemalt:szdv)
+  {
+   #esküszik,alkuszik
+   root:/($C$C[uü])d$/
+   +L;;=Ott =*Ol =nA =nAk =tOk =tAm =lAk =d =j =jUk -hAt -vA -*Ás -*Ó -*ik -*Ok -*Unk -AndÓ -AtlAn =tAt
+   +L//$1v/;;-Ás -Ó;
+   #
+   root:/($C$C[uü])z$/
+   +L;;=Ott =*Ol =nA =nAk =tOk =tAm =lAk =d =z =zUk -hAt -vA -*Ás -*Ó -*ik -*Ok -*Unk -AndÓ -AtlAn =tAt
+   +L//$1v/;;-Ás -Ó;
+   #igyekezik...
+   root:/${V}z$/
+   +L;;=Ott =*Ol =nA =nAk =tOk =tAm =lAk =d =z =zUk -hAt -vA -*Ás -*Ó -*ik -*Ok -*Unk -AndÓ -AtlAn =tAt
+   +L//v/;;-Ás -Ó;
+   #növekedik...
+   root:/${V}d$/&&stemalt:szdv
+   +L;;=Ott =*sz =nA =nAk =tOk =tAm =lAk =d =j =jUk -hAt -vA -*Ás -*Ó -*ik -*Ok -*Unk -AndÓ -AtlAn =tAt
+   +L//v/;;-Ás -Ó;
+  }
+  else
+  {
+   #emlékezik...
+   root:/${V}z$/
+   +L;;=Ott =*Ol =nA =nAk =tOk =tAm =lAk =d =z =zUk -hAt -vA -Ás -Ó -*ik -*Ok -*Unk -AndÓ -AtlAn =tAt
+   #melegedik...
+   root:/${V}d$/
+   +L;;=Ott =*sz =nA =nAk =tOk =tAm =lAk =d =j =jUk -hAt -vA -Ás -Ó -*ik -*Ok -*Unk -AndÓ -AtlAn =tAt
+  }
+  {
+   #the -sz stem of dsz verbs: esküszik,alkuszik
+   root:/($C$C[uü])[dz]$/
+   +L//$1sz/;;-ik -Ok -Om -Unk =Ol =*nAk =*tOk;
+   #the -sz stem of all other dsz verbs: verekszik, kisebbszik...
+   #root:/(${V_}$C)$V[dz]$/
+   root:/$V[dz]$/
+   +L//sz/;;-ik -Ok -Om -Unk =Ol =*AnAk =*OtOk;
+  }
+ }
+ }
+ ##non-VZA regular stems
+ else
+ {
+  #factitive
+  #root:/[^t]$/&&1syl;;=At;
+  #else root:/t$/;;=tAt;
+  #else !-Ad&&!1syl;;=tAt;
+  #"frequentative"
+  #root:/[^g]$/&&1syl;;=OgAt;
+  #else root:/[^g]$/&&!1syl;;=gAt;
+
+  ##non-alternating regular verb endings
+
+  #sonorants j,ly,n,ny
+  root:/([jn]|[nl]y)$/
+  +L;;=t =sz =nAk =tOk =tAm =lAk =d =j =jUk
+
+  #liquids l,r
+  #nyílik,múlik...
+  root:/[íú]l$/&&-ik
+  +L;;=*Ot0t =*Ot0tAm =sz =nAk =tOk =lAk =d =j =jUk
+  #szól...
+  root:/szól$/
+  +L;;=*Ot0t =*Ot0tAm =sz =nAk =tOk =lAk =d =j =jUk
+  #sül...
+  root:/${V_}l$/||seg:/${V__}l(=ik)?$/
+  +L;;=t =sz =nAk =tOk =tAm =lAk =d =j =jUk
+  #áll, száll
+  root:/áll$/&&!-ik
+  +L;;=*Ot0t =sz =*A0nAk =tOk =*Ot0tAm =Ak =d =j =jUk
+  #hull
+  root:/hull$/
+  +L;;=Ot0*t =Asz =A0*nAk =O0*tOk =Ot0*tAm =j =jUk
+  #hall, kell
+  root:/${V}ll$/&&1syl
+  +L;;=Ott =Asz =AnAk =OtOk =OttAm =Ak =d =j =jUk
+  #átall is like hall, kell
+  root:/(át|rossz)all$|torkoll$/
+  +L;;=Ot0*t =Asz =A0*nAk =O0*tOk =Ot0*tAm =Ak =d =j =jUk
+  #sokall, rühell...
+  #feketéll, későll...(do these words exist?)
+  root:/${V_}ll$/&&!-ik&&!1syl
+  +L;;=*Ot0t =*A0sz =*A0nAk =*O0tOk =*Ot0tAm =Ak =d =j =jUk
+  #ajánl
+  root:/ajánl$/
+  +L;;=Ott =Asz =AnAk =OtOk =OttAm =lAk =d =j =jUk
+  #mállik...
+  root:/${V_}ll$/&&-ik&&1syl
+  +L;;=Ott =Asz =AnAk =OtOk =OttAm =Ak =d =j =jUk
+  #pitymallik...
+  root:/${V_}ll$/&&-ik&&!1syl
+  +L;;=Ott =A0*sz =A0*nAk =*O0tOk =Ot0*tAm =Ak =d =j =jUk
+
+  #defectives, sínyl*...
+  root:/${Cl}l$/
+  +L;Vini;=Ott =Asz =AnAk =OtOk =OttAm =AlAk; #unless(stemalt:VZA||lemma:.*ajánl)
+
+  #tör...
+  root:/${V_}r$/&&!-ik
+  +L;;=t =sz =nAk =tOk =tAm =lAk =d =j =jUk
+  #érik
+  root:/ér$/&&-ik
+  +L;;=Ott =sz =nAk =tOk =tAm =lAk =d =j =jUk
+  #szarik,törik
+  root:/${V}r$/&&-ik
+  +L;;=t =sz =nAk =tOk =tAm =lAk =d =j =jUk
+  +L;;=Ott;if(root:/tör$/) #törik
+  #forr, varr
+  root:/${V}rr$/&&!-ik
+  +L;;=*Ot0t =sz =nAk =*O0tOk =tAm =lAk =d =j =jUk
+
+  #sibilants s,z,sz,dz
+  #[óő]dzik
+  root:/${VV}dz$/&&-ik
+  +L;;=Ott =Ol =nAk =tOk =tAm =lAk =d
+  +L/z$/d/;;=z =zUk
+  ##/${VV}dz$/&&-ik;;=OttAm
+  #[ae]dzik
+  root:/${V}dz$/&&-ik
+  +L;;=Ott =Ol =*A0nAk =*O0tOk =*Ot0tAm =*A0lAk =d
+  +L/z$/d/;;=z =zUk
+  #edz,pedz
+  root:/dz$/&&!-ik
+  +L;;=Ott =Ol =AnAk =O0*tOk =OttAm =*A0lAk =d
+  +L/z$/d/;;=z =zUk
+  #mos,vés...
+  root:/${V_}s$/
+  +L;;=Ott =Ol =nAk =tOk =tAm =lAk =d =s =sUk
+  #néz,húz...
+  root:/${V_}z$/||seg:/${V__}z(=ik)?$/||phon:/${V_}z$/
+  +L;;=Ott =Ol =nAk =tOk =tAm =lAk =d =z =zUk
+  #defectives: -Agsz,-Aksz,-Alsz,gyarapsz...
+  #defectives: alapszik, ismerszik...
+  #dsz(v) verbs
+  root:/[pbfjrlnmkg]sz$/
+  +L;;irreg -Ok -Om -Unk =Ol =*AnAk =*OtOk
+  #defectives: -kUsz,-lUsz...
+  root:/[uü]sz$/
+  +L;;irreg -Ok -Om -Unk =Ol =nAk =tOk
+  #mászik...
+  root:/[aeëioöáéíóúőű]sz$/
+  +L;;=Ott =Ol =nAk =tOk =tAm =lAk =d
+  +L/z$/s/;;=z =zUk
+  +L//ész/;;-03; if(seg:/vesz=ik$/)
+  #tsz(.ik)
+  root:/tsz$/
+  +L;;=Ott =Ol =AnAk =OtOk =OttAm =AlAk =d
+  +L/z$/s/;;=z =zUk
+  +/(me)tsz$/$1s/;;=s =sUk;restr:a;
+  +/(te|lá)tsz$/$1ss+ék[Pe3]/;;mcat_stem+infl;restr:a;
+  #izzik
+  root:/zz$/
+  +L;;=Ott =Ol =AnAk =OtOk =OttAm =AlAk
+  +L/z$//;;=z =zUk
+  #ajz,nemz,vonz,burjánzik...
+  root:/[jmnr]z$/
+  +L;;=Ott =Ol =AnAk =OtOk =Ot0*tAm =AlAk =d =z =zUk
+  #defectives:habzik...
+  root:/[bpfvtkghlcy]z$/
+  +L;Vini;=Ott =Ol =AnAk =OtOk =OttAm =AlAk
+  #nincs, sincs
+  root:/incs$/
+  +L;;irreg -03 =AnAk
+
+  #other obstruents and labials b,f,m,p,v,gy,k
+  root:/([bfmpvk]|gy)$/
+  +L;;=Ott =sz =nAk =tOk =tAm =lAk =d =j =jUk
+
+  #g
+  #lóg...
+  root:/${V_}g$/
+  +L;;=Ott =sz =nAk =tOk =tAm =lAk =d =j =jUk
+  #fingik
+  root:/ng$/&&-ik
+  +L;;=Ott =A0*sz =AnAk =*A0lAk =*O0tOk =*Ot0tAm =d =j =jUk
+  #csügg,agg,függ,csüng,zsibong,aggik...
+  root:/[lng]g$/
+  +L;;=Ott =A0*sz =A0*nAk =*A0lAk =*O0tOk =*Ot0tAm =d =j =jUk
+
+  #t
+  #-At,-tAt,-gAt,-hAt,kajtat...
+  root:/${V}t$/&&!1syl
+  +L;;=Ott =tAm =sz =nAk =tOk =lAk =jUk
+  +L/t$/s/;;=d =s
+  #fut,hat,vet...,lót
+  root:/${V}t$|lót$/&&1syl
+  +L;;=Ott =OttAm =sz =nAk =tOk =lAk =jUk
+  +L/t$/s/;;=d =s
+  #lát
+  root:/lát$/&&1syl
+  +L;;=Ott =tAm =sz =nAk =tOk =lAk =jUk
+  +L/t$/s/;;=d =s
+  #bocsát
+  root:/bocsát$/
+  +L;;=Ott =OttAm =Asz =AnAk =OtOk =AlAk =jUk
+  +L/t$/s/;;=d =s
+  #V:t|SONt
+  #root:/(?:^|[${cmpsep}])(?!l[áó]t|bocsát)[^+]*($VV|[jlrnmy])t$/
+  root:/($VV|[jlrnmy])t$/
+  +L;;=Ott =OttAm =A0*sz =AnAk =O0*tOk =A0*lAk =jUk =s =sd
+  #szt
+  root:/szt$/
+  +L;;=Ott =OttAm =A0*sz =AnAk =O0*tOk =A0*lAk =jUk
+  +L/t$//;;=d
+  +L/zt$/s/;;=z
+  #st
+  root:/st$/
+  +L;;=Ott =OttAm =A0*sz =AnAk =O0*tOk =A0*lAk =jUk
+  +L/t$//;;=d =s
+
+  #d
+  #-Ad:roh.ad,rag.ad,mar.ad,rep.ed...
+  root:/[ae]d$/&&-Ad
+  +L;;=t =sz =nAk =tOk =tAm =lAk =d =j =jUk
+  #ad,tagad...
+  root:/${V}d$/&&!-Ad
+  +L;;=Ott =sz =nAk =tOk =tAm =lAk =d =j =jUk
+  #fedd
+  root:/${V}dd$/
+  +L;;=Ott =sz =nAk =tOk =tAm =lAk =0d =j =jUk
+  #[óő]dik,okád,imád,vajúdik...
+  root:/${VV}d$/&&!1syl
+  +L;;=Ott =sz =nAk =tOk =tAm =lAk =d =j =jUk
+  #véd
+  root:/${VV}d$/&&1syl
+  +L;;=Ott =A0*sz =AnAk =A0*lAk =tOk =tAm =d =j =jUk
+  #mond,esend,örvend,csikland
+  root:/nd$/
+  +L;;=Ott =A0*sz =A0*nAk =A0*lAk =*O0tOk =*Ot0tAm =d =j =jUk
+  #kezd
+  root:/ezd$/
+  +L;;=Ott =Asz =AnAk =A0*lAk =tOk =tAm =d =j =jUk
+  #küld,kérd,hord,
+  root:/(r|ül)d$/
+  +L;;=Ott =A0*sz =AnAk =A0*lAk =*O0tOk =tAm =d =j =jUk
+  #áld,old,told,száguld,küzd,mosdik,esd
+  root:/(s|üz|[áou]l)d$/
+  +L;;=Ott =A0*sz =AnAk =A0*lAk =O0*tOk =Ot0*tAm =d =j =jUk
+
+  ##vowel-final verbs (v-final before V-initial suffixes)
+  root:/[íóűúő]$/
+  +L;;irreg -03 -hAt -vA =jUk =j =dd =sz =lAk =nA =nAk =tOk =ttAm =tt
+  +L/([íúű]|fő)$/$1v/;;-Ok -Unk -Ás -Ó -AndÓ -AtlAn =At =OgAt; #rí,fú,fő,nyű
+  +L/ó$/ov/;;-Ok -Unk -Ás -Ó -AndÓ -AtlAn =At =OgAt;         #ró
+  +L/([^f])ő$/$1öv/;;-Ok -Unk -Ás -Ó -AndÓ -AtlAn =At =OgAt; #lő,nő,sző
+
+  ##d-sz/d-sz-v alternating stems
+  #&&!$generator)
+  if(stemalt:dszv?)
+  {
+   ;;gseg:$seg;
+   gseg:s/[aeo]?[dz](?==)/sz/;;;
+   #the -sz stem of dsz verbs: esküszik,alkuszik
+   root:/($C$C[uü])[dz]$/
+   +L//$1sz/;;-ik -Ok -Om -Unk =Ol =*nAk =*tOk;
+   #the -sz stem of all other dsz verbs: verekszik, kisebbszik...
+   #root:/(${V_}$C)$V[dz]$/
+   root:/$V[dz]$/
+   +L//sz/;;-ik -Ok -Om -Unk =Ol =*AnAk =*OtOk;
+   #the -v stem of dszv verbs: törekszik...
+   if(stemalt:dszv)
+   {
+    root:/($C$C[uü])[dz]$/
+    +L//$1v/;;-Ás -Ó;
+    root:/[uü][dz]$/
+    +L/[dz]$/v/;;-Ás -Ó;;restr:a;
+    root:/[öeëouü][dz]$/
+    +L//v/;;-Ás -Ó;
+   }
+  }
+ }
+ #add lexically given allomorphs
+ push(@allomfs,@lex_allomfs);
+
+ for($allomfs[0])
+ {
+  ##mark the first allomorph of all verbs with -ik/-03 and regular unless marked otherwise
+  #add -ik or -03 property marking sg3 ind pres ending
+  ^-ik&&!-ik&&!stemalt:szdv?;;-ik;
+  if(!^irreg&&!irreg)
+  {
+   ;;reg; #mark it regular
+   !^-ik&&!-03;;-03;
+   #factitive for regular stems
+   if(!not_=t?At&&!^=t?At)
+   {
+    root:/[^t]$/&&^1syl||root:/${C}t$/;;=At;
+    else root:/t$/;;=tAt;
+    else !^-Ad&&!^1syl;;=tAt;
+   }
+   #"frequentative" for regular stems
+   root:/[^g]$/&&^1syl;;=OgAt;
+   else root:/[^g]$/&&!^1syl;;=gAt;
+  }
+ }
+
+ #add lexical properties and mark category as V
+ for(@allomfs)
+ {
+  &addlexprops;
+#  !cat_V&&!mcat_stem\+infl;;cat_V;
+#  mcat_stem\+infl;;!cat_V&&cat_vrb;
+#   ;;!not_=t?At;
+   !cat_V;;cat_V;
+   ^-ik;;-jék -nék;
+   ^-ik ^-Om;;-jAm;
+  ;;gp:cat_V;
+ }
+}
+
+##words having a non-nominal and non-verbal category are simply added
+else
+{
+ #[ntkrb]-initial nominal inflections have a vowel-initial variant
+ #this must be handled in sfxalt.1!
+ #root:/^[ntkrb][^+]/&&mcat_infl&&lr:cat_Nom
+ #+;;;
+ #+/^([ntkrb])//;lr:$1_fin =Al;;
+ #pronouns
+ if(stemalt:/./)
+ {
+  #generate the forms of postpositions
+  if(stemalt:pp([ea]z)?)
+  {
+   $mrf->{humor}="FN|NM+$humor";
+    $seg="+$seg";
+#   $mrf->{seg}="";
+
+   root:/(.*[áé])$/
+#   +//$1\[NU]/;lr:deix;lp:pp;if(stemalt:ppez)
+#   +//$1\[NU]/;lr:deix VHB;lp:pp;if(stemalt:ppaz)
+#   +//$1\[NU]/;;;if(stemalt:pp)
+   +/^($V_.*)$/az+$1+[HA|NM]/;;;lexseg:az+$1+;if(stemalt:pp[ae]z)
+   +/^($V_.*)$/ez+$1+[HA|NM]/;;;lexseg:ez+$1+;if(stemalt:ppez)
+   +/^($C.*)$/a+$1+[HA|NM]/;;;lexseg:az+$1+;if(stemalt:pp[ae]z)
+   +/^($C.*)$/e+$1+[HA|NM]/;;;lexseg:ez+$1+;if(stemalt:ppez)
+   +//$1\[NU]/;;;
+   +//+$1+@{psfx0juk}!/;;mcat_stem\+infl;
+   +//@{ppron}+$1+@{psfx0juk}!/;;mcat_stem\+infl;restr:a;
+   +//+$1+jA[e3]!/;;mcat_stem\+infl;restr:a;
+   +//ő+$1+jA[e3]!/;;mcat_stem\+infl;restr:a;
+
+   root:/(.*[ié]b)e$/
+   +//$1e\[NU]/;;;if(stemalt:pp)
+   +//+$1L+@{psfx0}!/;;mcat_stem\+infl;
+   +//@{ppron}+$1L+@{psfx0}!/;;mcat_stem\+infl;restr:a;
+   +//+$1é+@{psfx0juk}!/;;mcat_stem\+infl;restr:a;
+   +//@{ppron}+$1é+@{psfx0juk}!/;;mcat_stem\+infl;restr:a;
+   +/(.*é)be$/+$1+@{psfx0juk}be!/;;mcat_stem\+infl;restr:a; #elénkbe
+   +/(.*é)be$/@{ppron}+$1+@{psfx0juk}be!/;;mcat_stem\+infl;restr:a;
+   +/(.*)ibe$/+$1+@{psfxi2pl}be!/;;mcat_stem\+infl;restr:a; #eleikbe
+   +/(.*)ibe$/@{ppronpl}+$1+@{psfxi2pl}be!/;;mcat_stem\+infl;restr:a;
+   root:/(.*[ié])(ben)$/
+   +//$1$2\[NU]/;;;if(stemalt:pp)
+   +//+$1+@{psfx0juk}$2!/;;mcat_stem\+infl;restr:a; #elénkben
+   +//@{ppron}+$1+@{psfx0juk}$2!/;;mcat_stem\+infl;restr:a;
+
+   root:/(.*)e$/
+   +//+$1L+@{psfx0}!/;;mcat_stem\+infl;
+   +//@{ppron}+$1L+@{psfx0}!/;;mcat_stem\+infl;restr:a;
+
+   #körül is special: its inflected forms have the stem körülött
+   #körüle etc. is outdated, restricted to analyzer
+   root:/(körül)$/
+   +//a[FN|NM]+$1\[NU]+[HA|NM]/;;rp:-i Cfin;
+   +//e[FN|NM]+$1\[NU]+[HA|NM]/;;rp:-i Cfin;
+   +//$1\[NU]/;;rp:-i Cfin;
+#   +//$1\[NU]/;lr:deix;lp:pp;rp:-i Cfin;
+   +//+$1öttL+@{psfx0}!/;;mcat_stem\+infl;
+   +//@{ppron}+$1öttL+@{psfx0}!/;;mcat_stem\+infl;restr:a;
+   +//+$1L+@{psfx0}!/;;mcat_stem\+infl;restr:a;
+   +//@{ppron}+$1L+@{psfx0}!/;;mcat_stem\+infl;restr:a;
+
+   #kívül is strange: it is not a real PP (takes a case=SUB argument),
+   #but it has Px suffixed forms
+   root:/(kívül)$/
+   #ekívül
+   +//e+$1+[HA|NM]/;;;
+   #+//$1\[NU]/;lr:deix;lp:pp;rp:-i Cfin;
+   +//+$1L+@{psfx0}!/;;mcat_stem\+infl;
+   +//@{ppron}+$1L+@{psfx0}!/;;mcat_stem\+infl;restr:a;
+
+   root:/(.*)$/
+#   +//$1\[NU]/;lr:deix;lp:pp;rp:-i Cfin;if(stemalt:ppez)
+#   +//$1\[NU]/;lr:deix VHB;lp:pp;rp:-i Cfin;if(stemalt:ppaz)
+#   +//$1\[NU]/;;rp:-i Cfin;if(stemalt:pp)
+   +/^($V_.*)$/az+$1+[HA|NM]/;;-i Cfin;lexseg:az+$1+;if(stemalt:pp[ae]z)
+   +/^($V_.*)$/ez+$1+[HA|NM]/;;-i Cfin;lexseg:ez+$1+;if(stemalt:ppez)
+   +/^($C.*)$/a+$1+[HA|NM]/;;-i Cfin;lexseg:az+$1+;if(stemalt:pp[ae]z)
+   +/^($C.*)$/e+$1+[HA|NM]/;;-i Cfin;lexseg:ez+$1+;if(stemalt:ppez)
+   +//$1\[NU]/;;-i Cfin;
+   +//+$1L+@{psfx0}!/;;mcat_stem\+infl;
+   +//@{ppron}+$1L+@{psfx0}!/;;mcat_stem\+infl;restr:a;
+  }
+
+  #után/előtt may take case suffixes
+  elsif(stemalt:pp\+case)
+  {
+   $mrf->{humor}="FN|NM+$humor";
+   $seg="+$seg";
+#   $mrf->{seg}="";
+
+   root:/(.*$C)$/
+   +/^($V_.*)$/az+$1+[HA|NM]/;;-i Cfin atomic;lexseg:az+$1+;
+   +/^($V_.*)$/ez+$1+[HA|NM]/;;-i Cfin atomic;lexseg:ez+$1+;
+   # előtt+ről
+   +//$1\[NU]/;CASE !0mrf;cat_N !cat_Adv Cfin -i not_cmp1 not_cmp2;lr:deix;lp:pp
+   +/^($V_.*)$/az+$1+[HA|NM]/;CASE !0mrf;cat_N !cat_Adv Cfin -i not_cmp1 not_cmp2 atomic;lexseg:az+$1+;
+   +/^($V_.*)$/ez+$1+[HA|NM]/;CASE !0mrf;cat_N !cat_Adv Cfin -i not_cmp1 not_cmp2 atomic;lexseg:ez+$1+;
+   #előtt+i
+   +//$1\[NU]/;lr:deix;lp:pp;rp:Cfin -i;
+   +//+$1L+@{psfx0}!/;;mcat_stem\+infl;
+   +//@{ppron}+$1L+@{psfx0}!/;;mcat_stem\+infl;restr:a;
+  }
+
+  #maga
+  elsif(stemalt:pers)
+  {
+   root:/(.*)[ae]$/
+   +//$1L+@{psfx0}!/;;;
+   #+//@{ppron}+$1L+@{psfx0}!/;;
+   if(humor:POSi?)
+   {
+    $mrf->{humor}="FN|NM+$humor";
+ #   $seg="+$seg";
+    $seg="";
+    ;;cat_Npron inflable VHFU;
+
+    root:/.*$/&&humor:POS
+    +//eny+é+m[e1]/;(ANP|CASE|PL);LOW =Vt =mAl Cfin;
+    +//ti+é+d[e2]/;(ANP|CASE);LOW =Vt =dAl Cfin;
+    +//öv+é+[e3]/;(ANP|CASE);=_t =vAl Vfin;
+    +//mi+é+nk[t1]/;(ANP|CASE);LOW =Vt =kAl Cfin;
+    +//ti+é+tOk![t2]/;(ANP|CASE);LOW =Vt =kAl Cfin;
+    +//öv+é+k[t3]/;(ANP|CASE);LOW =Vt =kAl Cfin;
+    +//ti+e+d[e2]/;(ANP|CASE);LOW =Vt =dAl Cfin;restr:a;#unless($generator)
+    +//mi+e+nk[t1]/;(ANP|CASE);LOW =Vt =kAl Cfin;restr:a;#unless($generator)
+    +//ti+e+tOk![t2]/;(ANP|CASE);LOW =Vt =kAl Cfin;restr:a;#unless($generator)
+
+    root:/.*$/&&humor:POSi
+    +//eny+éi+m[e1]/;(ANP|CASE);LOW =Vt =mAl Cfin;
+    +//ti+ei+d[e2]/;(ANP|CASE);LOW =Vt =dAl Cfin;
+    +//öv+éi+[e3]/;(ANP|CASE);=_t =vAl Vfin;
+    +//mi+ei+nk[t1]/;(ANP|CASE);LOW =Vt =kAl Cfin;
+    +//ti+ei+tOk![t2]/;(ANP|CASE);LOW =Vt =kAl Cfin;
+    +//öv+éi+k[t3]/;(ANP|CASE);LOW =Vt =kAl Cfin;
+   }
+  }
+
+  #számára etc.
+  elsif(stemalt:pp_poss)
+  {
+   root:/(.*)[áé](.*)$/&&seg:/(.*)=[áé]=(.*)$/#!!$stem_=$1,$infl_=$2
+#   +//$&\[$humor\]/;;mcat_stem\+infl;
+   +//$stem_@{psfx0L}$infl_+@{poss_sfx_cat}!/;;mcat_stem\+infl;
+
+   root:/(.*)[ae](.*)$/&&seg:/(.*)=[ae][=+*](.*)$/#!!$stem_=$1,$infl_=$2
+#   +//$&\[$humor\]/;;mcat_stem\+infl;
+   +//$stem_@{poss_sfx0}$infl_+@{poss_sfx_cat}!/;;mcat_stem\+infl;
+#   $mrf->{humor}="FN|NM+$humor";
+#   $mrf->{seg}="";
+  }
+
+  #létére, torkaszakadtából
+  elsif(stemalt:pp_pers)
+  {
+   ;;root:$seg;
+   root:s/["?!#%@^(){}]|[<[].*?[]>]|\.\.\.//g;;; #remove special segmentation characters from root except =
+   seg:s/L=/=/g;;; #remove lowering mark from seg
+
+   root:/(.*)L=[áé]=(.*)$/#!!$stem_=$1,$infl_=$2,$infl_=~tr/=//d
+   +//$stem_@{psfx0LL}$infl_+@{psfxtag}!/;;mcat_stem\+infl;
+#   +//+$stem_+@{psfx0}L+L$infl_\[\]!/;;mcat_stem\+infl;
+
+   root:/(.*)=[áé]=(.*)$/#!!$stem_=$1,$infl_=$2,$infl_=~tr/=//d
+   +//$stem_@{psfx0L}$infl_+@{psfxtag}!/;;mcat_stem\+infl;
+
+   root:/(.*)L=[ae][=+*](.*)$/#!!$stem_=$1,$infl_=$2,$infl_=~tr/=//d
+   +//$stem_@{poss_sfx0L}$infl_+@{psfxtag}!/;;mcat_stem\+infl;
+
+   root:/(.*)=[ae][=+*](.*)$/#!!$stem_=$1,$infl_=$2,$infl_=~tr/=//d
+   +//$stem_@{poss_sfx0}$infl_+@{psfxtag}!/;;mcat_stem\+infl;
+#   $mrf->{humor}="FN|NM+$humor";
+#   $mrf->{seg}="";
+  }
+
+  #közel, közelre, közelről
+  elsif(stemalt:pp_sup)
+  {
+   root:/$/
+   +;;mcat_stem\+infl;if(gp:sup)
+   +;;-i Cfin;if(!gp:sup)
+   +//+LrA[SUB]!/;;mcat_stem\+infl;
+   +//+LrÓl[DEL]!/;;mcat_stem\+infl;
+  }
+
+  #generate case marked personal pronouns
+  elsif(stemalt:case&&humor:(NOM|ACC))
+  {
+   $mrf->{humor}="FN|NM";
+#   $mrf->{seg}="+$seg";
+
+   ;;mcat_stem\+infl;
+
+   root:/$/&&humor:NOM
+   +//@{ppron}+@{ppron1}+[NOM]/;;
+
+   root:/$/&&humor:ACC
+   +//eng+Om![e1]+[ACC]/;;
+   +//eng+Om![e1]+et[ACC]/;restr:a;;
+   +//tég+Od![e2]+[ACC]/;;
+   +//tég+Od![e2]+et[ACC]/;restr:a;;
+   +//ő+[e3]+t[ACC]/;;
+   +//ő+[e3]+tet[ACC]/;;restr:a;;
+   +//mi+nk[t1]+et[ACC]/;;
+   +//benn+ünk[t1]+et[ACC]/;;restr:a;;
+   +//mibenn+ünk[t1]+et[ACC]/;;restr:a;;
+   +//ti+tOk![t2]+et[ACC]/;;
+   +//benn+etOk![t2]+et[ACC]/;;restr:a;;
+   +//tibenn+etOk![t2]+et[ACC]/;;restr:a;;
+   +//ő+k[t3]+et[ACC]/;;
+
+  }
+
+  elsif(stemalt:case)
+  {
+   $mrf->{humor}="FN|NM+$humor";
+   $seg="+$seg";
+
+   ;;mcat_stem\+infl;
+
+   root:/neki/&&humor:DAT
+   +//+nek+@{psfxneki}/;;
+   +//@{ppron}+nek+@{psfxneki}/;restr:a;;
+   +//+nek+ije[e3]/;restr:a;;#unless($generator)
+   +//ő+nek+ije[e3]/;restr:a;;#unless($generator)
+   +//+nek+ijük[t3]/;restr:a;;#unless($generator)
+   +//ő+nek+ijük[t3]/;restr:a;;#unless($generator)
+
+   root:/néki/&&humor:DAT
+   +//+nék+@{psfxneki}/;restr:a;;
+   +//@{ppron}+nék+@{psfxneki}/;restr:a;;#unless($generator)
+
+   root:/(.*[áé])$/
+   +//+$1+@{psfx0juk}!/;;
+   +//@{ppron}+$1+@{psfx0juk}!/;restr:a;;
+   +//+$1+jA[e3]!/;restr:a;;
+   +//ő+$1+jA[e3]!/;restr:a;;
+   +/belé/+bele+[e3]/;;
+   +/belé/ő+bele+[e3]/;restr:a;;
+
+   root:/(.*[áé])(ig)$/&&$seg=~s/ig$//
+   +//+$1+@{psfx0juk}$2!/;;
+
+			root:/(nál)a$/
+   +//+$1L+@{psfx0}!/;;
+   +//+$1L+@{psfx0LL}nál@{psfxtag}!/;restr:a;;#nálánál
+   +//@{ppron}+$1L+@{psfx0}!/;restr:a;;
+
+   root:/(.*)[ae]$/
+   +//+$1L+@{psfx0}!/;;
+   +//@{ppron}+$1L+@{psfx0}!/;restr:a;;
+  }
+
+  #for ő pronouns add ugyanő as well
+  map(@allomfs)
+  {
+   dup(allomf:/^ő/)
+   {
+    allomf:s/^ő/ő/;;;
+    allomf:s/^ő/ugyan*ő/;restr:;;;
+   }
+  }
+
+ }
+
+ #other words having a non-nominal and non-verbal category are simply added
+ # except punctuation: they have a single lexically defined allomorph
+ elsif(!humor:PUNCT&&!mcat_stem\+infl)
+ {
+  #-lag adverbs may take an -s suffix
+  root:/[^i]l[ae]g$/&&cat:Adv&&!mcat_deriv;;-Vs =Vs Cfin;
+  #adverbs containing -bb license the superlative prefix
+  seg:/\@[aeoö]?bb/&&cat:Adv;;gp:sup;
+
+  root:/$/
+  +;;;
+ }
+
+ for(@allomfs)
+ {
+  &addprops;
+
+  # dot final abbreviations have only a dotless allomf which must be followed by . or ...
+  !humor:PUNCT&&allomf:s/(.)\.$/$1/;dot_punct;dot_fin;
+ }
+}
+
+###add universal allomf-level properties to each allomf
+for(@allomfs)
+{
+ #add left properties to each allomf
+ #mark zero morphemes
+ allomf:/^$/;;lp:0mrf;
+
+ else
+ {
+  #! in allomorph marks that vowel harmony must be done:
+  allomf:s/(.+)!(?=$|[+[])/dovhrm($1)/e;;;
+  !cat_N;;!not_cmp1;
+
+  # dot final abbreviations require the period (or ...)
+  #!mcat_rpunct&&allomf:s/\.$//;dot_punct;dot_fin;
+
+  # dot final abbreviations are marked as such
+  #allomf:/\.$/;;dot_fin;
+
+  # bb-final comparatives take leg-
+  else allomf:/bb\[FOK\]/||seg:/^([^${cmpsep}]*)\@.?bb$/;;sup;
+ }
+
+ #add default morphological category (stem)
+ !mcat_.*;;mcat_stem;
+
+ #stems and derivational suffixes are inflectable if not adverbs
+ !cat_Adv&&!cat:X&&mcat_(stem|deriv);;inflable;
+
+ #lowercase stems may normally be right compound members
+ #mcat_stem&&cat_(N|Adj|Num|V)&&!not_cmp2&&!humor:/BETU|ROV/&&allomf:/^$lc/;lp:comp2;;
+ #let's not allow adjectives and numerals
+ mcat_stem&&cat_(N|V)&&!not_cmp2&&!humor:/BETU|ROV/&&allomf:/^$lc/;lp:comp2;;
+ #letters can behave as numbers (-szOr, -Vd)
+ humor:/BETU/;;!cat_N cat_Num -Vd not_num nosug;
+ pfx_V;lp:comp2;;
+ #let's not allow adjectives and numerals in 1st position either
+ #mcat_stem&&cat_(Adj|Num);;not_cmp1
+ #right compound members must follow a nominal (non-verbal) stem
+ lp:comp2;lr:!cat_vrb;;
+ lp:comp2&&cat_(N|Adj|Num);;cmp2;
+ #for consonant-initial right compound members and nominal inflections
+ #mark the initial consonant:
+ #!lr:cat_V&&!lr:Vfin&&!lr:/=$C/&&(cmp2|mcat_infl)&&allomf:/^($C)/;;lp:$1_ini;
+ if(!lr:cat_V&&!lr:Vfin&&(cmp2|mcat_infl|pfx_V))
+ {
+  allomf:/^($C)./;;lp:$1_ini;
+  allomf:/^(?=$C2)([sczdlntg])./;;lp:$1_ini;
+ }
+
+ if(mcat_(deriv|infl)&&!lp:[CV]ini||lp:pp|comp2)
+ {
+  allomf:/^$V_/i;;lp:Vini;
+  else allomf:/^$C/i;;lp:Cini;
+ }
+
+ #fix erroneous vowel harmony
+ if(allomf:/[öüőű][^ëaeiouüöáéíóúőűAEIOUÜÖÁÉÍÓÚŐŰ]*$/&&$vhrm eq 'VHFU')
+ {
+  if(!allomf:/[öüőű][^ëaeiouüöáéíóúőűAEIOUÜÖÁÉÍÓÚŐŰ]*y[^ëaeiouüöáéíóúőűAEIOUÜÖÁÉÍÓÚŐŰ]*/||!^phon:/i[^ëaeiouüöáéíóúőűAEIOUÜÖÁÉÍÓÚŐŰ]*$/)
+  {
+   $vhrm='VHFR';
+  }
+ }
+ #add vowel harmony for non-final morphemes
+ !VH[BFRUV+]+&&mcat_(stem|deriv)&&cat_(N|Adj|Num|V|Npron)|-Vs|-i;;$vhrm;
+
+ #delete unneeded properties
+ ;;!(ESS_no|no[tn]?_(inh|LOW|cmp2|-i|sÁg|grad|-Vs|=t?At)|DIG|GEM|proper|irreg|=tAlAn);
+ #;;!(ESS_no|no[tn]?_(inh|LOW|cmp2|-i|sÁg|grad|-Vs|=t?At)|proper|irreg|=tAlAn);
+
+ #remove occasional erroneously present properties such as =jA etc.
+ #from non-inflectable stems
+ !cat_(N|Adj|Num|V|Npron)&&mcat_stem||mcat_stem\+infl;;!=j?Ai?;
+
+ #remove =* and -* properties in generator, remove * in analyzer
+# if([=-][^0\s|()]*\*[^0\s|()]+)
+# {
+#  if($generator)
+#  ;;![=-][^0\s|()]*\*[^0\s|()]+;
+#  else
+#  {
+#    rp:s/([=-][^0\s|()]*)\*([^0\s|()]+)/$1$2/g;;
+#  }
+# }
+ #add 6-3 rule properties
+ ;;A=$A63 B=$B63;
+ if(rr:VZA||rp:VZverb)
+ {
+  $_->{'rp'}=~s/B=./"B=".chr(64+$B63A)/e;
+  ;;!VZverb;
+ }
+
+ #delete properties that also appear negated (if an allomorph overrides a morpheme property)
+ &fixprops;
+
+ #remove + from allomfs
+ #allomf:s/[${cmpsep}]//g;;;
+}
+
+###split underspecified allomfs
+map(@allomfs)
+{
+ #split vacillating stems
+ #VHV:balett -[oe]t, n[ae]k
+ #VHVF:mágnes -es, n[ae]k
+ #VHVB:klarinét -ot, n[ae]k
+ #&&$generator)
+ dup(VHV[FB]?\+?)
+ {
+  rp:s/VHVB\+?/VHB/;;;
+  rp:s/VHVF\+?/VHFU/;;;
+  $vhrm ne 'VHV'&&rp:s/VHV(?= |$)/$vhrm/;;;
+  $vhrm eq 'VHV'&&rp:s/VHV(?= |$)/VHFU/;;;
+  $vhrm ne 'VHB'&&rp:s/VHV(?= |$)/VHB/&&!restr:/^g/;;restr:a;
+  $vhrm eq 'VHB'&&rp:s/VHV(?= |$)/VHFU/&&!restr:/^g/;;restr:a;
+  rp:s/VHVB(?!\+)/VHFU/&&!restr:/^g/;(Cini|comp2);restr:a; #only consonant-initial front suffixes
+  rp:s/VHVF(?!\+)/VHB/&&!restr:/^g/;(Cini|comp2);restr:a; #only consonant-initial back suffixes
+  rp:s/VHVB\+/VHFU/&&!restr:/^g/;;restr:a;
+  rp:s/VHVF\+/VHB/&&!restr:/^g/;;restr:a;
+ }
+# dup(VHV[FB]?&&!$generator)
+# {
+#  rp:s/VHVB?(?= |$)/VHB/;;;
+#  rp:s/VHVF?(?= |$)/VHFU/;;;
+#  rp:s/VHVB/VHFU/;(Cini|comp2);; #only consonant-initial front suffixes
+#  rp:s/VHVF/VHB/;(Cini|comp2);; #only consonant-initial back suffixes
+# }
+ #split allomorphs having specifications like =A0lAk
+ #to one having =lAk and another having =AlAk
+ dup(rp:/=[^ &]+0/)
+ {
+  rp:s/=\*[^ &]+0|=([^ &]+)0[^ *&]*\*/=$1/g;;; #the preferred version
+  !restr:/^g/&&rp:s/=\*([^ &]+)0|=[^ &]+0([^ *&]*)\*/=$1$2/g;;restr:a; #the dispreferred version
+ }
+ #remove =* and -* properties in generator, remove * in analyzer
+ dup(rp:/[=-][^0\s|()]*\*[^0\s|()]+(?:\s+|$)/)
+ {
+  #remove =* and -* properties in generator
+  !restr:/^a/&&rp:s/[=-][^0\s|()]*\*[^0\s|()]+(?:\s+|$)//g;;restr:g;
+  #remove * in analyzer
+  !restr:/^g/&&rp:s/([=-][^0\s|()]*)\*([^0\s|()]+(?:\s+|$))/$1$2/g;;restr:a;
+ }
+ #split allomorphs having specifications LOW+
+ #to one being LOW and another not being LOW
+ dup(LOW\+)
+ {
+  rp:s/LOW\+/LOW/g;;  #/;
+  !restr:/^g/;;!LOW\+;restr:a;
+ }
+ #ESS_Vn_gen means: Vn essive suffix only in the generator
+ dup(ESS_Vn_gen)
+ {
+   !restr:/^a/&&rp:s/ESS_Vn_gen/ESS_Vn/;;restr:g;
+   !restr:/^g/;;!ESS_Vn_gen;restr:a;
+ }
+
+ #add an a-less allomorph to relative pronouns
+ dup($mrf->{humor}=~/\|NM\|Rel/)
+ {
+  allomf:/$/;;
+  allomf:s/^a(?=[${cmpsep}])//;;
+ }
+ dup(stemalt:pp[ae]z)
+ {
+  allomf:/$/;;
+  allomf:s/^(?=[ae]z?\+)/ugyan*/&&lexseg:s/^(?=[ae]z?\+)/ugyan*/;;
+ }
+ #multiword proper names taking derivational suffixes with hyphen
+ #dup(MWE&&!rr:/(?<!!)0mrf/)
+ #{
+ # allomf:/$/;;;
+ # allomf:s/$/-/;;;
+ #}
+}
+
+if(!$zarte_ana)
+{
+for(@allomfs)
+{
+ #mark front unrounded harmonic C-final stems as LOW (this is required by -et -ek -es -ez...)
+ VHFU&&Cfin;;LOW;
+}
+}

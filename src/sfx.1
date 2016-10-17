@@ -1,0 +1,469 @@
+################################################## START OF LICENSE ##################################################
+#
+#  This file is part of the emMorph / Humor morphological analyzer description for Hungarian.
+#  Copyright (C) 2001-2016 Attila Novák
+#  
+#  The author of the database and the database compilation environment is Attila Novák (novakat@gmail.com).
+#  The resource is available from: https://github.com/dlt-rilmta/emMorph
+#  
+#  The database files are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+#  (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
+#  with the following amendments:
+#  
+#  By downloading/cloning this database and tools you accept the following terms:
+#  1. Please inform the author at novakat@gmail.com about your use of the database/tools clearly indicating what you use them for
+#  as soon as you start working on your application/experiment/resource involving this database or tool.
+#  2. Even in the case of non-academic use, you promise to publish a scientific paper about 
+#  each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting
+#  the articles below, and inform the author at novakat@gmail.com about each article you publish.
+#  If you definitely cannot publish an article, please contact the author.
+#  
+#  Articles to quote are listed at https://github.com/dlt-rilmta/emMorph, the list is currently the following:
+#  (See the BibTeX file quotethis.bib in the root directory):
+#  
+#  Attila Novák (2014): A New Form of Humor – Mapping Constraint-Based Computational Morphologies to a Finite-State Representation.
+#  In: Proceedings of the 9th International Conference on Language Resources and Evaluation (LREC-2014). Reykjavík, pp. 1068–1073 (ISBN 978-2-9517408-8-4)
+#  
+#  Attila Novák; Borbála Siklósi; Csaba Oravecz (2016): A New Integrated Open-source Morphological Analyzer for Hungarian
+#  In: Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016). Portorož, pp. 1315–1322.
+#  
+#  Novák Attila (2003): Milyen a jó Humor? [What is good Humor like?] In: Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2003). Szegedi Tudományegyetem, pp. 138–145
+#  
+#  3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
+#  4. If you are interested in using or adapting the resource for commercial purposes, please contact the author.
+#  ***
+#  
+#  The Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA)
+#  license is available at: https://creativecommons.org/licenses/by-nc-sa/4.0/
+#  
+#  Disclaimer of Warranties and Limitation of Liability.
+#  
+#  Unless otherwise separately undertaken by the Licensor, to the extent possible,
+#  the Licensor offers the Licensed Material as-is and as-available, and makes no
+#  representations or warranties of any kind concerning the Licensed Material,
+#  whether express, implied, statutory, or other. This includes, without
+#  limitation, warranties of title, merchantability, fitness for a particular
+#  purpose, non-infringement, absence of latent or other defects, accuracy, or the
+#  presence or absence of errors, whether or not known or discoverable. Where
+#  disclaimers of warranties are not allowed in full or in part, this disclaimer
+#  may not apply to You.
+#  
+#  To the extent possible, in no event will the Licensor be liable to You on any
+#  legal theory (including, without limitation, negligence) or otherwise for any
+#  direct, special, indirect, incidental, consequential, punitive, exemplary, or
+#  other losses, costs, expenses, or damages arising out of this Public License or
+#  use of the Licensed Material, even if the Licensor has been advised of the
+#  possibility of such losses, costs, expenses, or damages. Where a limitation of
+#  liability is not allowed in full or in part, this limitation may not apply to You.
+#
+################################################## END OF LICENSE ##################################################
+
+#Nominal inflectional suffixes
+#PUNCT
+#Nominal markers
+#Possessive markers
+#singular possessee
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS1;phon:LVmL;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS;mcat:POSS;humor:PSe1;#gloss:#my ...
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS2;phon:LVdL;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS;mcat:POSS;humor:PSe2;#gloss:#your (sg) ...
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS3;phon:LjA;sfxalt:VCja;props_lp:FVL;props_lp:POSS&3P;mcat:POSS;humor:PSe3;props_lr:-jA;#gloss:#his/her/its ...
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS3;phon:LA;sfxalt:VCja;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS&3P;mcat:POSS;humor:PSe3;props_lr:-jA;#gloss:#his/her/its ...
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP1;phon:LU0nkL;sfxalt:VCU;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS;mcat:POSS;humor:PSt1;#gloss:#our ...
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP2;phon:LVtOkL;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS;mcat:POSS;humor:PSt2;#gloss:#your (pl) ...
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP3;phon:LjUkL;sfxalt:VCja;props_lp:FVL;props_lp:POSS&3P;mcat:POSS;humor:PSt3;#gloss:#their ...
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP3;phon:LUkL;sfxalt:VCja;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS&3P;mcat:POSS;humor:PSt3;#gloss:#their ...
+#plural possessee
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS1PL;phon:LjAimL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL;mcat:POSS;humor:PSe1i;props_lr:-jAi;#gloss:#my ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS1PL;phon:LAimL;sfxalt:VCjai;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS&PL;mcat:POSS;humor:PSe1i;props_lr:-jAi;#gloss:#my ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS1PL;phon:LimL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL;mcat:POSS;humor:PSe1i;props_lr:-jAi;#gloss:#my ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS2PL;phon:LjAidL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL;mcat:POSS;humor:PSe2i;props_lr:-jAi;#gloss:#your (sg) ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS2PL;phon:LAidL;sfxalt:VCjai;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS&PL;mcat:POSS;humor:PSe2i;props_lr:-jAi;#gloss:#your (sg) ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS2PL;phon:LidL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL;mcat:POSS;humor:PSe2i;props_lr:-jAi;#gloss:#your (sg) ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS3PL;phon:LjAi;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL&3P;mcat:POSS;humor:PSe3i;props_lr:-jAi;#gloss:#his/her/its ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS3PL;phon:LAi;sfxalt:VCjai;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS&PL&3P;mcat:POSS;humor:PSe3i;props_lr:-jAi;#gloss:#his/her/its ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSS3PL;phon:Li;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL&3P;mcat:POSS;humor:PSe3i;props_lr:-jAi;#gloss:#his/her/its ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP1PL;phon:LjAinkL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL;mcat:PL;humor:PSt1i;props_lr:-jAi;#gloss:#our ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP1PL;phon:LAinkL;sfxalt:VCjai;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS&PL;mcat:PL;humor:PSt1i;props_lr:-jAi;#gloss:#our ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP1PL;phon:LinkL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL;mcat:PL;humor:PSt1i;props_lr:-jAi;#gloss:#our ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP2PL;phon:LjAitOkL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL;mcat:PL;humor:PSt2i;props_lr:-jAi;#gloss:#your (pl) ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP2PL;phon:LAitOkL;sfxalt:VCjai;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS&PL;mcat:PL;humor:PSt2i;props_lr:-jAi;#gloss:#your (pl) ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP2PL;phon:LitOkL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL;mcat:PL;humor:PSt2i;props_lr:-jAi;#gloss:#your (pl) ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP3PL;phon:LjAikL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL&3P;mcat:PL;humor:PSt3i;props_lr:-jAi;#gloss:#their ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP3PL;phon:LAikL;sfxalt:VCjai;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:POSS&PL&3P;mcat:PL;humor:PSt3i;props_lr:-jAi;#gloss:#their ...s
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PSP3PL;phon:LikL;sfxalt:VCjai;props_lp:FVL;props_lp:POSS&PL&3P;mcat:PL;humor:PSt3i;props_lr:-jAi;#gloss:#their ...s
+#plural
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:PL;phon:LVkL;sfxalt:VLCL;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:PL;mcat:PL;humor:PL;#gloss:#-s
+#Familiar plural
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:FAM;phon:LékL;sfxalt:V;props_lp:FVL;props_lp:FAM;mcat:FAM;humor:FAM;#gloss:#...'s family/company
+#anaphoric possessive
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ANP;phon:Lé;sfxalt:V;props_lp:FVL;props_lp:ANP;mcat:ANP;humor:POS;#gloss:#...'s one
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ANPPL;phon:Léi;sfxalt:V;props_lp:FVL;props_lp:ANP;mcat:ANP;humor:POSi;#gloss:#...'s ones
+#Case endings
+#nominative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:NOM;phon:F;props_lp:CASE;mcat:CASE;humor:NOM;#gloss:#,SYN
+#accusative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ACC;phon:LVt;sfxalt:VCLt;props_lp:FVL,VZA,SVS,vST,UDEL;props_lp:CASE&ACC;mcat:CASE;humor:ACC;#gloss:#,SYN
+#dative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:DAT;phon:LnAk;sfxalt:C;props_lp:FVL;props_lp:CASE;mcat:CASE;humor:DAT;#gloss:#to,SYN/OBL_RES
+#superessive
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:SUP;phon:LO0n;sfxalt:VCO;props_lp:FVL,VZA,vST;props_gp:ON;props_lp:CASE&SUP;mcat:CASE;humor:SUP;#gloss:#on,OBL_LOC
+#inessive
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:INE;phon:LbAn;sfxalt:C;props_lp:FVL;props_gp:IN;props_lp:CASE;mcat:CASE;humor:INE;#gloss:#in,OBL_LOC
+#adessive
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ADE;phon:LnÁl;sfxalt:C;props_lp:FVL;props_lp:CASE;mcat:CASE;humor:ADE;#gloss:#at/by,OBL_LOC
+#sublative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:SUB;phon:LrA;sfxalt:C;props_lp:FVL;props_gp:ON;props_lp:CASE;mcat:CASE;humor:SUB;#gloss:#onto,OBL_END/OBL_RES
+#illative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ILL;phon:LbA;sfxalt:C;props_lp:FVL;props_gp:IN;props_lp:CASE;mcat:CASE;humor:ILL;#gloss:#into,OBL_END
+#allative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ALL;phon:LhOz;sfxalt:C;props_lp:FVL;props_lp:CASE;mcat:CASE;humor:ALL;#gloss:#to (at),OBL_END
+#delative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:DEL;phon:LrÓl;sfxalt:C;props_lp:FVL;props_gp:ON;props_lp:CASE;mcat:CASE;humor:DEL;#gloss:#from on,OBL_SRC
+#elative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ELA;phon:LbÓl;sfxalt:C;props_lp:FVL;props_gp:IN;props_lp:CASE;mcat:CASE;humor:ELA;#gloss:#from in,OBL_SRC
+#ablative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ABL;phon:LtÓl;sfxalt:C;props_lp:FVL;props_lp:CASE;mcat:CASE;humor:ABL;#gloss:#from (at),OBL_SRC
+#superessive
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:INL;phon:LO0n;sfxalt:VCO;props_lp:FVL,VZA,vST;props_gp:ON;props_lp:CASE&SUP;mcat:CASE;humor:INL;props_glr:loc_on;#gloss:#on,OBL_LOC
+#inessive
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:INL;phon:LbAn;sfxalt:C;props_lp:FVL;props_gp:IN;props_lp:CASE;mcat:CASE;humor:INL;props_glr:loc_in;#gloss:#in,OBL_LOC
+#adessive
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:INL;phon:LnÁl;sfxalt:C;props_lp:FVL;props_lp:CASE;mcat:CASE;humor:INL;props_glr:loc_at;#gloss:#at/by,OBL_LOC
+#sublative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ADL;phon:LrA;sfxalt:C;props_lp:FVL;props_gp:ON;props_lp:CASE;mcat:CASE;humor:ADL;props_glr:loc_on;#gloss:#onto,OBL_END/OBL_RES
+#illative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ADL;phon:LbA;sfxalt:C;props_lp:FVL;props_gp:IN;props_lp:CASE;mcat:CASE;humor:ADL;props_glr:loc_in;#gloss:#into,OBL_END
+#allative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ADL;phon:LhOz;sfxalt:C;props_lp:FVL;props_lp:CASE;mcat:CASE;humor:ADL;props_glr:loc_at;#gloss:#to (at),OBL_END
+#delative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:EXL;phon:LrÓl;sfxalt:C;props_lp:FVL;props_gp:ON;props_lp:CASE;mcat:CASE;humor:EXL;props_glr:loc_on;#gloss:#from on,OBL_SRC
+#elative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:EXL;phon:LbÓl;sfxalt:C;props_lp:FVL;props_gp:IN;props_lp:CASE;mcat:CASE;humor:EXL;props_glr:loc_in;#gloss:#from in,OBL_SRC
+#ablative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:EXL;phon:LtÓl;sfxalt:C;props_lp:FVL;props_lp:CASE;mcat:CASE;humor:EXL;props_glr:loc_at;#gloss:#from (at),OBL_SRC
+#terminative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:TER;phon:LFig;sfxalt:V;props_lp:FVL;props_lp:CASE&PVS;mcat:CASE;humor:TER;#gloss:#until/by/as far as,OBL_END
+#instrumental
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:INS;phon:Lv0Al;sfxalt:Cval;props_lp:FVL;props_lp:CASE&INS;mcat:CASE;humor:INS;#gloss:#with,OBL_INS
+#causal-final
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:CAU;phon:LFért;sfxalt:V;props_lp:FVL;props_lp:CASE&CAU;mcat:CASE;humor:CAU;#gloss:#for,OBL_GOAL
+#translative-factive
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:FAC;phon:Lv0Á;sfxalt:Cval;props_lp:FVL;props_lp:CASE&INS;mcat:CASE;humor:FAC;#gloss:#(turn) into,OBL_RES
+#formative
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:FOR;phon:Fként;sfxalt:C;props_lp:CASE;mcat:CASE;humor:FOR;#gloss:#as,OBL_STAT
+#essive-formal
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:ESS;phon:LUl;sfxalt:V;props_lp:FVL;mcat:CASE;humor:ESS;props_glr:cat_N;#gloss:#as,OBL_STAT
+#temporal
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:TEM;phon:Fkor;sfxalt:C;props_lp:CASE;mcat:CASE;humor:TEM;props_lr:-kor;#gloss:#at/when
+#essive formalis
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:NAdvkepp;phon:Fképp;sfxalt:C;props_lp:pp;mcat:KEPP;humor:KEPP;props_glr:cat_N;#gloss:#as
+#essive formalis
+type:infl;props_rp:mcat_infl;props_lr:cat_Nom inflable;tag:NAdvkeppen;phon:Fképpen;sfxalt:C;props_lp:pp;mcat:KEPP;humor:KEPPEN;props_glr:cat_N;#gloss:#as
+#Derivative Suffixes
+#Productive word-based derivation
+#Adjective suffixes
+#comparative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Nom inflable;props_rp:cat_Adj;tag:CMP;phon:LA0bbL;sfxalt:VCA;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_gp:sup;mcat:>=Adj;humor:FOK;props_glr:grad;#gloss:#-er
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_Adj;tag:EMP;phon:ikL;sfxalt:V;props_rp:LOW;mcat:Adj>Adj;humor:KIEM;props_lr:-ik;#gloss:#the ...-er
+#sociative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:SOC;phon:LVstUl;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;mcat:N>Adv;humor:SOC;#gloss:#along with
+#sociative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:SOC;phon:LVstÓl;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;mcat:N>Adv;humor:SOC;restr:a;#gloss:#along with
+#distributive 
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Nom inflable;props_rp:cat_Adv;tag:DIS;phon:LVnként;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;props_gp:119sfx;props_lp:PL 119;props_rp:-i;mcat:>Adv;humor:DIS;#gloss:#for each
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Nom inflable;props_rp:cat_Adj;tag:DIS+NAi;phon:LVnként+iL;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_gp:119sfx;props_lp:PL 119;mcat:>Adj;humor:DIS+IKEP;#gloss:#for each
+#distributive (time)
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:DIST;phon:LVntA;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST;props_gp:119sfx;props_lp:PL 119;mcat:N>Adv;humor:NTA;props_lr:-VntA;#gloss:#in every interval
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:NAdv;phon:Fszűk=é=ben;sfxalt:C;mcat:N>Adv;humor:HA;#gloss:#
+#wife
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:Mrs;phon:Lné;sfxalt:C;props_lp:FVL,comp2;mcat:N>N;humor:MRS;props_lr:male;#gloss:#wife of ...,surname, full name, profession
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:Mrs;phon:LFné;sfxalt:C;props_lp:FVL,comp2;mcat:N>N;humor:MRS;props_lr:male;#gloss:#wife of ...,surname, full name, profession
+#diminutive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:DIM;phon:LVcskA;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL,comp2;mcat:N>N;humor:DIM;#gloss:#-let/-kin
+#diminutive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_Adj;tag:DIMA;phon:LVcskA;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL,comp2;mcat:Adj>Adj;humor:DIMMN;#gloss:#-let/-kin
+#diminutive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:DIM;phon:kA;sfxalt:CkA;props_lp:comp2;mcat:N>N;humor:DIMKA;props_lr:-kA;#gloss:#-let/-kin
+#diminutive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_Adj;tag:DIMA;phon:kA;sfxalt:CkA;props_lp:comp2;mcat:Adj>Adj;humor:DIMKAMN;props_lr:-kA;#gloss:#-let/-kin
+#kind
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:KIND;phon:Fféle;sfxalt:C;props_lp:comp2;mcat:N>Adj;humor:FELE;#gloss:#...kind,may follow possessive markers,common noun
+#kind
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:KIND;phon:Fféleség;sfxalt:C;props_lp:comp2;props_rp:atomic;mcat:N>N;humor:FELESEG;#gloss:#...kind,common noun
+#kind
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:KIND;phon:Fszërűség;sfxalt:C;props_lp:comp2;props_rp:atomic;mcat:N>N;humor:SZERUSEG;#gloss:#...kind,common noun
+#sort
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:KIND;phon:Fforma;sfxalt:C;props_lp:comp2;mcat:N>Adj;humor:FORMA;#gloss:#... kind of ...,may follow possessive markers,common noun, name of person
+#sort
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:SORT;phon:Ffajta;sfxalt:C;props_lp:comp2;mcat:N>Adj;humor:FAJTA;#gloss:#... kind of ...,may follow possessive markers,common noun, name of person
+#sort
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:SORT;phon:Ffajta;sfxalt:C;props_lp:comp2;mcat:Num>Adj;humor:FAJTA;#gloss:#... kind of ...,may follow possessive markers,common noun, name of person
+#resemblance
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:RESM;phon:FszërűL;sfxalt:C;props_lp:comp2;props_rp:LOW;props_rp:atomic;mcat:N>Adj;humor:SZERU;#gloss:#resembling ...,any noun
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:QUANT;phon:Fszám;sfxalt:C;props_lp:comp2;mcat:N>Adv;humor:SZAM;props_lr:unit;#gloss:#by the ...s,measure unit (classifier), big round number
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:QUANT;phon:Fszámra;sfxalt:C;props_lp:comp2;mcat:N>Adv;humor:SZAM;props_lr:unit;#gloss:#by the ...s,measure unit (classifier), big round number
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:DISTPLACE;phon:Fszërte;sfxalt:C;props_lp:comp2;mcat:N>Adv;humor:SZERTE;props_lr:place;#gloss:#all around ...,settlement, country
+#N>A suffix
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adj;tag:NAi;phon:iL;sfxalt:Vi;props_lp:VZA,vST;props_rp:LOW;props_gp:119sfx;props_lp:119 PVS;props_rp:priv&-Vs;mcat:*>Adj;humor:IKEP;props_lr:-i;#gloss:#"taking place at/coming from/being situated at; being related to ...","place name; time; profession, function, institution, science, art"
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:NAdvilag;phon:ilAg;sfxalt:Vi;props_lp:PVS;mcat:N>Adv;humor:ILAG;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:NAdvilag;phon:ilAg;sfxalt:Vi;props_lp:VZA,vST;props_lp:PVS;mcat:N>Adv;humor:ILAG;#gloss:#
+#formative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:FOR+NAi;phon:Fként+iL;sfxalt:C;props_rp:LOW;props_lp:CASE;mcat:N>Adj;humor:FOR+IKEP;#gloss:#as,OBL_STAT
+#temporal
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adj;tag:TEM+NAi;phon:Fkor+iL;sfxalt:C;props_rp:LOW;props_lp:CASE;mcat:*>Adj;humor:TEM+IKEP;props_lr:-kor;#gloss:#at/when
+#origin/location
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:NAbeli;phon:FbeliL;sfxalt:C;props_rp:LOW;props_gp:119sfx;mcat:N>Adj;humor:BELI;#gloss:#"being situated at; being related to ",place, collective noun, epoch, institution, name of country, i-final place name
+#origin/location
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adv;tag:NAbeli;phon:Fbeli+lAgL;sfxalt:C;props_rp:LOW;props_gp:119sfx;mcat:N>Adv;humor:BELI+LAG;#gloss:#"being situated at; being related to ",place, collective noun, epoch, institution, name of country, i-final place name
+#origin/location
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:NAbeli;phon:FbeliL;sfxalt:C;props_rp:LOW;props_gp:119sfx;props_lp:CASE;mcat:N>Adj;humor:BELI;#gloss:#"being situated at; being related to ",place, collective noun, epoch, institution, name of country, i-final place name
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:PSS1+NAbeli;phon:LVm+beliL;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_lp:POSS;mcat:N>Adj;humor:PSe1+BELI;#gloss:#his/her/its ...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:PSS2+NAbeli;phon:LVd+beliL;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_lp:POSS;mcat:N>Adj;humor:PSe2+BELI;#gloss:#his/her/its ...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:PSS3+NAbeli;phon:LjA+beliL;sfxalt:VCja;props_lp:FVL;props_rp:LOW;props_lp:POSS&3P;mcat:N>Adj;humor:PSe3+BELI;props_lr:-jA;#gloss:#his/her/its ...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:PSS3+NAbeli;phon:LA+beliL;sfxalt:VCja;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_lp:POSS&3P;mcat:N>Adj;humor:PSe3+BELI;props_lr:-jA;#gloss:#his/her/its ...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:PSP1+NAbeli;phon:LU0nk+beliL;sfxalt:VCU;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_lp:POSS;mcat:N>Adj;humor:PSt1+BELI;#gloss:#our ...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:PSP2+NAbeli;phon:LVtOk+beliL;sfxalt:VCL;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_lp:POSS;mcat:N>Adj;humor:PSt2+BELI;#gloss:#your (pl) ...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:PSP3+NAbeli;phon:LjUk+beliL;sfxalt:VCja;props_lp:FVL;props_rp:LOW;props_lp:POSS&3P;mcat:N>Adj;humor:PSt3+BELI;#gloss:#their ...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:PSP3+NAbeli;phon:LUk+beliL;sfxalt:VCja;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_lp:POSS&3P;mcat:N>Adj;humor:PSt3+BELI;#gloss:#their ...
+#superessive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:SUPx+PP+NAi+PROP;phon:LO0n+kívül+i+ség;sfxalt:VCO;props_lp:FVL,VZA,vST;props_lp:CASE&SUP;mcat:N>N;humor:SUPx+NU+IKEP+PROP;#gloss:#on,OBL_LOC
+#superessive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:SUPx+PP+NAi+PROP;phon:LO0n+belül+i+ség;sfxalt:VCO;props_lp:FVL,VZA,vST;props_lp:CASE&SUP;mcat:N>N;humor:SUPx+NU+IKEP+PROP;#gloss:#on,OBL_LOC
+#property (alienable)
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adj;tag:NAs;phon:LVsL;sfxalt:VLCLs;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_gp:119sfx;props_lp:Vs;mcat:*>Adj;humor:SKEP;props_lr:-Vs;#gloss:#"having property, ingredient; being characteristic of ...; ",material, property, object, food ingredient, proper names of persons, gentile names, [abstract nouns]
+#game
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:NNsdi;phon:LVsdi;sfxalt:VLCLs;props_lp:FVL,VZA,SVS,vST,UDEL;mcat:N>N;humor:SDI;props_lr:-Vsdi;#gloss:#a game of playing at ...s (acting as ...s),names of professions
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Nom inflable;props_rp:cat_N;tag:NNs;phon:LVs;sfxalt:VLCLs;props_lp:FVL,VZA,SVS,vST,UDEL;props_gp:119sfx;props_lp:Vs;mcat:Nom>N;humor:SFN;props_lr:-Vs;restr:a;#gloss:#"profession related to Nc; [... orchard/forest]; name of number","concrete noun; [tree sort]; numeral"
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Nom inflable;props_rp:cat_N;tag:NNs;phon:LVs;sfxalt:VLCLs;props_lp:FVL,VZA,SVS,vST,UDEL;props_gp:119sfx;props_lp:Vs;mcat:Nom>N;humor:SFN;props_lr:-Vs;restr:g;#gloss:#"profession related to Nc; [... orchard/forest]; name of number","concrete noun; [tree sort]; numeral"
+#property (inalienable)
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_Adj;tag:NAu;phon:Lj0ÚL;sfxalt:VC;props_lp:FVL,VZA,SVS,vST,UDEL;props_rp:LOW;props_gp:119sfx;mcat:[Num/Adj N]>Adj;humor:UKEP;#gloss:#having Num/Adj ...s,N is usually inalienable property, but the pattern is lexically used also with alienable properties
+#privative
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adj;tag:NAPRIV;phon:LA0tA0lAn;sfxalt:VLCLpriv;props_lp:FVL,vST;mcat:*>Adj;humor:FFOSZT;props_lr:priv;#gloss:#"lacking ingredient, usual property; =neg NAS",SVS only for -k-final stems,"whole-component; usual property/ingredient; gentile names; [inalienable properties: metaphorical];"
+type:deriv;props_rp:mcat_deriv;props_rp:cat_V;tag:NAPRIV+AVkOd;phon:LA0tA0lAn+kOd=ik;sfxalt:VLCLpriv;props_lp:FVL,vST;props_gp:trans1;mcat:*>V;humor:FFOSZT+MIGY;props_lr:priv;#gloss:#behave in a .. way,privative and -Vs adjectives only, for non -Vs adjectives, -Vs is inserted
+#measure
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adj;tag:MEAS;phon:LnyiL;sfxalt:C;props_lp:FVL;props_rp:LOW;props_gp:119sfx;mcat:*>Adj;humor:MER;props_lr:-nyi;#gloss:#an approximate amount of...,"concrete noun, measure unit; fraction"
+#measure
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adj;tag:MEAS;phon:LiL;sfxalt:C;props_lp:FVL;props_rp:LOW;props_gp:119sfx;props_lp:INS;mcat:*>Adj;humor:MER;props_lr:-nyi-i;#gloss:#an approximate amount of...,"concrete noun, measure unit; fraction"
+#name of property
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_N;tag:PROP;phon:sÁg;sfxalt:C;mcat:Adj>N;humor:PROP;props_lr:-sÁg;#gloss:#name of property,a few monosyllabic stems (ending in a sibilant (or affricate)-final cluster take -AsÁg or AssÁg,any adjective (but subject to blocking)
+#collective
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_N;tag:COLL;phon:sÁg;sfxalt:C;mcat:N>N;humor:COL;props_lr:-sÁg;#gloss:#collective noun,[lexicalized]
+#adverb of manner
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adv;tag:AAdvMANR;phon:LUl;sfxalt:V;props_lp:FVL;mcat:*>Adv;humor:ESSMOD;props_glr:ESS_Ul;#gloss:#"in ... (language); ...lessly; [...ly]","name of a language; privative adj; [lexically marked adj.]"
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adv;tag:AAdvMANR;phon:LVn;sfxalt:VLCL;props_lp:FVL,VZA,SVS,vST,UDEL;mcat:*>Adv;humor:ESSMOD;props_glr:ESS_Vn;#gloss:#...ly;"unmarked root or derived adjective; not: -i, -nyi, -féle, -fajta, -beli, -tlAn"
+#=archaic form
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adv;tag:AAdvMANR=0;phon:F;mcat:*>Adv;humor:ESSMOD=0;props_glr:ESS_0;#gloss:#...ly;"unmarked root or derived adjective; not: -i, -nyi, -féle, -fajta, -beli, -tlAn"
+#adverb of manner
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adv;tag:Adv+CMP;phon:LUl+;sfxalt:V;props_lp:FVL;mcat:*>Adv;humor:HA+FOK;props_glr:ESS_Ul;restr:g;#gloss:#"in ... (language); ...lessly; [...ly]","name of a language; privative adj; [lexically marked adj.]"
+type:deriv;props_rp:mcat_deriv;props_rp:cat_Adv;tag:Adv+CMP;phon:LVn+;sfxalt:VLCL;props_lp:FVL,VZA,SVS,vST,UDEL;mcat:*>Adv;humor:HA+FOK;props_glr:ESS_Vn;restr:g;#gloss:#...ly;"unmarked root or derived adjective; not: -i, -nyi, -féle, -fajta, -beli, -tlAn"
+#cardinality of subject
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:CARD;phon:LAn;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vn;mcat:Num>Adv;humor:ESSNUM;props_lr:ESS_Vn;#gloss:#...ly;"unmarked root or derived adjective; not: -i, -nyi, -féle, -fajta, -beli, -tlAn"
+#multiplicative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:MUL;phon:LszOr;sfxalt:C;props_lp:szOr;mcat:Num>Adv;humor:MUL;#gloss:#... times
+#multiplicative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:MUL+AdvAs;phon:LszOr+OsL;sfxalt:C;props_rp:LOW;props_lp:szOr;mcat:Num>Adj;humor:MUL+SKEP;#gloss:#
+#multiplicative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:MUL+AdvAi;phon:LszOr+iL;sfxalt:C;props_rp:LOW;props_lp:szOr;mcat:Num>Adj;humor:MUL+IKEP;#gloss:#
+#multiplicative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_V;tag:MUL+NVz;phon:LszOr+Oz;sfxalt:C;props_gp:trans2;props_lp:szOr;mcat:Num>V;humor:MUL+FIT;#gloss:#
+#multiplicative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:MUL+SUB;phon:LszOr+rA;sfxalt:C;props_gp:trans2;props_lp:szOr;mcat:Num>Adv;humor:MUL+SUB;#gloss:#
+#multiplicative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_V;tag:MUL+NVz;phon:LszOr+Oz;sfxalt:C;props_gp:trans2;props_lp:szOr;mcat:Num>V;humor:MUL+FIT;#gloss:#
+#multiplicative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:MUL-tA;phon:LszOrtA;sfxalt:C;props_lp:szOr;mcat:Num>Adv;humor:SZORTA;#gloss:#... times
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:FOLD;phon:Frét;sfxalt:C;mcat:Num>Adv;humor:RET;#gloss:#... fold
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:FOLD+NAu;phon:Frét+űL;sfxalt:C;props_rp:LOW;props_rp:atomic;mcat:Num>Adj;humor:RET+UKEP;#gloss:#... fold
+#ordinal
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:ORD;phon:LVd%ik;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;props_rp:LOW+&=jA&=jAi;mcat:Num>Adj;humor:SORSZ;props_lr:-Vd;#gloss:#(the) ...th (ordinal number)
+#date
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_N;tag:DATE;phon:LVd%ik%A;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>N;humor:DATUM;props_lr:-Vd;#gloss:#the ...th (date)
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:ORDADJ;phon:LVd%lAg%OsL;sfxalt:VL;props_lp:FVL,VZA,SVS;props_rp:LOW;props_lp:Vd;mcat:Num>Adj;humor:DLAGOS;props_lr:-Vd;#gloss:#
+#fractional
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Num;tag:FRACT;phon:LVd;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;props_rp:=*j0A&=*j0Ai&sfx_FRACT&-nyi;mcat:Num>Num;humor:TORT;props_lr:-Vd;#gloss:#...th part
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:MUL+Adv|Pro;phon:LVd+maga;sfxalt:VL;props_lp:FVL,VZA,SVS;stemalt:pers;props_lp:Vd;mcat:Num>Adv;humor:MUL+HA|NM;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_N;tag:MUL+N|Pro;phon:LVd+maga;sfxalt:VL;props_lp:FVL,VZA,SVS;stemalt:pers;props_lp:Vd;mcat:Num>N;humor:MUL+FN|NM;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:ORD+MUL;phon:LVd+szOr;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>Adv;humor:SORSZ+MUL;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:ORD+MUL+SUB;phon:LVd+szOr+rA;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>Adv;humor:SORSZ+MUL+SUB;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:ORD+Adv;phon:LVd+kéz=ből;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>Adv;humor:SORSZ+HA;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:ORD+N+TMP_INL;phon:LVd+nap+;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>Adv;humor:SORSZ+FN+TMP_INL;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_N;tag:ORD+N;phon:LVd+nap;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>N;humor:SORSZ+FN;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:ORD+N+TMP_ANTE;phon:LVd+nap+ja;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>Adv;humor:SORSZ+FN+TMP_ANTE;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_N;tag:FRACT+Num;phon:LVd+rész;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>N;humor:TORT+SZN;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:FRACT+Adv;phon:LVd+rész=t;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>Adv;humor:TORT+HA;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:ORD+Adv;phon:LVd+íz=ben;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>Adv;humor:SORSZ+HA;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:ORD+Adv;phon:LVd+íziglen;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>Adv;humor:SORSZ+HA;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:ORD+N+NAu;phon:LVd+rang+úL;sfxalt:VL;props_lp:FVL,VZA,SVS;props_rp:LOW;props_lp:Vd;props_rp:ESS_Vn;mcat:Num>Adj;humor:SORSZ+FN+UKEP;props_lr:-Vd&!cmpd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:ORD+N+NAu;phon:LVd+rend+űL;sfxalt:VL;props_lp:FVL,VZA,SVS;props_rp:LOW;props_lp:Vd;props_rp:ESS_Vn;mcat:Num>Adj;humor:SORSZ+FN+UKEP;props_lr:-Vd&!cmpd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_N;tag:ORD+N;phon:LVd+osztály;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>N;humor:SORSZ+FN;props_lr:-Vd&!cmpd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_N;tag:ORD+N;phon:LVd+példány;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;mcat:Num>N;humor:SORSZ+FN;props_lr:-Vd&!cmpd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:ORD+N+NAu;phon:LVd+fok+úL;sfxalt:VL;props_lp:FVL,VZA,SVS;props_rp:LOW;props_lp:Vd;props_rp:ESS_Vn;mcat:Num>Adj;humor:SORSZ+FN+UKEP;props_lr:-Vd&!cmpd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:ORD+N+NAu;phon:LVd+faj+úL;sfxalt:VL;props_lp:FVL,VZA,SVS;props_rp:LOW;props_lp:Vd;props_rp:ESS_Vn;mcat:Num>Adj;humor:SORSZ+FN+UKEP;props_lr:-Vd&!cmpd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Num;tag:FRACT+Num;phon:LVd+annyi;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;props_rp:ESS_Vn;mcat:Num>Num;humor:TORT+SZN|NM;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Num;tag:ORD+Num;phon:LVd+*fél;sfxalt:VL;props_lp:FVL,VZA,SVS;stemalt:SVS;props_lp:Vd;props_rp:ESS_Vn&-Vd;mcat:Num>Num;humor:SORSZ+SZN;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Num;tag:ORD+Num+Num;phon:LVd+fél+száz;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;props_rp:LOW&ESS_Vn&-Vd;mcat:Num>Num;humor:SORSZ+SZN+SZN;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Num;tag:ORD+Num+Num;phon:LVd+fél+ezer;sfxalt:VL;props_lp:FVL,VZA,SVS;stemalt:VZA;props_lp:Vd;props_rp:ESS_Vn&-Vd;mcat:Num>Num;humor:SORSZ+SZN+SZN;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Num;tag:ORD+Num+Num;phon:LVd+fél+millió;sfxalt:VL;props_lp:FVL,VZA,SVS;props_lp:Vd;props_rp:ESS_Vn;mcat:Num>Num;humor:SORSZ+SZN+SZN;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_V;tag:FRACT+NVl;phon:LVd+Ol;sfxalt:VL;props_lp:FVL,VZA,SVS;props_gp:trans2;props_lp:Vd;mcat:Num>V;humor:TORT+FIL;props_lr:-Vd;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adj;tag:KIND;phon:Fféle;sfxalt:C;props_lp:comp2;mcat:Num>Adj;humor:FELE;#gloss:#...kind,may follow possessive markers,common noun
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:KIND+NAdvkeppen;phon:FFféle+képpen;sfxalt:C;props_lp:comp2;mcat:Num>Adv;humor:FELE+KEPPEN;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:KIND+NAdvkepp;phon:FFFféle+képp;sfxalt:C;props_lp:comp2;mcat:Num>Adv;humor:FELE+KEPP;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:NumAdv;phon:Ffelé;sfxalt:C;props_lp:comp2;mcat:Num>Adv;humor:HA;#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Num inflable;props_rp:cat_Adv;tag:NumAdv;phon:Ffelől;sfxalt:C;props_lp:comp2;mcat:Num>Adv;humor:HA;#gloss:#
+#Verb forming suffixes
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Nom inflable;props_rp:cat_V;tag:NVz;phon:LVz;sfxalt:VCLz;props_lp:FVL,VZA,SVS,vST,UDEL;props_gp:trans2;mcat:Nom>V;humor:FIT;#gloss:#use a tool, play an instrument, do a sport,tool, instrument, sport...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Nom inflable;props_rp:cat_V;tag:NVzik;phon:LVz=ik;sfxalt:VCLz;props_lp:FVL,VZA,SVS,vST,UDEL;props_gp:trans1;mcat:Nom>V;humor:FI;restr:g;#gloss:#use a tool, play an instrument, do a sport,tool, instrument, sport...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Nom inflable;props_rp:cat_V;tag:NVzik;phon:LVz=ik;sfxalt:VCLz;props_lp:FVL,VZA,SVS,vST,UDEL;props_gp:trans1;mcat:Nom>V;humor:FI;props_rr:infsfx;restr:a;#gloss:#use a tool, play an instrument, do a sport,tool, instrument, sport...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_V;tag:NVl;phon:LVl;sfxalt:VCLl;props_lp:FVL,SVS,vST,UDEL;props_gp:trans2;mcat:N>V;humor:FIL;props_lr:-NVl;#gloss:#use a tool, play an instrument, do a sport,tool, instrument, sport...
+type:deriv;props_rp:mcat_deriv;props_lr:cat_N inflable;props_rp:cat_V;tag:NVkOd;phon:LVs0kOd=ik;sfxalt:VCLsk;props_lp:FVL,SVS,vST,UDEL;props_gp:trans1;props_rp:-Om;mcat:N>V;humor:MIGY;#gloss:#work as ...,profession
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_V;tag:AVkOd;phon:LVs0kOd=ik;sfxalt:VCLsk;props_lp:FVL,SVS,vST,UDEL;props_gp:trans1;props_rp:-Om;mcat:Adj>V;humor:MIGY;#gloss:#behave in a .. way,privative and -Vs adjectives only, for non -Vs adjectives, -Vs is inserted
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_V;tag:AVit;phon:ít;sfxalt:VCit;props_lp:FVD,vST;props_gp:trans2;mcat:Adj>V;humor:FAK;props_lr:-ít;#gloss:#make ...,root adj, privative adj, [adj+comp+ít]
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_V;tag:AVit;phon:LVsít;sfxalt:VCLs;props_lp:FVL,FVD,vST,UDEL;props_gp:trans2;mcat:Adj>V;humor:FAK;props_lr:-Vsít;#gloss:#make ...,gentile name, V-final open class, concrete property
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_V;tag:AVUl;phon:Ul;sfxalt:V$;props_lp:FVD,SVS,vST;props_gp:trans1;mcat:Adj>V;humor:MI;props_lr:-AVUl;#gloss:#become/turn ...,monosyllabic adj root; exceptions: rövid, sötét
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_V;tag:AVUl;phon:Vd=ik;sfxalt:V$$;props_lp:FVD,SVS;props_gp:trans1;props_rp:-Om;mcat:Adj>V;humor:MI;props_lr:-Vdik;#gloss:#become/turn ...,polysyllabic adj, rövid, sötét
+type:deriv;props_rp:mcat_deriv;props_lr:cat_Adj inflable;props_rp:cat_V;tag:AVUl;phon:LVsOd=ik;sfxalt:VCLs;props_lp:FVL,SVS,vST,UDEL;props_gp:trans1;props_rp:-Om;mcat:Adj>V;humor:MI;props_lr:-VsOdik;#gloss:#,gentile name, V-final open class, concrete property
+#Verbal suffixes
+#nominalization
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_N;tag:VNAs;phon:Ás;sfxalt:V;props_lp:vST;props_gp:AS;mcat:V>N;humor:IF;props_lr:(reg|-Ás);#gloss:#event/result,"(lexical blocking applies);[...hAt.Ás words are lexicalized];"
+#nominalization
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VNAs+A;phon:Ás+véd@ettL;sfxalt:V;props_lp:vST;props_rp:LOW;mcat:V>Adj;humor:IF+MN;props_lr:(reg|-Ás);#gloss:#event/result,"(lexical blocking applies);[...hAt.Ás words are lexicalized];"
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VAnivalo;phon:A0nivalóL;sfxalt:VCn;props_rp:LOW;props_rp:badorth;mcat:V>Adj;humor:NIVALO*;props_lr:((reg&-nAk)|-nA);#gloss:#,only transitive (passivizable) verbs
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_N;tag:VNnivalo;phon:A0nivaló;sfxalt:VCn;mcat:V>N;humor:NIVALOFN;props_lr:((reg&-nAk)|-nA);#gloss:#,only transitive (passivizable) verbs
+#habitual
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VAHABIT;phon:ÓsL;sfxalt:V;props_lp:vST;props_rp:LOW;mcat:V>Adj;humor:SZOK;props_lr:(reg|-Ó);#gloss:#habitually ...ing,(usually non-agentive) verbs expressing psychic/physical properties
+#privative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VAPRIV;phon:AtlAn;sfxalt:V;props_lp:vST;mcat:V>Adj;humor:IFOSZT;props_lr:(reg|-AtlAn);props_glr:trans2;#gloss:#,transitive verbs only
+#permissive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:HAT;phon:hAt;sfxalt:C;props_gp:HAT;props_lp:infsfx;mcat:V>V;humor:HAT;props_lr:(reg|-hAt);#gloss:#may ...
+#permissive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:HAT;phon:hAt=ik;sfxalt:C;props_gp:HAT;props_lp:infsfx;props_rp:-Om;mcat:V>V;humor:HAT;props_lr:(reg|-hAt)&-jék;props_rr:(sg3|sg1);restr:a;#gloss:#may ...
+#inclination?
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_N;tag:DES;phon:hAtnék;sfxalt:C;props_rp:=A =jA;mcat:V>N;humor:DES;props_lr:(reg|-hAt);#gloss:#be in the mood to... (?)
+#capability
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VACAP;phon:hAtÓL;sfxalt:C;props_rp:LOW;mcat:V>Adj;humor:HATO;props_lr:(reg|-hAt);props_glr:trans2;#gloss:#...able (is not a composition of the semantics of -hAt and -Ó),only transitive (passivizable) verbs (more restricted distribution than that of -hAt and -Ó)
+#incapability
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VAINCAP;phon:hAtAtlAn;sfxalt:C;mcat:V>Adj;humor:HATATLAN;props_lr:(reg|-hAt);props_glr:trans2;#gloss:#in...able (=neg ...hAtÓ),only transitive (passivizable) verbs (the same distribution as that of -AtlAn)
+#active participle
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_N;tag:PARTACT;phon:Ó;sfxalt:V;props_lp:vST;mcat:V>N;humor:MIF;props_lr:(reg|-Ó);restr:g;#gloss:#the ...ing ...,any verb
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VAO;phon:ÓL;sfxalt:V;props_lp:vST;props_rp:LOW;props_gp:O;mcat:V>Adj;humor:OMN;props_lr:(reg|-Ó);restr:g;#gloss:#the ...ing ...,verbs with non-subject experient+source subject
+#agentive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_N;tag:VNO;phon:Ó;sfxalt:V;props_lp:vST;props_gp:O;props_rp:-i;mcat:V>N;humor:OFN;props_lr:(reg|-Ó);restr:g;#gloss:#"profession; tool; place for ...ing; event","V must be durative and may not be stative; *hAt, *At, *tAt; V may not have obligatory Adv or sentence argument"
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VNAO;phon:Ó;sfxalt:V;props_lp:vST;props_gp:O;props_rp:-i;mcat:V>Adj;humor:OKEP;props_lr:(reg|-Ó);restr:g;#gloss:#the ...ing ...,any verb
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VNAO;phon:Ó;sfxalt:V;props_lp:vST;props_gp:O;props_rp:!LOW -i;mcat:V>Adj;humor:OKEP;props_lr:(reg|-Ó);props_rr:!LOWini;restr:a;#gloss:#the ...ing ...,any verb
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:VAO;phon:ÓL;sfxalt:V;props_lp:vST;props_rp:LOW;props_gp:O;mcat:V>Adj;humor:OMN;props_lr:(reg|-Ó);props_rr:LOWini;restr:a;#gloss:#the ...ing ...,verbs with non-subject experient+source subject
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adv;tag:VAdvOlag;phon:ÓlAgL;sfxalt:V;props_lp:vST;props_rp:LOW;mcat:V>Adv;humor:OLAG;props_lr:(reg|-Ó);#gloss:#
+#perfect participle
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:PARTPERF;phon:O0t0tL;sfxalt:VCtt';props_rp:LOW;props_rp:=jA&ESS_Vn;mcat:V>Adj;humor:MIB;props_lr:(reg|-tt);props_glr:(pp|trans2);props_rr:!FAM;#gloss:#...ed (resultative, antecedence),"intransitive verbs expressing a state-change of the subject patient; *hAt"
+#=archaic form
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_N;tag:VN=tA;phon:O0t0t=A;sfxalt:VCta;mcat:V>N;humor:IF=tA;props_lr:(-tAm|-tAbAn);#gloss:#,tA,ttA,OttA
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:PARTPERF_SUBJ=tA;phon:O0t0t=A;sfxalt:VCta;mcat:V>Adj;humor:MIB_SUBJ=tA;props_lr:(-tAm|-tAbAn);#gloss:#,tA,ttA,OttA
+#=archaic form
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adv;tag:GER;phon:O0t0t=On;sfxalt:VCta;mcat:V>Adv;humor:HIN=ttOn;props_lr:(-tAm|-tAbAn);#gloss:#jöttön jött
+#future passive participle
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adj;tag:PARTFUT;phon:AndÓL;sfxalt:V;props_lp:vST;props_rp:LOW;mcat:V>Adj;humor:MIA;props_lr:(reg|-AndÓ);props_glr:trans2;#gloss:#,"transitive (passivizable) verbs only; *hAt; [lexicalized intransitive forms are adjectives or nouns (leendő, jövendő, állandó, maradandó, halandó, eredendő)]"
+#adverbial participle
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adv;tag:PARTADV;phon:vA;sfxalt:C;mcat:V>Adv;humor:HIN;props_lr:(reg|-vA);#gloss:#...ing ... (active/active or passive in the construction: ...vA van),intransitive / transitive verbs
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adv;tag:PARTADV;phon:vÁn;sfxalt:C;mcat:V>Adv;humor:HINN;props_lr:(reg|-vA|-vÁn);#gloss:#
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_Adv;tag:PARTADV;phon:vÁst;sfxalt:C;mcat:V>Adv;humor:HINST;props_lr:(reg|-vA|-vÁn);#gloss:#
+#frequentative
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:FREQ;phon:O0gAt;sfxalt:V$C$$;props_lp:vST;mcat:V>V;humor:GYAK;props_lr:(reg|-gAt);#gloss:#repetition/reduced intensity of action,"non-durative (momentary) transitive verbs (or ones that has a non-durative prefixed variant)/durative agentive verbs (lexical blocking by -dál, -gál); stative and reflexive verbs are excluded"
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:CAUS;phon:At;sfxalt:V$-t/g;props_lp:vST;props_gp:trans2;mcat:V>V;humor:MUV;props_lr:=At&(reg|-tAt);#gloss:#,"[factitive for monosyllabic non-Vt-final verbs and vowel-zero alternating verbs with the -Vg suffix and optionally for the r-final ones; may be blocked by -nt, -Aszt, -iszt, -ít]"
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:CAUS;phon:tAt;sfxalt:C;props_gp:trans2;mcat:V>V;humor:MUV;props_lr:=tAt&(reg|-tAt);#gloss:#,"factitive/causative for polysyllabic and monosyllabic Vt-final verbs; [causative for a set of monosyllabic verbs] +lexicalized non-causative usage, e.g. vontat"
+#passive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:PASS;phon:At=ik;sfxalt:V$-t/g;props_lp:vST;props_gp:trans0;mcat:V>V;humor:SZENV;props_lr:=At&(reg|-tAt);props_glr:trans2;restr:g;#gloss:#be ...ed,transitive agentive verbs
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:PASS;phon:tAt=ik;sfxalt:C;props_gp:trans0;mcat:V>V;humor:SZENV;props_lr:=tAt&(reg|-tAt);props_glr:trans2;restr:g;#gloss:#
+#passive
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:PASS;phon:at=ik;sfxalt:V$-t/g;props_lp:vST;props_gp:trans0;mcat:V>V;humor:SZENV;props_lr:=At&(reg|-tAt);props_glr:trans2;props_rr:sg3;restr:a;#gloss:#be ...ed,transitive agentive verbs
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:PASS;phon:tat=ik;sfxalt:C;props_gp:trans0;mcat:V>V;humor:SZENV;props_lr:=tAt&(reg|-tAt);props_glr:trans2;props_rr:sg3;restr:a;#gloss:#
+#medial
+type:deriv;props_rp:mcat_deriv;props_lr:cat_V inflable;props_rp:cat_V;tag:MED;phon:Ód=ik;sfxalt:V;props_lp:vST;props_gp:trans1;props_rp:-Om;mcat:V>V;humor:MED;props_lr:(reg|-Ó);props_glr:trans2;#gloss:#,transitive verbs with patient object
+#Loan verbs
+#Verbal inflections
+#present indefinite
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIS1;phon:Ok;sfxalt:V;props_lp:vST;mcat:INFL;humor:e1;props_lr:(reg|-Ok);restr:a;#gloss:#,Ok,Om
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIS1;phon:Ok;sfxalt:V;props_lp:vST;mcat:INFL;humor:e1;props_lr:!-Om&(reg|-Ok);restr:g;#gloss:#
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIS1;phon:Om;sfxalt:V;props_lp:vST;props_lp:sg1;mcat:INFL;humor:e1;props_lr:-ik&-Om;#gloss:#
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIS2;phon:A0sz;sfxalt:VC-S;mcat:INFL;humor:e2;props_lr:-Asz;#gloss:#,sz,Asz,Ol
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIS2;phon:Ol;sfxalt:VS;mcat:INFL;humor:e2;props_lr:=Ol&-Asz;#gloss:#
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIS2;phon:;mcat:INFL;humor:e2;props_lr:=02;#gloss:#,0,ik
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIS3;phon:;props_lp:sg3;mcat:INFL;humor:e3;props_lr:((reg&!-ik)|-03);#gloss:#,0,ik
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIS3;phon:ik;sfxalt:V;props_lp:vST;props_lp:sg3;mcat:INFL;humor:e3;props_lr:-ik;#gloss:#
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIP1;phon:Unk;sfxalt:V;props_lp:vST;mcat:INFL;humor:t1;props_lr:(reg|-Ok);#gloss:#,Unk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIP2;phon:O0tOk;sfxalt:VCtok;mcat:INFL;humor:t2;props_lr:-tOk;#gloss:#,tOk,OtOk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RIP3;phon:A0nAk;sfxalt:VCn;mcat:INFL;humor:t3;props_lr:-nAk;#gloss:#,nAk,AnAk
+#2nd person object sg1 subject
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:R2S1;phon:A0lAk;sfxalt:VClak;mcat:INFL;humor:Ie1;props_glr:trans1;#gloss:#,lAk,AlAk
+#present definite object
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RDS1;phon:Om;sfxalt:V;props_lp:vST;mcat:INFL;humor:Te1;props_lr:(reg|-Ok);props_glr:trans1;#gloss:#,Om
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RDS2;phon:Od;sfxalt:V;props_lp:vST;mcat:INFL;humor:Te2;props_lr:(reg|-Ok);props_glr:trans1;#gloss:#,Od
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RDS3;phon:j2a;sfxalt:Cdef;props_lr:VHB;mcat:INFL;humor:Te3;props_lr:-jUk;props_glr:trans1;#gloss:#,ja,i
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RDS3;phon:i;sfxalt:V;props_lr:VHF;lp:vST;mcat:INFL;humor:Te3;props_lr:(reg|-Ok);props_glr:trans1;#gloss:#
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RDP1;phon:j2Uk;sfxalt:Cdef;mcat:INFL;humor:Tt1;props_lr:-jUk;props_glr:trans1;#gloss:#,jUk,Uk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RDP2;phon:j2átok;sfxalt:Cdef;props_lr:VHB;mcat:INFL;humor:Tt2;props_lr:-jUk;props_glr:trans1;#gloss:#,játOk,itOk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RDP2;phon:itëk;sfxalt:V;props_lr:VHF;lp:vST;mcat:INFL;humor:Tt2;props_lr:(reg|-Ok);props_glr:trans1;#gloss:#
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RDP3;phon:j2ák;sfxalt:Cdef;props_lr:VHB;mcat:INFL;humor:Tt3;props_lr:-jUk;props_glr:trans1;#gloss:#,ják,ik
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:RDP3;phon:ik;sfxalt:V;props_lr:VHF;lp:vST;mcat:INFL;humor:Tt3;props_lr:(reg|-Ok);props_glr:trans1;#gloss:#
+#past indefinite
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PIS1;phon:O0t0tAm;sfxalt:VCta;mcat:INFL;humor:Me1;props_lr:-tAm;#gloss:#,tAm,ttAm,OttAm
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PIS2;phon:O0t0tÁl;sfxalt:VCta;mcat:INFL;humor:Me2;props_lr:-tAm;#gloss:#,tÁl,ttÁl,OttÁl
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PIS3;phon:O0t0t;sfxalt:VCtt;mcat:INFL;humor:Me3;props_lr:-tt;#gloss:#,t,tt,Ott
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PIP1;phon:O0t0tUnk;sfxalt:VCta;mcat:INFL;humor:Mt1;props_lr:-tAm;#gloss:#,tUnk,ttUnk,OttUnk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PIP2;phon:O0t0tAtOk;sfxalt:VCta;mcat:INFL;humor:Mt2;props_lr:-tAm;#gloss:#,tAtOk,ttAtOk,OttAtOk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PIP3;phon:O0t0tAk;sfxalt:VCta;mcat:INFL;humor:Mt3;props_lr:-tAm;#gloss:#,tAk,ttAk,OttAk
+#2nd person object sg1 Subject
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:P2S1;phon:O0t0tAlAk;sfxalt:VCta;mcat:INFL;humor:IMe1;props_lr:-tAm;props_glr:trans1;#gloss:#,tAlAk,ttAlAk,OttAlAk
+#past definite object
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PDS1;phon:O0t0tAm;sfxalt:VCta;mcat:INFL;humor:TMe1;props_lr:-tAm;props_glr:trans1;#gloss:#,tAm,ttAm,OttAm
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PDS2;phon:O0t0tAd;sfxalt:VCta;mcat:INFL;humor:TMe2;props_lr:-tAm;props_glr:trans1;#gloss:#,tAd,ttAd,OttAd
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PDS3;phon:O0t0tA;sfxalt:VCta;mcat:INFL;humor:TMe3;props_lr:-tAm;props_glr:trans1;#gloss:#,tA,ttA,OttA
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PDP1;phon:O0t0tUk;sfxalt:VCta;mcat:INFL;humor:TMt1;props_lr:-tAm;props_glr:trans1;#gloss:#,tUk,ttUk,OttUk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PDP2;phon:O0t0tÁtOk;sfxalt:VCta;mcat:INFL;humor:TMt2;props_lr:-tAm;props_glr:trans1;#gloss:#,tÁtOk,ttÁtOk,OttÁtOk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:PDP3;phon:O0t0tÁk;sfxalt:VCta;mcat:INFL;humor:TMt3;props_lr:-tAm;props_glr:trans1;#gloss:#,tÁk,ttÁk,OttÁk
+#conditional indefinite
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CIS1;phon:A0nék;sfxalt:VCn;mcat:INFL;humor:Fe1;props_lr:((reg&-nAk)|-nA);#gloss:#,nék,Anék
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CIS2;phon:A0nÁl;sfxalt:VCn;mcat:INFL;humor:Fe2;props_lr:((reg&-nAk)|-nA);#gloss:#,nÁl,AnÁl
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CIS3;phon:A0nA;sfxalt:VCn;mcat:INFL;humor:Fe3;props_lr:((reg&-nAk)|-nA);#gloss:#,AnA
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CIS3;phon:A0nék;sfxalt:VCn;mcat:INFL;humor:Fe3;props_lr:((reg&-nAk)|-nA)&-nék;#gloss:#,AnA
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CIP1;phon:A0nÁnk;sfxalt:VCn;mcat:INFL;humor:Ft1;props_lr:((reg&-nAk)|-nA);#gloss:#,nÁnk,AnÁnk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CIP2;phon:A0nÁtOk;sfxalt:VCn;mcat:INFL;humor:Ft2;props_lr:((reg&-nAk)|-nA);#gloss:#,nÁtOk,AnÁtOk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CIP3;phon:A0nÁnAk;sfxalt:VCn;mcat:INFL;humor:Ft3;props_lr:((reg&-nAk)|-nA);#gloss:#,nÁnAk,AnÁnAk
+#2nd person object sg1 subject
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:C2S1;phon:A0nÁlAk;sfxalt:VCn;mcat:INFL;humor:IFe1;props_lr:((reg&-nAk)|-nA);props_glr:trans1;#gloss:#,nálAk,AnálAk
+#conditional definite object
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CDS1;phon:A0nÁm;sfxalt:VCn;mcat:INFL;humor:TFe1;props_lr:((reg&-nAk)|-nA);props_glr:trans1;#gloss:#,nÁm,AnÁm
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CDS2;phon:A0nÁd;sfxalt:VCn;mcat:INFL;humor:TFe2;props_lr:((reg&-nAk)|-nA);props_glr:trans1;#gloss:#,nÁd,AnÁd
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CDS3;phon:A0nÁ;sfxalt:VCn;mcat:INFL;humor:TFe3;props_lr:((reg&-nAk)|-nA);props_glr:trans1;#gloss:#,nÁ,AnÁ
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CDP1;phon:A0nÁnk;sfxalt:VCn;mcat:INFL;humor:TFt1;props_lr:((reg&-nAk)|-nA);props_glr:trans1;#gloss:#,nÁnk,AnÁnk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CDP1*;phon:A0nÓk;sfxalt:VCn;mcat:INFL;humor:TFt1*;props_lr:((reg&-nAk)|-nA);props_glr:trans1;#gloss:#,nÁnk,AnÁnk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CDP2;phon:A0nÁtOk;sfxalt:VCn;mcat:INFL;humor:TFt2;props_lr:((reg&-nAk)|-nA);props_glr:trans1;#gloss:#,nÁtOk,AnÁtOk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:CDP3;phon:A0nÁk;sfxalt:VCn;mcat:INFL;humor:TFt3;props_lr:((reg&-nAk)|-nA);props_glr:trans1;#gloss:#,nÁk,AnÁk
+#imperative/subjunctive indefinite
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SIS1;phon:j1Ak;sfxalt:Csub;mcat:INFL;humor:Pe1;props_lr:-j;#gloss:#,jAk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SIS1;phon:j1Am;sfxalt:Csub;props_lp:sg1;mcat:INFL;humor:Pe1;props_lr:-j&-jAm;restr:a;#gloss:#,jAk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SIS2;phon:j1;sfxalt:Csub;mcat:INFL;humor:Pe2;props_lr:-j;#gloss:#,j,jÁl
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SIS2;phon:j1Ál;sfxalt:Csub;mcat:INFL;humor:Pe2;props_lr:-j;restr:a;#gloss:#,j,jÁl
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SIS3;phon:j1On;sfxalt:Csub;mcat:INFL;humor:Pe3;props_lr:-j;#gloss:#,jOn,jék
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SIS3;phon:j1ék;sfxalt:Csub;props_lp:sg3;mcat:INFL;humor:Pe3;props_lr:-j&-jék;#gloss:#
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SIP1;phon:j1Unk;sfxalt:Csub;mcat:INFL;humor:Pt1;props_lr:-j;#gloss:#,jUnk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SIP2;phon:j1AtOk;sfxalt:Csub;mcat:INFL;humor:Pt2;props_lr:-j;#gloss:#,jAtOk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SIP3;phon:j1AnAk;sfxalt:Csub;mcat:INFL;humor:Pt3;props_lr:-j;#gloss:#,jAnAk
+#2nd person object sg1 subject
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:S2S1;phon:j1AlAk;sfxalt:Csub;mcat:INFL;humor:IPe1;props_lr:-j;props_glr:trans1;#gloss:#,jAlAk
+#imperative/subjunctive definite object
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SDS1;phon:j1Am;sfxalt:Csub;mcat:INFL;humor:TPe1;props_lr:-j;props_glr:trans1;#gloss:#,jAm
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SDS2;phon:j1Ad;sfxalt:Csub;mcat:INFL;humor:TPe2;props_lr:-j;props_glr:trans1;restr:a;#gloss:#,jAd,d
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SDS3;phon:j1A;sfxalt:Csub;mcat:INFL;humor:TPe3;props_lr:-j;props_glr:trans1;#gloss:#,jA
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SDP1;phon:j1Uk;sfxalt:Csub;mcat:INFL;humor:TPt1;props_lr:-j;props_glr:trans1;#gloss:#,jUk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SDP2;phon:j1ÁtOk;sfxalt:Csub;mcat:INFL;humor:TPt2;props_lr:-j;props_glr:trans1;#gloss:#,jÁtOk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SDP3;phon:j1Ák;sfxalt:Csub;mcat:INFL;humor:TPt3;props_lr:-j;props_glr:trans1;#gloss:#,jÁk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:SDS2;phon:d;sfxalt:Csub;mcat:INFL;humor:TPe2;props_lr:-d;props_glr:trans1;#gloss:#,jAd,d
+#infinitives
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:INF;phon:A0ni;sfxalt:VCn;props_lp:INF;mcat:INFL;humor:INF;props_lr:((reg&-nAk)|-nA|-ni);#gloss:#,ni
+#Infinitives with subject agreement marked
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:INFS1;phon:A0nOm;sfxalt:VCn;props_lp:INF;mcat:INFL;humor:INRe1;props_lr:((reg&-nAk)|-nA);#gloss:#,nOm
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:INFS2;phon:A0nOd;sfxalt:VCn;props_lp:INF;mcat:INFL;humor:INRe2;props_lr:((reg&-nAk)|-nA);#gloss:#,nOd
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:INFS3;phon:A0niA;sfxalt:VCn;props_lp:INF;mcat:INFL;humor:INRe3;props_lr:((reg&-nAk)|-nA);#gloss:#,niA
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:INFP1;phon:A0nUnk;sfxalt:VCn;props_lp:INF;mcat:INFL;humor:INRt1;props_lr:((reg&-nAk)|-nA);#gloss:#,nUnk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:INFP2;phon:A0nOtOk;sfxalt:VCn;props_lp:INF;mcat:INFL;humor:INRt2;props_lr:((reg&-nAk)|-nA);#gloss:#,nOtOk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:INFP3;phon:A0niUk;sfxalt:VCn;props_lp:INF;mcat:INFL;humor:INRt3;props_lr:((reg&-nAk)|-nA);#gloss:#,niUk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:INFP3*;phon:a0niok;sfxalt:VCn;props_lr:VHB;props_lp:INF;mcat:INFL;humor:INRt3*;props_lr:((reg&-nAk)|-nA);#gloss:#,niUk
+type:infl;props_rp:mcat_infl;props_lr:cat_V inflable;tag:INFP3*;phon:e0niök;sfxalt:VCn;props_lr:VHF;props_lp:INF;mcat:INFL;humor:INRt3*;props_lr:((reg&-nAk)|-nA);#gloss:#,niUk

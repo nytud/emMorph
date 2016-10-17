@@ -1,0 +1,418 @@
+################################################## START OF LICENSE ##################################################
+#
+#  This file is part of the emMorph / Humor morphological analyzer description for Hungarian.
+#  Copyright (C) 2001-2016 Attila Novák
+#  
+#  The author of the database and the database compilation environment is Attila Novák (novakat@gmail.com).
+#  The resource is available from: https://github.com/dlt-rilmta/emMorph
+#  
+#  The database files are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+#  (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
+#  with the following amendments:
+#  
+#  By downloading/cloning this database and tools you accept the following terms:
+#  1. Please inform the author at novakat@gmail.com about your use of the database/tools clearly indicating what you use them for
+#  as soon as you start working on your application/experiment/resource involving this database or tool.
+#  2. Even in the case of non-academic use, you promise to publish a scientific paper about 
+#  each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting
+#  the articles below, and inform the author at novakat@gmail.com about each article you publish.
+#  If you definitely cannot publish an article, please contact the author.
+#  
+#  Articles to quote are listed at https://github.com/dlt-rilmta/emMorph, the list is currently the following:
+#  (See the BibTeX file quotethis.bib in the root directory):
+#  
+#  Attila Novák (2014): A New Form of Humor – Mapping Constraint-Based Computational Morphologies to a Finite-State Representation.
+#  In: Proceedings of the 9th International Conference on Language Resources and Evaluation (LREC-2014). Reykjavík, pp. 1068–1073 (ISBN 978-2-9517408-8-4)
+#  
+#  Attila Novák; Borbála Siklósi; Csaba Oravecz (2016): A New Integrated Open-source Morphological Analyzer for Hungarian
+#  In: Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016). Portorož, pp. 1315–1322.
+#  
+#  Novák Attila (2003): Milyen a jó Humor? [What is good Humor like?] In: Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2003). Szegedi Tudományegyetem, pp. 138–145
+#  
+#  3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
+#  4. If you are interested in using or adapting the resource for commercial purposes, please contact the author.
+#  ***
+#  
+#  The Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA)
+#  license is available at: https://creativecommons.org/licenses/by-nc-sa/4.0/
+#  
+#  Disclaimer of Warranties and Limitation of Liability.
+#  
+#  Unless otherwise separately undertaken by the Licensor, to the extent possible,
+#  the Licensor offers the Licensed Material as-is and as-available, and makes no
+#  representations or warranties of any kind concerning the Licensed Material,
+#  whether express, implied, statutory, or other. This includes, without
+#  limitation, warranties of title, merchantability, fitness for a particular
+#  purpose, non-infringement, absence of latent or other defects, accuracy, or the
+#  presence or absence of errors, whether or not known or discoverable. Where
+#  disclaimers of warranties are not allowed in full or in part, this disclaimer
+#  may not apply to You.
+#  
+#  To the extent possible, in no event will the Licensor be liable to You on any
+#  legal theory (including, without limitation, negligence) or otherwise for any
+#  direct, special, indirect, incidental, consequential, punitive, exemplary, or
+#  other losses, costs, expenses, or damages arising out of this Public License or
+#  use of the Licensed Material, even if the Licensor has been advised of the
+#  possibility of such losses, costs, expenses, or damages. Where a limitation of
+#  liability is not allowed in full or in part, this limitation may not apply to You.
+#
+################################################## END OF LICENSE ##################################################
+
+@ME.FORMAT                                                                                                                                                                                                                                                                                             
+#				Suffix-alternation			Stem Alternation								The suffix as stem					Category	Requirements				Gloss	Remark	Semantic selection
+#				Suffix Alternation	Vowel (frontness) Harmony	Rounding Harmony	Stem-final vowel lengthening	Vowel-zero alternation	Vowel-zero alternation (lowering stem)	stem-final vowel deletion	Stem vowel shortening				Lowering		Stem-final vowel lengthening
+	tag	humor	phon	sfxalt	lp										rp	gp	stemalt	lp	rp	mcat	lr	glr	rr	restr	#gloss
+props					VH	RH	FVL	VZA	VZAL	FVD	SVS	vST	UDEL	comp2	LOW	*		*	*		*	*	*
+#							fa	bokor	ajak	barna	nyár	mű/ló	gyapjú
+Nominal inflectional suffixes
+	PUNCT
+Nominal markers
+Possessive markers
+singular possessee
+	PSS1	PSe1	Vm	VCL	+	+	+	+			+	+	+		+			POSS		POSS					my ...
+	PSS2	PSe2	Vd	VCL	+	+	+	+			+	+	+		+			POSS		POSS					your (sg) ...
+	PSS3	PSe3	jA/A	VCja	+		+	A			A	A+	A+		-		%FVL	POSS&3P		POSS	-jA				his/her/its ...
+	PSP1	PSt1	U0nk	VCU	+		+	+			+	+	+		+			POSS		POSS					our ...
+	PSP2	PSt2	VtOk	VCL	+	+	+	+			+	+	+		+			POSS		POSS					your (pl) ...
+	PSP3	PSt3	jUk/Uk	VCja	+		+	A			A	A+	A+		+			POSS&3P		POSS					their ...
+plural possessee
+	PS..PL		jAi/Ai/i	VCjai	+		+	A			A	A+	A+
+	PSS1PL	PSe1i	+m	VCjai	+		+	A			A	A+	A+		+			POSS&PL		POSS	-jAi				my ...s
+	PSS2PL	PSe2i	+d	VCjai	+		+	A			A	A+	A+		+			POSS&PL		POSS	-jAi				your (sg) ...s
+	PSS3PL	PSe3i	+	VCjai	+		+	A			A	A+	A+		-			POSS&PL&3P		POSS	-jAi				his/her/its ...s
+	PSP1PL	PSt1i	+nk	VCjai	+		+	A			A	A+	A+		+			POSS&PL		PL	-jAi				our ...s
+	PSP2PL	PSt2i	+tOk	VCjai	+	-	+	A			A	A+	A+		+			POSS&PL		PL	-jAi				your (pl) ...s
+	PSP3PL	PSt3i	+k	VCjai	+		+	A			A	A+	A+		+			POSS&PL&3P		PL	-jAi				their ...s
+
+plural	PL	PL	Vk	VLCL	+	+	+	+			+	+	+		+			PL		PL					-s
+
+Familiar plural	FAM		ék	V	T		+	-			-	-	-		+			FAM		FAM		%-ék			...'s family/company
+
+anaphoric possessive	ANP	POS	é	V	T		+	-			-	-	-		-			ANP		ANP					...'s one
+	ANPPL	POSi	éi	V	T		+	-			-	-	-		-			ANP		ANP					...'s ones
+
+Case endings
+nominative	NOM	NOM													*			CASE		CASE							SYN
+accusative	ACC	ACC	Vt	VCLt	+	+	+	+			+	+	+		*			CASE&ACC		CASE							SYN
+dative	DAT	DAT	nAk	C	+		+	-			-	-	-		*			CASE		CASE					to		SYN/OBL_RES
+superessive	SUP	SUP	O0n	VCO	+	+	+	+			-	+	-		*	ON		CASE&SUP		CASE					on		OBL_LOC
+inessive	INE	INE	bAn	C	+		+	-			-	-	-		*	IN		CASE		CASE					in		OBL_LOC
+adessive	ADE	ADE	nÁl	C	+		+	-			-	-	-		*			CASE		CASE					at/by		OBL_LOC
+sublative	SUB	SUB	rA	C	+		+	-			-	-	-		*	ON		CASE		CASE					onto		OBL_END/OBL_RES
+illative	ILL	ILL	bA	C	+		+	-			-	-	-		*	IN		CASE		CASE					into		OBL_END
+allative	ALL	ALL	hOz	C	+	+	+	-			-	-	-		*			CASE		CASE					to (at)		OBL_END
+delative	DEL	DEL	rÓl	C	+		+	-			-	-	-		*	ON		CASE		CASE					from on		OBL_SRC
+elative	ELA	ELA	bÓl	C	+		+	-			-	-	-		*	IN		CASE		CASE					from in		OBL_SRC
+ablative	ABL	ABL	tÓl	C	+		+	-			-	-	-		*			CASE		CASE					from (at)		OBL_SRC
+superessive	INL	INL	O0n	VCO	+	+	+	+			-	+	-		*	ON		CASE&SUP		CASE		loc_on			on		OBL_LOC
+inessive	INL	INL	bAn	C	+		+	-			-	-	-		*	IN		CASE		CASE		loc_in			in		OBL_LOC
+adessive	INL	INL	nÁl	C	+		+	-			-	-	-		*			CASE		CASE		loc_at			at/by		OBL_LOC
+sublative	ADL	ADL	rA	C	+		+	-			-	-	-		*	ON		CASE		CASE		loc_on			onto		OBL_END/OBL_RES
+illative	ADL	ADL	bA	C	+		+	-			-	-	-		*	IN		CASE		CASE		loc_in			into		OBL_END
+allative	ADL	ADL	hOz	C	+	+	+	-			-	-	-		*			CASE		CASE		loc_at			to (at)		OBL_END
+delative	EXL	EXL	rÓl	C	+		+	-			-	-	-		*	ON		CASE		CASE		loc_on			from on		OBL_SRC
+elative	EXL	EXL	bÓl	C	+		+	-			-	-	-		*	IN		CASE		CASE		loc_in			from in		OBL_SRC
+ablative	EXL	EXL	tÓl	C	+		+	-			-	-	-		*			CASE		CASE		loc_at			from (at)		OBL_SRC
+terminative	TER	TER	ig	V	-		+	-			-	-	-		*			CASE&PVS		CASE					until/by/as far as		OBL_END
+instrumental	INS	INS	v0Al	Cval	+		+	-			-	-	-		*			CASE&INS		CASE	%-vAl				with		OBL_INS
+causal-final	CAU	CAU	ért	V	-		+	-			-	-	-		*			CASE&CAU		CASE					for		OBL_GOAL
+translative-factive	FAC	FAC	v0Á	Cval	+		+	-			-	-	-		*			CASE&INS		CASE	%-vAl				(turn) into		OBL_RES
+formative	FOR	FOR	ként	C	-		-	-			-	-	-		*			CASE	atomic -i	CASE					as		OBL_STAT
+essive-formal	ESS	ESS	Ul	V	+		+	-			-	-	-		*					CASE		cat_N			as		OBL_STAT
+temporal	TEM	TEM	kor	C	-		-	-			-	-	-		-			CASE	-i	CASE	-kor				at/when
+
+essive formalis	NAdvkepp	KEPP	képp	C	-		-	-			-	-	-		-			pp		KEPP		cat_N			as
+essive formalis	NAdvkeppen	KEPPEN	képpen	C	-		-	-			-	-	-		-			pp		KEPP		cat_N			as
+Derivative Suffixes
+Productive word-based derivation
+Adjective suffixes
+comparative	CMP	FOK	A0bb	VCA	+		+	+			+	+	+		+	sup				>=Adj		grad			-er
+	EMP	KIEM	ik	V	T										+					Adj>Adj	-ik				the ...-er
+#	EMPA	KIEMA	ik	V	T										+				=A	Adj>Adj	-ik		POSS&3P		the ...-er
+#	CMP+AAdvMANR	FOK+ESSMOD	++Ul	VCA	+		+	+			+	+	+		+	sup				>Adj	grad&ESS_Ul				...ly
+#	CMP+AAdvMANR	FOK+ESSMOD	++An	VCA	+		+	+			+	+	+		+	sup				>Adj	grad&ESS_Vn				...ly
+
+sociative	SOC	SOC	VstUl	VCL	+	+	+	+			+	+	+		-					N>Adv					along with
+sociative	SOC	SOC	VstÓl	VCL	+	+	+	+			+	+	+		-					N>Adv				a	along with
+distributive 	DIS	DIS	Vnként	VCL	+	+	+	+			+	+	+		-	119sfx		PL 119	-i	>Adv					for each
+	DIS+NAi	DIS+IKEP	++i	VCL	+	+	+	+			+	+	+		+	119sfx		PL 119		>Adj					for each
+distributive (time)	DIST	NTA	VntA	VCL	+	+	+	+			+	+	*		-	119sfx		PL 119		N>Adv	-VntA				in every interval
+	NAdv	HA	szűk=é=ben	C	-		-	-			-	-	-		-					N>Adv
+
+wife	Mrs	MRS	né/Fné	C	T		+	-			-	-	-	+	-	%-ék				N>N	male				wife of ...		surname, full name, profession
+diminutive	DIM	DIM	VcskA	VCL	+	+	+	+			+	+	+	+	-		%FVL			N>N					-let/-kin
+diminutive	DIMA	DIMMN	VcskA	VCL	+	+	+	+			+	+	+	+	-		%FVL			Adj>Adj					-let/-kin
+diminutive	DIM	DIMKA	kA	CkA	+		*	-			-	*	-	+	-		%FVL			N>N	-kA				-let/-kin
+diminutive	DIMA	DIMKAMN	kA	CkA	+		*	-			-	*	-	+	-		%FVL			Adj>Adj	-kA				-let/-kin
+kind	KIND	FELE	féle	C	-		-	-			-	-	-	+	-		%FVL			N>Adj					...kind	may follow possessive markers	common noun
+#kind	KIND	FELE	féle	C	-		-	-			-	-	-	+	-		%FVL			Num>Adj					...kind	may follow possessive markers	common noun
+#kind	KIND+NAdvkepp	FELE+KEPP	++képp	C	-		-	-			-	-	-	+	-		%FVL			Num>Adv					...kind	may follow possessive markers	common noun
+#kind	KIND+Nadvkeppen	FELE+KEPPEN	++képpen	C	-		-	-			-	-	-	+	-		%FVL			Num>Adv					...kind	may follow possessive markers	common noun
+#kind	KIND	FELE	féle	C	-		-	-			-	-	-	+	-		%FVL			N>N					...kind		common noun
+kind	KIND	FELESEG	féleség	C	-		-	-			-	-	-	+	-				atomic	N>N					...kind		common noun
+kind	KIND	SZERUSEG	szërűség	C	-		-	-			-	-	-	+	-				atomic	N>N					...kind		common noun
+sort	KIND	FORMA	forma	C	-		-	-			-	-	-	+	-		%FVL			N>Adj					... kind of ...	may follow possessive markers	common noun, name of person
+sort	SORT	FAJTA	fajta	C	-		-	-			-	-	-	+	-		%FVL			N>Adj					... kind of ...	may follow possessive markers	common noun, name of person
+sort	SORT	FAJTA	fajta	C	-		-	-			-	-	-	+	-		%FVL			Num>Adj					... kind of ...	may follow possessive markers	common noun, name of person
+resemblance	RESM	SZERU	szërű	C	-		-	-			-	-	-	+	+				atomic	N>Adj					resembling ...		any noun
+	QUANT	SZAM	szám/számra	C	-		-	-			-	-	-	+	-					N>Adv	unit				by the ...s		measure unit (classifier), big round number
+	DISTPLACE	SZERTE	szërte	C	-		-	-			-	-	-	+	-					N>Adv	place				all around ...		settlement, country
+N>A suffix	NAi	IKEP	i	Vi	T		-	+			-	+	-		+	119sfx		119 PVS	priv&-Vs	*>Adj	-i				"taking place at/coming from/being situated at; being related to ..."		"place name; time; profession, function, institution, science, art"
+	NAdvilag	ILAG	ilAg	Vi	T		-	-			-	-	-					PVS		N>Adv
+	NAdvilag	ILAG	ilAg	Vi	T		-	+			-	+	-					PVS		N>Adv
+#																				[NP P]>Adj					being situated at		locative postpositional phrase
+formative	FOR+NAi	FOR+IKEP	ként+i	C	-		-	-			-	-	-		+			CASE		N>Adj					as		OBL_STAT
+temporal	TEM+NAi	TEM+IKEP	kor+i	C	-		-	-			-	-	-		+			CASE		*>Adj	-kor				at/when
+origin/location	NAbeli	BELI	beli	C	-		-	-			-	-	-		+	119sfx				N>Adj					"being situated at; being related to "		place, collective noun, epoch, institution, name of country, i-final place name
+origin/location	NAbeli	BELI+LAG	beli+lAg	C	-		-	-			-	-	-		+	119sfx				N>Adv					"being situated at; being related to "		place, collective noun, epoch, institution, name of country, i-final place name
+#origin/location	NAbeli	BELI	-beli	C	-		-	-			-	-	-	+	+				O	N>Adj					"being situated at; being related to "		place, collective noun, epoch, institution, name of country, i-final place name
+origin/location	NAbeli	BELI	beli	C	-		-	-			-	-	-		+	119sfx		CASE		N>Adj					"being situated at; being related to "		place, collective noun, epoch, institution, name of country, i-final place name
+	PSS1+NAbeli	PSe1+BELI	Vm+beli	VCL	+	+	+	+			+	+	+		+			POSS		N>Adj					his/her/its ...
+	PSS2+NAbeli	PSe2+BELI	Vd+beli	VCL	+	+	+	+			+	+	+		+			POSS		N>Adj					his/her/its ...
+	PSS3+NAbeli	PSe3+BELI	jA+beli/A+beli	VCja	+		+	A			A	A+	A+		+			POSS&3P		N>Adj	-jA				his/her/its ...
+	PSP1+NAbeli	PSt1+BELI	U0nk+beli	VCU	+		+	+			+	+	+		+			POSS		N>Adj					our ...
+	PSP2+NAbeli	PSt2+BELI	VtOk+beli	VCL	+	+	+	+			+	+	+		+			POSS		N>Adj					your (pl) ...
+	PSP3+NAbeli	PSt3+BELI	jUk+beli/Uk+beli	VCja	+		+	A			A	A+	A+		+			POSS&3P		N>Adj					their ...
+superessive	SUPx+PP+NAi+PROP	SUPx+NU+IKEP+PROP	O0n+kívül+i+ség	VCO	+	+	+	+			-	+	-		*			CASE&SUP		N>N					on		OBL_LOC
+superessive	SUPx+PP+NAi+PROP	SUPx+NU+IKEP+PROP	O0n+belül+i+ség	VCO	+	+	+	+			-	+	-		*			CASE&SUP		N>N					on		OBL_LOC
+property (alienable)	NAs	SKEP	Vs	VLCLs	+	+	+	+			+	+	+		+	119sfx		Vs		*>Adj	-Vs				"having property, ingredient; being characteristic of ...; "		material, property, object, food ingredient, proper names of persons, gentile names, [abstract nouns]
+#	AAs	SKEP	Vs	VLCLs	+	+	+	*			+	*	*		+					Adj>Adj	-Vs				...-ish		"-i adjectives, if they denote a usual property of the modified noun; [color names]"
+#	AdvAs	SKEP	Vs	VLCLs	+	+	*	*			*	*	*		+					Adv>Adj	-Vs						[-lAg adverbs] (used in the nominalization of VPs modified by a -lAg adverb)
+game	NNsdi	SDI	Vsdi	VLCLs	+		+	+			+	+	+		-					N>N	-Vsdi				a game of playing at ...s (acting as ...s)		names of professions
+#	NAs	SKEP	Vs	VLCLs	+	+	+	+			+	+	+		+					[Num/Adj N]>Adj					having Num/Adj ...s		N is usually alienable property, but the pattern is lexically used also with inalienable properties
+	NNs	SFN	Vs	VLCLs	+	+	+	+			+	+	+		-	119sfx		Vs		Nom>N	-Vs			a	"profession related to Nc; [... orchard/forest]; name of number"		"concrete noun; [tree sort]; numeral"
+	NNs	SFN	Vs	VLCLs	+	+	+	+			+	+	+		-	119sfx		Vs		Nom>N	-Vs			g	"profession related to Nc; [... orchard/forest]; name of number"		"concrete noun; [tree sort]; numeral"
+property (inalienable)	NAu	UKEP	j0Ú	VC	+		+	+			+	+	+		+	119sfx				[Num/Adj N]>Adj					having Num/Adj ...s		N is usually inalienable property, but the pattern is lexically used also with alienable properties
+privative	NAPRIV	FFOSZT	A0tA0lAn	VLCLpriv	+		+	-			-/+(k)	+	+/-		-					*>Adj	priv				"lacking ingredient, usual property; =neg NAS"	SVS only for -k-final stems	"whole-component; usual property/ingredient, gentile names; [inalienable properties: metaphorical];"
+	NAPRIV+AVkOd	FFOSZT+MIGY	++kOd=ik	VLCLpriv	+		+	-			-/+(k)	+	+/-		-	trans1				*>V	priv				behave in a .. way		privative and -Vs adjectives only, for non -Vs adjectives, -Vs is inserted
+#	AAPRIV	FFOSZT						-			*	*	*		-					Adj>Adj	priv				"lacking property; =neg AAS"		"-i adjectives (if -iAs is possible); + a few lexicalized items (...tAlAn!)"
+measure	MEAS	MER	nyi	C	T		+	-			-	-	-		+	119sfx				*>Adj	-nyi				an approximate amount of...		"concrete noun, measure unit; fraction"
+measure	MEAS	MER	i	C	T		+	-			-	-	-		+	119sfx		INS		*>Adj	-nyi-i				an approximate amount of...		"concrete noun, measure unit; fraction"
+name of property	PROP	PROP	sÁg	C	+		-	-			-	-	-		-					Adj>N	-sÁg				name of property	a few monosyllabic stems (ending in a sibilant (or affricate)-final cluster take -AsÁg or AssÁg	any adjective (but subject to blocking)
+collective	COLL	COL	sÁg	C	+		-	-			*	-	-		-					N>N	-sÁg				collective noun		[lexicalized]
+adverb of manner	AAdvMANR	ESSMOD	Ul	V	+		+	-			-	*	*		*					*>Adv		ESS_Ul			"in ... (language); ...lessly; [...ly]"		"name of a language; privative adj; [lexically marked adj.]"
+	AAdvMANR	ESSMOD	Vn	VLCL	+		+	+			+	+	+		*					*>Adv		ESS_Vn			...ly		"unmarked root or derived adjective; not: -i, -nyi, -féle, -fajta, -beli, -tlAn"
+=archaic form	AAdvMANR=0	ESSMOD=0													*					*>Adv		ESS_0			...ly		"unmarked root or derived adjective; not: -i, -nyi, -féle, -fajta, -beli, -tlAn"
+adverb of manner	Adv+CMP	HA+FOK	Ul+	V	+		+	-			-	*	*		*					*>Adv		ESS_Ul		g	"in ... (language); ...lessly; [...ly]"		"name of a language; privative adj; [lexically marked adj.]"
+	Adv+CMP	HA+FOK	Vn+	VLCL	+		+	+			+	+	+		*					*>Adv		ESS_Vn		g	...ly		"unmarked root or derived adjective; not: -i, -nyi, -féle, -fajta, -beli, -tlAn"
+
+cardinality of subject	CARD	ESSNUM	An	VL	+		+	+			+	-	-		-			Vn		Num>Adv	ESS_Vn				...ly		"unmarked root or derived adjective; not: -i, -nyi, -féle, -fajta, -beli, -tlAn"
+#group plural	PLGRP	PL|CSOP	Vk	VL	+		+	+			+	-	-		-			PL		Num>Adv
+multiplicative	MUL	MUL	szOr	C	+		+/-	-			-	-	-		-			szOr		Num>Adv					... times
+multiplicative	MUL+AdvAs	MUL+SKEP	++Os	C	+		+/-	-			-	-	-		+			szOr		Num>Adj
+multiplicative	MUL+AdvAi	MUL+IKEP	++i	C	+		+/-	-			-	-	-		+			szOr		Num>Adj
+multiplicative	MUL+NVz	MUL+FIT	++Oz	C	+		+/-	-			-	-	-			trans2		szOr		Num>V
+multiplicative	MUL+SUB	MUL+SUB	++rA	C	+		+/-	-			-	-	-			trans2		szOr		Num>Adv
+multiplicative	MUL+NVz	MUL+FIT	++Oz	C	+		+/-	-			-	-	-			trans2		szOr		Num>V
+multiplicative	MUL-tA	SZORTA	szOrtA	C	+		+/-	-			-	-	-		-			szOr		Num>Adv					... times
+	FOLD	RET	rét	C	-		-	-			-	-	-		-					Num>Adv					... fold
+	FOLD+NAu	RET+UKEP	rét+ű	C	-		-	-			-	-	-		+				atomic	Num>Adj					... fold
+ordinal	ORD	SORSZ	Vd%ik	VL	+		+	+			+	-	-					Vd	LOW+&=jA&=jAi	Num>Adj	-Vd				(the) ...th (ordinal number)
+date	DATE	DATUM	Vd%ik%A	VL	+		+	+			+	-	-		-		%FVL	Vd		Num>N	-Vd				the ...th (date)
+	ORDADJ	DLAGOS	Vd%lAg%Os	VL	+		+	+			+	-	-		+			Vd		Num>Adj	-Vd
+fractional	FRACT	TORT	Vd	VL	+		+	+			+	-	-		-			Vd	=*j0A&=*j0Ai&sfx_FRACT&-nyi	Num>Num	-Vd				...th part
+	MUL+Adv|Pro	MUL+HA|NM	++maga	VL	+		+	+			+	-	-		-		pers	Vd		Num>Adv	-Vd
+	MUL+N|Pro	MUL+FN|NM	++maga	VL	+		+	+			+	-	-		-		pers	Vd		Num>N	-Vd
+	ORD+MUL	SORSZ+MUL	++szOr	VL	+		+	+			+	-	-		-			Vd		Num>Adv	-Vd
+	ORD+MUL+SUB	SORSZ+MUL+SUB	++szOr+rA	VL	+		+	+			+	-	-		-			Vd		Num>Adv	-Vd
+	ORD+Adv	SORSZ+HA	++kéz=ből	VL	+		+	+			+	-	-		-			Vd		Num>Adv	-Vd
+	ORD+N+TMP_INL	SORSZ+FN+TMP_INL	++nap+	VL	+		+	+			+	-	-		-			Vd		Num>Adv	-Vd
+	ORD+N	SORSZ+FN	++nap	VL	+		+	+			+	-	-		-			Vd		Num>N	-Vd
+	ORD+N+TMP_ANTE	SORSZ+FN+TMP_ANTE	++nap+ja	VL	+		+	+			+	-	-		-			Vd		Num>Adv	-Vd
+	FRACT+Num	TORT+SZN	++rész	VL	+		+	+			+	-	-		-			Vd		Num>N	-Vd
+	FRACT+Adv	TORT+HA	++rész=t	VL	+		+	+			+	-	-		-			Vd		Num>Adv	-Vd
+	ORD+Adv	SORSZ+HA	++íz=ben	VL	+		+	+			+	-	-		-			Vd		Num>Adv	-Vd
+	ORD+Adv	SORSZ+HA	++íziglen	VL	+		+	+			+	-	-		-			Vd		Num>Adv	-Vd
+	ORD+N+NAu	SORSZ+FN+UKEP	++rang+ú	VL	+		+	+			+	-	-		+			Vd	ESS_Vn	Num>Adj	-Vd&!cmpd
+	ORD+N+NAu	SORSZ+FN+UKEP	++rend+ű	VL	+		+	+			+	-	-		+			Vd	ESS_Vn	Num>Adj	-Vd&!cmpd
+	ORD+N	SORSZ+FN	++osztály	VL	+		+	+			+	-	-		-			Vd		Num>N	-Vd&!cmpd
+	ORD+N	SORSZ+FN	++példány	VL	+		+	+			+	-	-		-			Vd		Num>N	-Vd&!cmpd
+	ORD+N+NAu	SORSZ+FN+UKEP	++fok+ú	VL	+		+	+			+	-	-		+			Vd	ESS_Vn	Num>Adj	-Vd&!cmpd
+	ORD+N+NAu	SORSZ+FN+UKEP	++faj+ú	VL	+		+	+			+	-	-		+			Vd	ESS_Vn	Num>Adj	-Vd&!cmpd
+	FRACT+Num	TORT+SZN|NM	++annyi	VL	+		+	+			+	-	-		-			Vd	ESS_Vn	Num>Num	-Vd
+	ORD+Num	SORSZ+SZN	++*fél	VL	+		+	+			+	-	-		-		SVS	Vd	ESS_Vn&-Vd	Num>Num	-Vd
+	ORD+Num+Num	SORSZ+SZN+SZN	++fél+száz	VL	+		+	+			+	-	-		-			Vd	LOW&ESS_Vn&-Vd	Num>Num	-Vd
+	ORD+Num+Num	SORSZ+SZN+SZN	++fél+ezer	VL	+		+	+			+	-	-		-		VZA	Vd	ESS_Vn&-Vd	Num>Num	-Vd
+	ORD+Num+Num	SORSZ+SZN+SZN	++fél+millió	VL	+		+	+			+	-	-		-			Vd	ESS_Vn	Num>Num	-Vd
+#	MULSOC		Vd#maga	VL	+		+	+			+	-	-		-					Num>N
+#	FRACTPART		Vd#rész	VL	+		+	+			+	-	-		-					Num>N
+#	FRACTPRO		Vd#annyi	VL	+		+	+			+	-	-		+					Num>Num
+	FRACT+NVl	TORT+FIL	++Ol	VL	+		+	+			+	-	-		-	trans2		Vd		Num>V	-Vd
+	KIND	FELE	féle	C	-		-	-			-	-	-	+	-		%FVL			Num>Adj					...kind	may follow possessive markers	common noun
+	KIND+NAdvkeppen	FELE+KEPPEN	++képpen	C	-		-	-			-	-	-	+	-					Num>Adv
+	KIND+NAdvkepp	FELE+KEPP	++képp	C	-		-	-			-	-	-	+	-					Num>Adv
+	NumAdv	HA	felé	C	-		-	-			-	-	-	+	-					Num>Adv
+	NumAdv	HA	felől	C	-		-	-			-	-	-	+	-					Num>Adv
+
+Verb forming suffixes
+	NVz	FIT	Vz	VCLz	+	+	+	+			+	+	+			trans2				Nom>V					use a tool, play an instrument, do a sport		tool, instrument, sport...
+	NVzik	FI	Vz=ik	VCLz	+	+	+	+			+	+	+			trans1				Nom>V				g	use a tool, play an instrument, do a sport		tool, instrument, sport...
+	NVzik	FI	Vz=ik	VCLz	+	+	+	+			+	+	+			trans1				Nom>V			infsfx	a	use a tool, play an instrument, do a sport		tool, instrument, sport...
+	NVl	FIL	Vl	VCLl	+	+	+	*			+	+	+			trans2				N>V	-NVl				use a tool, play an instrument, do a sport		tool, instrument, sport...
+	NVkOd	MIGY	Vs0kOd=ik	VCLsk	+	+	+	-			+	+	+			trans1			-Om	N>V					work as ...		profession
+#	AVkOd	MIGY	Vs0kOd=ik	C	+	+	+	-			+	+	+			trans1			-Om	Adj>V					behave in a .. way		privative and -Vs adjectives only, for non -Vs adjectives, -Vs is inserted
+	AVkOd	MIGY	Vs0kOd=ik	VCLsk	+	+	+	-			+	+	+			trans1			-Om	Adj>V					behave in a .. way		privative and -Vs adjectives only, for non -Vs adjectives, -Vs is inserted
+	AVit	FAK	ít	VCit	T		*	-		+	+/-	+	*			trans2				Adj>V	-ít				make ...		root adj, privative adj, [adj+comp+ít]
+		FAK	Vsít	VCLs	+		+	-		+	+/-	+	+			trans2				Adj>V	-Vsít				make ...		gentile name, V-final open class, concrete property
+	AVUl	MI	Ul	V$	+		*	*		+	+	+	*			trans1				Adj>V	-AVUl				become/turn ...		monosyllabic adj root, exceptions: rövid, sötét
+		MI	Vd=ik	V$$	+	+	*	-		+	+	*	*			trans1			-Om	Adj>V	-Vdik				become/turn ...		polysyllabic adj, rövid, sötét
+		MI	VsOd=ik	VCLs	+	+	+	-			+	+	+			trans1			-Om	Adj>V	-VsOdik						gentile name, V-final open class, concrete property
+Verbal suffixes
+#												vST			LOW
+#												l?
+nominalization	VNAs	IF	Ás	V	+							+			-	AS				V>N	(reg|-Ás)				event/result		"(lexical blocking applies);[...hAt.Ás words are lexicalized];"
+nominalization	VNAs+A	IF+MN	++véd@ett	V	+							+			+					V>Adj	(reg|-Ás)				event/result		"(lexical blocking applies);[...hAt.Ás words are lexicalized];"
+#																				[Nadv V]>N							phrase-suffixation for verbs with obligatory oblique argument
+	VAnivalo	NIVALO*	A0nivaló	VCn	+							-			+				badorth	V>Adj	((reg&-nAk)|-nA)						only transitive (passivizable) verbs
+	VNnivalo	NIVALOFN	A0nivaló	VCn	+							-								V>N	((reg&-nAk)|-nA)						only transitive (passivizable) verbs
+habitual	VAHABIT	SZOK	Ós	V	+							+			+					V>Adj	(reg|-Ó)				habitually ...ing		(usually non-agentive) verbs expressing psychic/physical properties
+privative	VAPRIV	IFOSZT	AtlAn	V	+							+			-					V>Adj	(reg|-AtlAn)	trans2					transitive verbs only
+permissive	HAT	HAT	hAt	C	+							-				HAT	%t>s	infsfx		V>V	(reg|-hAt)				may ...
+permissive	HAT	HAT	hAt=ik	C	+							-				HAT	%t>s	infsfx	-Om	V>V	(reg|-hAt)&-jék		(sg3|sg1)	a	may ...
+inclination?	DES	DES	hAtnék	C	+							-							=A =jA	V>N	(reg|-hAt)				be in the mood to... (?)
+capability	VACAP	HATO	hAtÓ	C	+							-			+					V>Adj	(reg|-hAt)	trans2			...able (is not a composition of the semantics of -hAt and -Ó)		only transitive (passivizable) verbs (more restricted distribution than that of -hAt and -Ó)
+incapability	VAINCAP	HATATLAN	hAtAtlAn	C	+							-			-					V>Adj	(reg|-hAt)	trans2			in...able (=neg ...hAtÓ)		only transitive (passivizable) verbs (the same distribution as that of -AtlAn)
+active participle	PARTACT	MIF	Ó	V	+							+			-					V>N	(reg|-Ó)			g	the ...ing ...		any verb
+	VAO	OMN	Ó	V	+							+			+	O				V>Adj	(reg|-Ó)			g	the ...ing ...		verbs with non-subject experient+source subject
+agentive	VNO	OFN	Ó	V	+							+			-	O			-i	V>N	(reg|-Ó)			g	"profession; tool; place for ...ing; event"		"V must be durative and may not be stative; *hAt, *At, *tAt; V may not have obligatory Adv or sentence argument"
+	VNAO	OKEP	Ó	V	+							+			-	O			-i	V>Adj	(reg|-Ó)			g	the ...ing ...		any verb
+	VNAO	OKEP	Ó	V	+							+			-	O			!LOW -i	V>Adj	(reg|-Ó)		!LOWini	a	the ...ing ...		any verb
+	VAO	OMN	Ó	V	+							+			+	O				V>Adj	(reg|-Ó)		LOWini	a	the ...ing ...		verbs with non-subject experient+source subject
+	VAdvOlag	OLAG	ÓlAg	V	+							+			+					V>Adv	(reg|-Ó)
+perfect participle	PARTPERF	MIB	O0t0t	VCtt'	+	+						-			+				=jA&ESS_Vn	V>Adj	(reg|-tt)	(pp|trans2)	!FAM		...ed (resultative, antecedence)		"intransitive verbs expressing a state-change of the subject patient; *hAt"
+=archaic form	VN=tA	IF=tA	O0t0t=A	VCta	+	+						-								V>N	(-tAm|-tAbAn)						tA,ttA,OttA
+	PARTPERF_SUBJ=tA	MIB_SUBJ=tA	O0t0t=A	VCta	+	+						-								V>Adj	(-tAm|-tAbAn)						tA,ttA,OttA
+=archaic form	GER	HIN=ttOn	O0t0t=On	VCta	+	+						-								V>Adv	(-tAm|-tAbAn)				jöttön jött
+#																				V>Adj					...ed (passive, concurrence possible)		"transitive (passivizable) verbs only; *hAt"
+future passive participle	PARTFUT	MIA	AndÓ	V	+	+						+			+					V>Adj	(reg|-AndÓ)	trans2					"transitive (passivizable) verbs only; *hAt; [lexicalized intransitive forms are adjectives or nouns (leendő, jövendő, állandó, maradandó, halandó, eredendő)]"
+adverbial participle	PARTADV	HIN	vA	C	+							-			*					V>Adv	(reg|-vA)				...ing ... (active/active or passive in the construction: ...vA van)		intransitive / transitive verbs
+		HINN	vÁn	C	+							-			*					V>Adv	(reg|-vA|-vÁn)
+		HINST	vÁst	C	+							-			*					V>Adv	(reg|-vA|-vÁn)
+frequentative	FREQ	GYAK	O0gAt	V$C$$	+	+						+					%t>s			V>V	(reg|-gAt)				repetition/reduced intensity of action		"non-durative (momentary) transitive verbs (or ones that has a non-durative prefixed variant)/durative agentive verbs (lexical blocking by -dál, -gál); stative and reflexive verbs are excluded"
+#causative/factitive	CAUS																								causative=have ... do sg		"causative can be formed from non-agentive non-stative verbs; lexical blocking by -ít/aszt"
+#	FACT																								factitive=make someone do sg		"factitive can be formed from agentive non-stative verbs; lexical blocking by -ít"
+	CAUS	MUV	At	V$-t/g	+							+				trans2	%t>s			V>V	=At&(reg|-tAt)						"[factitive for monosyllabic non-Vt-final verbs and vowel-zero alternating verbs with the -Vg suffix and optionally for the r-final ones; may be blocked by -nt, -Aszt, -iszt, -ít]"
+		MUV	tAt	C	+							*				trans2	%t>s			V>V	=tAt&(reg|-tAt)						"factitive/causative for polysyllabic and monosyllabic Vt-final verbs; [causative for a set of monosyllabic verbs] +lexicalized non-causative usage, e.g. vontat"
+#			nt	$ml								*				trans2
+#			Aszt	$Ad	+							*				trans2
+passive	PASS	SZENV	At=ik	V$-t/g	+							+				trans0	%t>s			V>V	=At&(reg|-tAt)	trans2		g	be ...ed		transitive agentive verbs
+		SZENV	tAt=ik	C	+							*				trans0	%t>s			V>V	=tAt&(reg|-tAt)	trans2		g
+passive	PASS	SZENV	at=ik	V$-t/g	+							+				trans0	%t>s			V>V	=At&(reg|-tAt)	trans2	sg3	a	be ...ed		transitive agentive verbs
+		SZENV	tat=ik	C	+							*				trans0	%t>s			V>V	=tAt&(reg|-tAt)	trans2	sg3	a
+medial	MED	MED	Ód=ik	V	+							+				trans1			-Om	V>V	(reg|-Ó)	trans2					transitive verbs with patient object
+#reflexive	REFL		AkOd=ik/Aksz=ik	V	+							*				trans1				V>V
+#			kOd=ik	C	+	+						*				trans1				V>V
+#			kÓd=ik	C	+							*				trans1				V>V
+#			AkOz=ik	V	+							*				trans1				V>V
+#			kÓz=ik	C	+							*				trans1				V>V
+
+Loan verbs
+#latinate			ál/izál/ifikál	V	-															>V							latinate verbs
+#German			íroz	V	-															>V							german -ieren verbs
+#			Ol/ol	V	+/-	+/-														>V							C-final verbs (interjúvol!)
+#English-ing			ingOl	V	+															(N)>V							English verbs with nominal gerunds
+#			z	C	T															>V							V-final verbs
+
+Verbal inflections
+
+present indefinite
+	RIS1	e1	Ok	V	+	+						+								INFL	(reg|-Ok)			a			Ok,Om
+			Ok	V	+	+						+								INFL	!-Om&(reg|-Ok)			g
+			Om	V	+	+						+						sg1		INFL	-ik&-Om
+	RIS2	e2	A0sz	VC-S	+							-								INFL	-Asz						sz,Asz,Ol
+			Ol	VS	+	+						*								INFL	=Ol&-Asz
+					+							-								INFL	=02						0,ik
+	RIS3	e3			+							-						sg3		INFL	((reg&!-ik)|-03)						0,ik
+			ik	V	+							+						sg3		INFL	-ik
+	RIP1	t1	Unk	V	+							+								INFL	(reg|-Ok)						Unk
+	RIP2	t2	O0tOk	VCtok	+	+						-								INFL	-tOk						tOk,OtOk
+	RIP3	t3	A0nAk	VCn	+							-								INFL	-nAk						nAk,AnAk
+2nd person object sg1 subject
+	R2S1	Ie1	A0lAk	VClak	+							-								INFL		trans1					lAk,AlAk
+
+present definite object
+	RDS1	Te1	Om	V	+	+						+								INFL	(reg|-Ok)	trans1					Om
+	RDS2	Te2	Od	V	+	+						+								INFL	(reg|-Ok)	trans1					Od
+	RDS3	Te3	j2a	Cdef	B							-								INFL	-jUk	trans1					ja,i
+			i	V	F							+								INFL	(reg|-Ok)	trans1
+	RDP1	Tt1	j2Uk	Cdef	+							-								INFL	-jUk	trans1					jUk,Uk
+	RDP2	Tt2	j2átok	Cdef	B							-								INFL	-jUk	trans1					játOk,itOk
+			itëk	V	F							+								INFL	(reg|-Ok)	trans1
+	RDP3	Tt3	j2ák	Cdef	B							-								INFL	-jUk	trans1					ják,ik
+			ik	V	F							+								INFL	(reg|-Ok)	trans1
+
+past indefinite
+	(P...)		O0t0t	VCtt	+	+						-			+
+	PIS1	Me1	+Am	VCta	+	+						-								INFL	-tAm						tAm,ttAm,OttAm
+	PIS2	Me2	+Ál	VCta	+	+						-								INFL	-tAm						tÁl,ttÁl,OttÁl
+	PIS3	Me3	+	VCtt	+	+						-								INFL	-tt						t,tt,Ott
+	PIP1	Mt1	+Unk	VCta	+	+						-								INFL	-tAm						tUnk,ttUnk,OttUnk
+	PIP2	Mt2	+AtOk	VCta	+	+						-								INFL	-tAm						tAtOk,ttAtOk,OttAtOk
+	PIP3	Mt3	+Ak	VCta	+	+						-								INFL	-tAm						tAk,ttAk,OttAk
+2nd person object sg1 Subject
+	P2S1	IMe1	+AlAk	VCta	+	+						-								INFL	-tAm	trans1					tAlAk,ttAlAk,OttAlAk
+
+past definite object
+	PDS1	TMe1	+Am	VCta	+	+						-								INFL	-tAm	trans1					tAm,ttAm,OttAm
+	PDS2	TMe2	+Ad	VCta	+	+						-								INFL	-tAm	trans1					tAd,ttAd,OttAd
+	PDS3	TMe3	+A	VCta	+	+						-								INFL	-tAm	trans1					tA,ttA,OttA
+	PDP1	TMt1	+Uk	VCta	+	+						-								INFL	-tAm	trans1					tUk,ttUk,OttUk
+	PDP2	TMt2	+ÁtOk	VCta	+	+						-								INFL	-tAm	trans1					tÁtOk,ttÁtOk,OttÁtOk
+	PDP3	TMt3	+Ák	VCta	+	+						-								INFL	-tAm	trans1					tÁk,ttÁk,OttÁk
+
+conditional indefinite
+	(C...)		A0n	VCn	+							-
+	CIS1	Fe1	+ék	VCn	+															INFL	((reg&-nAk)|-nA)						nék,Anék
+	CIS2	Fe2	+Ál	VCn	+															INFL	((reg&-nAk)|-nA)						nÁl,AnÁl
+	CIS3	Fe3	+A	VCn	+															INFL	((reg&-nAk)|-nA)						AnA
+	CIS3	Fe3	+ék	VCn	+															INFL	((reg&-nAk)|-nA)&-nék						AnA
+	CIP1	Ft1	+Ánk	VCn	+															INFL	((reg&-nAk)|-nA)						nÁnk,AnÁnk
+#	CIP1*	Ft1*	+Ók	VCn	+															INFL	((reg&-nAk)|-nA)						nÁnk,AnÁnk
+	CIP2	Ft2	+ÁtOk	VCn	+															INFL	((reg&-nAk)|-nA)						nÁtOk,AnÁtOk
+	CIP3	Ft3	+ÁnAk	VCn	+															INFL	((reg&-nAk)|-nA)						nÁnAk,AnÁnAk
+2nd person object sg1 subject
+	C2S1	IFe1	+ÁlAk	VCn	+															INFL	((reg&-nAk)|-nA)	trans1					nálAk,AnálAk
+
+conditional definite object
+	CDS1	TFe1	+Ám	VCn	+															INFL	((reg&-nAk)|-nA)	trans1					nÁm,AnÁm
+	CDS2	TFe2	+Ád	VCn	+															INFL	((reg&-nAk)|-nA)	trans1					nÁd,AnÁd
+	CDS3	TFe3	+Á	VCn	+															INFL	((reg&-nAk)|-nA)	trans1					nÁ,AnÁ
+	CDP1	TFt1	+Ánk	VCn	+															INFL	((reg&-nAk)|-nA)	trans1					nÁnk,AnÁnk
+	CDP1*	TFt1*	+Ók	VCn	+															INFL	((reg&-nAk)|-nA)	trans1					nÁnk,AnÁnk
+	CDP2	TFt2	+ÁtOk	VCn	+															INFL	((reg&-nAk)|-nA)	trans1					nÁtOk,AnÁtOk
+	CDP3	TFt3	+Ák	VCn	+															INFL	((reg&-nAk)|-nA)	trans1					nÁk,AnÁk
+imperative/subjunctive indefinite
+	(S...)		j1	Csub								-			+												j
+	SIS1	Pe1	+Ak	Csub	+															INFL	-j						jAk
+	SIS1	Pe1	+Am	Csub	+													sg1		INFL	-j&-jAm			a			jAk
+	SIS2	Pe2	+	Csub	+															INFL	-j						j,jÁl
+	SIS2	Pe2	+Ál	Csub	+															INFL	-j			a			j,jÁl
+	SIS3	Pe3	+On	Csub	+	+														INFL	-j						jOn,jék
+			+ék	Csub	+													sg3		INFL	-j&-jék
+	SIP1	Pt1	+Unk	Csub	+															INFL	-j						jUnk
+	SIP2	Pt2	+AtOk	Csub	+															INFL	-j						jAtOk
+	SIP3	Pt3	+AnAk	Csub	+															INFL	-j						jAnAk
+2nd person object sg1 subject
+	S2S1	IPe1	+AlAk	Csub	+															INFL	-j	trans1					jAlAk
+
+imperative/subjunctive definite object
+	SDS1	TPe1	+Am	Csub	+															INFL	-j	trans1					jAm
+	SDS2	TPe2	+Ad	Csub	+															INFL	-j	trans1		a			jAd,d
+	SDS3	TPe3	+A	Csub	+															INFL	-j	trans1					jA
+	SDP1	TPt1	+Uk	Csub	+															INFL	-j	trans1					jUk
+	SDP2	TPt2	+ÁtOk	Csub	+															INFL	-j	trans1					jÁtOk
+	SDP3	TPt3	+Ák	Csub	+															INFL	-j	trans1					jÁk
+	SDS2	TPe2	d	Csub	+															INFL	-d	trans1					jAd,d
+
+infinitives
+	INF	INF	A0ni	VCn	+							-						INF		INFL	((reg&-nAk)|-nA|-ni)						ni
+Infinitives with subject agreement marked
+	(INF...)		A0n	VCn	+							-
+	INFS1	INRe1	+Om	VCn	+													INF		INFL	((reg&-nAk)|-nA)						nOm
+	INFS2	INRe2	+Od	VCn	+													INF		INFL	((reg&-nAk)|-nA)						nOd
+	INFS3	INRe3	+iA	VCn	+													INF		INFL	((reg&-nAk)|-nA)						niA
+	INFP1	INRt1	+Unk	VCn	+													INF		INFL	((reg&-nAk)|-nA)						nUnk
+	INFP2	INRt2	+OtOk	VCn	+													INF		INFL	((reg&-nAk)|-nA)						nOtOk
+	INFP3	INRt3	+iUk	VCn	+													INF		INFL	((reg&-nAk)|-nA)						niUk
+	INFP3*	INRt3*	a0niok	VCn	B													INF		INFL	((reg&-nAk)|-nA)						niUk
+	INFP3*	INRt3*	e0niök	VCn	F													INF		INFL	((reg&-nAk)|-nA)						niUk

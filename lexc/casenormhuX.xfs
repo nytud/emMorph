@@ -1,0 +1,274 @@
+################################################## START OF LICENSE ##################################################
+#
+#  This file is part of the emMorph / Humor morphological analyzer description for Hungarian.
+#  Copyright (C) 2001-2016 Attila Novák
+#  
+#  The author of the database and the database compilation environment is Attila Novák (novakat@gmail.com).
+#  The resource is available from: https://github.com/dlt-rilmta/emMorph
+#  
+#  The database files are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+#  (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
+#  with the following amendments:
+#  
+#  By downloading/cloning this database and tools you accept the following terms:
+#  1. Please inform the author at novakat@gmail.com about your use of the database/tools clearly indicating what you use them for
+#  as soon as you start working on your application/experiment/resource involving this database or tool.
+#  2. Even in the case of non-academic use, you promise to publish a scientific paper about 
+#  each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting
+#  the articles below, and inform the author at novakat@gmail.com about each article you publish.
+#  If you definitely cannot publish an article, please contact the author.
+#  
+#  Articles to quote are listed at https://github.com/dlt-rilmta/emMorph, the list is currently the following:
+#  (See the BibTeX file quotethis.bib in the root directory):
+#  
+#  Attila Novák (2014): A New Form of Humor – Mapping Constraint-Based Computational Morphologies to a Finite-State Representation.
+#  In: Proceedings of the 9th International Conference on Language Resources and Evaluation (LREC-2014). Reykjavík, pp. 1068–1073 (ISBN 978-2-9517408-8-4)
+#  
+#  Attila Novák; Borbála Siklósi; Csaba Oravecz (2016): A New Integrated Open-source Morphological Analyzer for Hungarian
+#  In: Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016). Portorož, pp. 1315–1322.
+#  
+#  Novák Attila (2003): Milyen a jó Humor? [What is good Humor like?] In: Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2003). Szegedi Tudományegyetem, pp. 138–145
+#  
+#  3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
+#  4. If you are interested in using or adapting the resource for commercial purposes, please contact the author.
+#  ***
+#  
+#  The Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA)
+#  license is available at: https://creativecommons.org/licenses/by-nc-sa/4.0/
+#  
+#  Disclaimer of Warranties and Limitation of Liability.
+#  
+#  Unless otherwise separately undertaken by the Licensor, to the extent possible,
+#  the Licensor offers the Licensed Material as-is and as-available, and makes no
+#  representations or warranties of any kind concerning the Licensed Material,
+#  whether express, implied, statutory, or other. This includes, without
+#  limitation, warranties of title, merchantability, fitness for a particular
+#  purpose, non-infringement, absence of latent or other defects, accuracy, or the
+#  presence or absence of errors, whether or not known or discoverable. Where
+#  disclaimers of warranties are not allowed in full or in part, this disclaimer
+#  may not apply to You.
+#  
+#  To the extent possible, in no event will the Licensor be liable to You on any
+#  legal theory (including, without limitation, negligence) or otherwise for any
+#  direct, special, indirect, incidental, consequential, punitive, exemplary, or
+#  other losses, costs, expenses, or damages arising out of this Public License or
+#  use of the Licensed Material, even if the Licensor has been advised of the
+#  possibility of such losses, costs, expenses, or damages. Where a limitation of
+#  liability is not allowed in full or in part, this limitation may not apply to You.
+#
+################################################## END OF LICENSE ##################################################
+
+#upper case letters
+
+define UC [
+A|Á|B|C|D|E|É|F|G|H|I|Í|J|K|L|M|N|O|Ó|Ö|Ő|P|Q|R|S|T|U|Ú|Ü|Ű|V|W|X|Y|Z|Â|Ă|Ä|Ą|Ć|Ç|Č|Ď|Đ|Ę|Ë|Ě|Î|Ł|Ľ|Ń|Ň|Ô|Ŕ|Ř|Ş|Š|Ś|Ţ|Ť|Ů|Ý|Z|Ž|Ź|Ż
+];
+
+#lower case letters
+define LC [
+a|á|b|c|d|e|é|f|g|h|i|í|j|k|l|m|n|o|ó|ö|ő|p|q|r|s|t|u|ú|ü|ű|v|w|x|y|z|â|ă|ä|ą|ć|ç|č|ď|đ|ę|ë|ě|î|ł|ľ|ń|ň|ô|ŕ|ř|ş|š|ś|ţ|ť|ů|ý|z|ž|ź|ż
+];
+
+#not case markup
+define NCM [
+\ [
+"^2U"|"^2L"|"^U"|"^L"|"-"|"/"|"'"
+]];
+
+#proper word elements are either
+define PropWElem [
+[
+#all lower case (optionally decapitalized)
+#[ ("^2L") ("^L") "^L" * ] |
+#we exclude decapitalization
+#[ ("^L") "^L" * ] |
+#or all uppercase (all-capitalized)
+#[ ("^2U") "^U" ["^2U" "^U"]+ ] |
+[ [("^2U") "^U" ["^2U" "^U"]+| "^U"+]] |
+#or capitalized
+[ ("^2U") "^U" "^L"*]
+]/NCM |
+#or contain no case conversion at all
+\["^2U"|"^2L"]+
+
+];
+
+#bad capitalization
+define BadCap [
+~[
+PropWElem [["-"|"/"|"'"] PropWElem] *
+]];
+
+#proper case normalization
+define CaseConv [
+
+#capitalization
+[
+a "^2U" -> A,
+á "^2U" -> Á,
+b "^2U" -> B,
+c "^2U" -> C,
+d "^2U" -> D,
+e "^2U" -> E,
+é "^2U" -> É,
+f "^2U" -> F,
+g "^2U" -> G,
+h "^2U" -> H,
+i "^2U" -> I,
+í "^2U" -> Í,
+j "^2U" -> J,
+k "^2U" -> K,
+l "^2U" -> L,
+m "^2U" -> M,
+n "^2U" -> N,
+o "^2U" -> O,
+ó "^2U" -> Ó,
+ö "^2U" -> Ö,
+ő "^2U" -> Ő,
+p "^2U" -> P,
+q "^2U" -> Q,
+r "^2U" -> R,
+s "^2U" -> S,
+t "^2U" -> T,
+u "^2U" -> U,
+ú "^2U" -> Ú,
+ü "^2U" -> Ü,
+ű "^2U" -> Ű,
+v "^2U" -> V,
+w "^2U" -> W,
+x "^2U" -> X,
+y "^2U" -> Y,
+z "^2U" -> Z,
+â "^2U" -> Â,
+ă "^2U" -> Ă,
+ä "^2U" -> Ä,
+ą "^2U" -> Ą,
+ć "^2U" -> Ć,
+ç "^2U" -> Ç,
+č "^2U" -> Č,
+ď "^2U" -> Ď,
+đ "^2U" -> Đ,
+ę "^2U" -> Ę,
+ë "^2U" -> Ë,
+ě "^2U" -> Ě,
+î "^2U" -> Î,
+ł "^2U" -> Ł,
+ľ "^2U" -> Ľ,
+ń "^2U" -> Ń,
+ň "^2U" -> Ň,
+ô "^2U" -> Ô,
+ŕ "^2U" -> Ŕ,
+ř "^2U" -> Ř,
+ş "^2U" -> Ş,
+š "^2U" -> Š,
+ś "^2U" -> Ś,
+ţ "^2U" -> Ţ,
+ť "^2U" -> Ť,
+ů "^2U" -> Ů,
+ý "^2U" -> Ý,
+z "^2U" -> Z,
+ž "^2U" -> Ž,
+ź "^2U" -> Ź,
+ż "^2U" -> Ż,
+
+#decapitalization
+
+A "^2L" -> a,
+Á "^2L" -> á,
+B "^2L" -> b,
+C "^2L" -> c,
+D "^2L" -> d,
+E "^2L" -> e,
+É "^2L" -> é,
+F "^2L" -> f,
+G "^2L" -> g,
+H "^2L" -> h,
+I "^2L" -> i,
+Í "^2L" -> í,
+J "^2L" -> j,
+K "^2L" -> k,
+L "^2L" -> l,
+M "^2L" -> m,
+N "^2L" -> n,
+O "^2L" -> o,
+Ó "^2L" -> ó,
+Ö "^2L" -> ö,
+Ő "^2L" -> ő,
+P "^2L" -> p,
+Q "^2L" -> q,
+R "^2L" -> r,
+S "^2L" -> s,
+T "^2L" -> t,
+U "^2L" -> u,
+Ú "^2L" -> ú,
+Ü "^2L" -> ü,
+Ű "^2L" -> ű,
+V "^2L" -> v,
+W "^2L" -> w,
+X "^2L" -> x,
+Y "^2L" -> y,
+Z "^2L" -> z,
+Â "^2L" -> â,
+Ă "^2L" -> ă,
+Ä "^2L" -> ä,
+Ą "^2L" -> ą,
+Ć "^2L" -> ć,
+Ç "^2L" -> ç,
+Č "^2L" -> č,
+Ď "^2L" -> ď,
+Đ "^2L" -> đ,
+Ę "^2L" -> ę,
+Ë "^2L" -> ë,
+Ě "^2L" -> ě,
+Î "^2L" -> î,
+Ł "^2L" -> ł,
+Ľ "^2L" -> ľ,
+Ń "^2L" -> ń,
+Ň "^2L" -> ň,
+Ô "^2L" -> ô,
+Ŕ "^2L" -> ŕ,
+Ř "^2L" -> ř,
+Ş "^2L" -> ş,
+Š "^2L" -> š,
+Ś "^2L" -> ś,
+Ţ "^2L" -> ţ,
+Ť "^2L" -> ť,
+Ů "^2L" -> ů,
+Ý "^2L" -> ý,
+Z "^2L" -> z,
+Ž "^2L" -> ž,
+Ź "^2L" -> ź,
+Ż "^2L" -> ż
+
+.o.
+
+[
+#mark upper case letters as such
+
+UC @-> ... "^U"
+
+.o.
+
+#mark lower case letters as such
+LC @-> ... "^L"
+].i
+].i
+
+];
+
+regex [
+CaseConv
+#disallow bad capitalization on upper side
+.o.
+
+~[BadCap]
+
+#remove case markup from lexical side
+
+.o.
+
+[["^2U"|"^2L"|"^U"|"^L"] -> 0]
+
+];
+
+save stack casenormhu.hfst
