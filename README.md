@@ -24,7 +24,7 @@ The compiled lexicon is `hfst/hu.hfstol`
 ## Usage
 
 ```
-hfst-lookup --cascade=composition hu.hfst
+hfst-lookup --cascade=composition hu.hfstol
 ```
 
 If you want to redirect input from a file, use:
@@ -59,9 +59,9 @@ If you are interested in using or adapting the resource for commercial purposes,
 
 If you use this database and/or the tools:
 
-1. Please inform the author at [novakat@gmail.com](mailto:novakat@gmail.com) about your use of the database/tools clearly indicating what you use them for as soon as you start working on your application/experiment/resource involving this database or tool.
+1. Please inform the author at [novakat@gmail.com](mailto:novakat@gmail.com) about your use of the database/tools clearly indicating what you use this database or tool for in your application/experiment/resource.
 
-2. Even in the case of non-academic use, you promise to publish a scientific paper about each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting the articles below, and inform the author at [novakat@gmail.com](mailto:novakat@gmail.com) about each article you publish. If you definitely cannot publish an article, please contact the author.
+2. If possible, please publish a scientific paper about each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting the articles below, and inform the author at [novakat@gmail.com](mailto:novakat@gmail.com) about each article you publish. 
 
   Articles to quote are the following: (See the BibTeX file quotethis.bib in the root directory):
 

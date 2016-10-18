@@ -10,13 +10,14 @@
 #  (CC BY-NC-SA) license, the compilation scripts under the GNU General Public License (GPL v3)
 #  with the following amendments:
 #  
-#  By downloading/cloning this database and tools you accept the following terms:
-#  1. Please inform the author at novakat@gmail.com about your use of the database/tools clearly indicating what you use them for
-#  as soon as you start working on your application/experiment/resource involving this database or tool.
-#  2. Even in the case of non-academic use, you promise to publish a scientific paper about 
-#  each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting
-#  the articles below, and inform the author at novakat@gmail.com about each article you publish.
-#  If you definitely cannot publish an article, please contact the author.
+#  By downloading/cloning/using this database and tools you accept the following terms:
+#  
+#  1. Please inform the author at [novakat@gmail.com](mailto:novakat@gmail.com) about your use of the database/tools
+#  clearly indicating what you use this database or tool for in your application/experiment/resource.
+#  
+#  2. If possible, please publish a scientific paper about each application, experimental system
+#  or linguistic resource you create or experiment you perform using this resource quoting the articles below,
+#  and inform the author at [novakat@gmail.com](mailto:novakat@gmail.com) about each article you publish. 
 #  
 #  Articles to quote are listed at https://github.com/dlt-rilmta/emMorph, the list is currently the following:
 #  (See the BibTeX file quotethis.bib in the root directory):
@@ -30,6 +31,7 @@
 #  Novák Attila (2003): Milyen a jó Humor? [What is good Humor like?] In: Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2003). Szegedi Tudományegyetem, pp. 138–145
 #  
 #  3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
+#  
 #  4. If you are interested in using or adapting the resource for commercial purposes, please contact the author.
 #  ***
 #  
