@@ -3,7 +3,7 @@
 ## Requirements
 
 The morphological analyzer can be compiled on Unix systems.
-You'll need perl and hfst.
+You'll need perl and hfst. Hfst version above 9.12.0 required.
 
 ### Installing hfst
 
