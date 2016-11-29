@@ -73,3 +73,7 @@ If you use this database and/or the tools:
 
 3. Please do share your adaptations of the morphology (vocabulary extensions etc.) using the same licenses.
 
+## References
+
+This tool is also [integrated](https://github.com/dlt-rilmta/hunlp-GATE) into the [e-magyar](http://www.e-magyar.hu) language processing system.
+If you use the e-magyar/hunlp-GATE system, please also refer to Novák et al. (2016).
