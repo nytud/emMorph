@@ -30096,7 +30096,7 @@ júl.[FN|ROV];equ:július;stemalt:-;
 múl[IGE];lr:!pfx_V;
 felül[IK]+múl[IGE];rp:atomic; 
 alul[IK]+múl[IGE];rp:atomic; 
-túl[HA|(MN)];
+túl[HA|MODMN];
 túl[IK];
 *túl[NU];
 **...túl[FN];rp:=jA;
