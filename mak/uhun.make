@@ -130,6 +130,10 @@ do:	$(GENDIR)/timestamp ps_cache_proplst$(GSFX).hpl$(BIT2).tmp $(HUM)/hugen$(APP
 	perl -e 'print STDERR scalar(localtime),"\n"'
 	echo done
 
+xlx:	$(GENDIR)/timestamp $(HUM)/$(METADICT).txt $(GENDIR)/encodinggen$(USEENC)$(BIT2MTX).hpl $(PL)/normform.pl $(GENDIR)/gen$(APP).lx2 $(STEMPRONLX2) $(GENDIR)/sfxgen$(APP0).lx2
+	perl -e 'print STDERR scalar(localtime),"\n"'
+	echo done
+
 else
 SW	= -noseg -gen= -useenc=$(USEENC) -bit2mtx=$(BIT2MTX) $(MORESW)
 
@@ -165,8 +169,8 @@ $(GENDIR)/gen$(APP).prd:	$(PLMK)/lex2prd.pl $(PL)/diewarn.pl $(PL)/banner.pl $(P
 
 $(HUM)/hugen$(APP)s.lex $(HUM)/hugen$(APP)d.lex $(HUM)/hugen$(APP)r.lex $(HUM)/sfxseq$(GSFX).lst:	$(PL)/humlex.pl $(GENDIR)/encodinggen$(USEENC)$(BIT2MTX).hpl $(PL)/normform.pl $(GENDIR)/gen$(APP).lx2 $(GENDIR)/sfxgen$(APP0).lx2 $(PLMK)/ana2gen.pl $(SRC)/dersfx.lst
 	perl -s $(PL)/humlex.pl $(HLXSW) $(SW) $(HUM)/hugen$(APP) $(GENDIR)/gen$(APP).lx2 $(GENDIR)/sfxgen$(APP0).lx2
-       	perl -i.ana -s $(PLMK)/ana2gen.pl $(NOSURF) $(DERSFX) -sfxseq=$(HUM)/sfxseq$(GSFX).lst $(HUM)/hugen$(APP)d.lex $(HUM)/hugen$(APP)r.lex
-       	rm $(HUM)/hugen$(APP)d.lex.ana $(HUM)/hugen$(APP)r.lex.ana
+	perl -i.ana -s $(PLMK)/ana2gen.pl $(NOSURF) $(DERSFX) -sfxseq=$(HUM)/sfxseq$(GSFX).lst $(HUM)/hugen$(APP)d.lex $(HUM)/hugen$(APP)r.lex
+	rm $(HUM)/hugen$(APP)d.lex.ana $(HUM)/hugen$(APP)r.lex.ana
 
 else
 ifdef GEN
@@ -175,15 +179,15 @@ ifdef GEN
 $(HUM)/hugen$(APP)r.lex $(HUM)/hugen$(APP)l.lex $(HUM)/sfxord.lst:	$(PLMK)/ana2gen.pl $(PLMK)/genfix.pl $(SRC)/dersfx.lst $(HUM)/hu1gen$(APP)r.lex $(HUM)/hu1gen$(APP)l.lex
 	echo . > $(HUM)/tmpr.tmp
 	echo . > $(HUM)/tmpl.tmp
-       	perl -i.ana -s $(PLMK)/ana2gen.pl $(NOSURF) $(FULLGEN) $(DERSFX) -sfxseq=$(HUM)/sfxord.lst -sfxlst=$(HUM)/sfxseq.lst $(HUM)/hu1gen$(APP)l.lex $(HUM)/hu1gen$(APP)r.lex
+	perl -i.ana -s $(PLMK)/ana2gen.pl $(NOSURF) $(FULLGEN) $(DERSFX) -sfxseq=$(HUM)/sfxord.lst -sfxlst=$(HUM)/sfxseq.lst $(HUM)/hu1gen$(APP)l.lex $(HUM)/hu1gen$(APP)r.lex
 	- rm $(HUM)/hu1gen$(APP)?.lex.ana
 	mv $(HUM)/hu1gen$(APP)l.lex hu1gen$(APP)l.lex.ana
 #sort generator to make removal of erroneous analyses of [MN] as [FN] possible
-       	sort $(HUM)/hu1gen$(APP)l.lex.ana /O $(HUM)/hu1gen$(APP)l.lex
+	sort $(HUM)/hu1gen$(APP)l.lex.ana /O $(HUM)/hu1gen$(APP)l.lex
 #removal of erroneous analyses of [MN] as [FN]
-       	perl -i.ana -s $(PLMK)/genfix.pl $(HUM)/hu1gen$(APP)l.lex
+	perl -i.ana -s $(PLMK)/genfix.pl $(HUM)/hu1gen$(APP)l.lex
 	- rm $(HUM)/hu1gen$(APP)?.lex.ana $(HUM)/hugen$(APP)?.lex
-       	mv $(HUM)/hu1gen$(APP)r.lex hugen$(APP)r.lex
+	mv $(HUM)/hu1gen$(APP)r.lex hugen$(APP)r.lex
 	mv $(HUM)/hu1gen$(APP)l.lex hugen$(APP)l.lex
 	mv $(HUM)/tmpr.tmp hu1gen$(APP)r.lex
 	mv $(HUM)/tmpl.tmp hu1gen$(APP)l.lex
@@ -270,7 +274,7 @@ $(HGEN)/st5dbw3s.lx1:	$(PL)/sort.pl $(HSRC)/rev.srt $(HGEN)/st5dbw3s1.lx1 $(PLMK
 
 #do inheritance to words to be added
 $(HGEN)/2addsi.lx1:	$(PLMK)/inherit.pl $(PL)/greplace.pl $(HSRC)/fixrps.pat $(HGEN)/2adds1.lx1
-	perl -s $(PLMK)/inherit.pl -noovr "-noovrpat=/s*(?:(?:loc|zarte|isa|X|lexseg):.*?|rp:(?:BAD|[& ]|atomic|badorth)+);/s*" "-noinhpat=/s*(?:(?:isa):.*?|rp:(?:BAD|[& ]|atomic)+);/s*" $(HGEN)/2adds1.lx1 | perl $(PL)/greplace.pl -all $(HSRC)/fixrps.pat>$(HGEN)/2addsi.lx1
+	perl -s $(PLMK)/inherit.pl -noovr "-noovrpat=\\s*(?:(?:loc|zarte|isa|X|lexseg):.*?|rp:(?:BAD|[& ]|atomic|badorth)+);\\s*" "-noinhpat=\\s*(?:(?:isa):.*?|rp:(?:BAD|[& ]|atomic)+);\\s*" $(HGEN)/2adds1.lx1 | perl $(PL)/greplace.pl -all $(HSRC)/fixrps.pat>$(HGEN)/2addsi.lx1
 
 #add irregularity info to words to be added
 $(HGEN)/2adds1.lx1:	$(HGEN)/irreg.lx1 $(HGEN)/2adds.lx1
@@ -288,7 +292,7 @@ $(HGEN)/irreg.lx1:	$(PLMK)/irreg.pl $(HGEN)/st5dbw3s.lx1 $(PL)/mtouch.pl
 
 #apply stem rules to generate stem allomorphs and properties
 $(HGEN)/st5dbw3si.lx1:	$(PLMK)/inherit.pl $(HGEN)/st5dbw3s.lx1 $(PL)/greplace.pl $(HSRC)/fixrps.pat
-	perl -s $(PLMK)/inherit.pl -noovr "-noovrpat=/s*(?:(?:loc|zarte|isa|X|lexseg):.*?|rp:(?:BAD| |atomic|badorth)+);/s*" "-noinhpat=/s*(?:(?:isa):.*?|rp:(?:BAD|[& ]|atomic)+);/s*" $(HGEN)/st5dbw3s.lx1 | perl $(PL)/greplace.pl -all $(HSRC)/fixrps.pat>$(HGEN)/st5dbw3si.lx1
+	perl -s $(PLMK)/inherit.pl -noovr "-noovrpat=\\s*(?:(?:loc|zarte|isa|X|lexseg):.*?|rp:(?:BAD|[& ]|atomic|badorth)+);\\s*" "-noinhpat=\\s*(?:(?:isa):.*?|rp:(?:BAD|[& ]|atomic)+);\\s*" $(HGEN)/st5dbw3s.lx1 | perl $(PL)/greplace.pl -all $(HSRC)/fixrps.pat>$(HGEN)/st5dbw3si.lx1
 
 $(GENDIR)/stemgen$(APP0).avs $(GENDIR)/stemgen$(APP0).lx2 $(GENDIR)/stemgen$(APP0).propsets:	$(PLMK)/stmlex2.pl $(PL)/dumpsh.pl $(GENDIR)/stemalt1.pl $(SRC)/vhrm.pl $(PL)/unif.pl $(PL)/normform.pl $(PL)/lex2.pl $(HGEN)/st5dbw3si.lx1 $(GENDIR)/sfxtags.hpl
 	perl -s $(PLMK)/stmlex2.pl -avs=$(AVS) $(SW) $(GENDIR)/stemgen$(APP0) $(HGEN)/st5dbw3si.lx1
@@ -307,7 +311,7 @@ $(GENDIR)/gen$(APP).avs $(GENDIR)/gen$(APP).lx2 $(GENDIR)/gen$(APP).propsets:	$(
 
 #do inheritance to words to be added
 $(HGEN)/$(APP)si.lx1:	$(PLMK)/inherit.pl $(PL)/greplace.pl $(HSRC)/fixrps.pat $(HGEN)/$(APP)s1.lx1
-	perl -s $(PLMK)/inherit.pl -noovr "-noovrpat=/s*(?:(?:loc|zarte|isa|X|lexseg):.*?|rp:(?:BAD| |atomic|badorth)+);/s*" "-noinhpat=/s*(?:(?:isa):.*?|rp:(?:BAD|[& ]|atomic)+);/s*" $(HGEN)/$(APP)s1.lx1 | perl $(PL)/greplace.pl -all $(HSRC)/fixrps.pat>$(HGEN)/$(APP)si.lx1
+	perl -s $(PLMK)/inherit.pl -noovr "-noovrpat=\\s*(?:(?:loc|zarte|isa|X|lexseg):.*?|rp:(?:BAD| |atomic|badorth)+);\\s*" "-noinhpat=\\s*(?:(?:isa):.*?|rp:(?:BAD|[& ]|atomic)+);\\s*" $(HGEN)/$(APP)s1.lx1 | perl $(PL)/greplace.pl -all $(HSRC)/fixrps.pat>$(HGEN)/$(APP)si.lx1
 
 #add irregularity info to application specific lexicon file
 $(HGEN)/$(APP)s1.lx1:	$(HGEN)/irreg.lx1 $(HGEN)/$(APP)su.lx1
@@ -342,7 +346,7 @@ $(GENDIR)/sfx$(APP0).lx2 $(GENDIR)/sfx$(APP0).propsets:	$(GENDIR)/sfxgen$(APP0).
 
 #apply stem rules to generate pronoun allomorphs and properties
 $(GENDIR)/prongen$(APP0).avs $(GENDIR)/prongen$(APP0).lx2 $(GENDIR)/prongen$(APP0).propsets:	$(PLMK)/inherit.pl $(PLMK)/stmlex2.pl $(PL)/dumpsh.pl $(GENDIR)/stemalt1.pl $(SRC)/vhrm.pl $(PL)/unif.pl $(PL)/normform.pl $(PL)/lex2.pl $(HSRC)/pron.lx1 $(GENDIR)/sfxtags.hpl $(PLMK)/fixpron.pl
-	perl -s $(PLMK)/inherit.pl -noovr "-noovrpat=/s*(?:(?:loc|zarte|isa|X|lexseg):.*?|rp:(?:BAD| |atomic|badorth)+);/s*" "-noinhpat=/s*(?:(?:isa):.*?|rp:(?:BAD|[& ]|atomic)+);/s*" $(HSRC)/pron.lx1 | perl -s $(PLMK)/stmlex2.pl -avs=$(AVS) $(SW) $(GENDIR)/prongen$(APP0)
+	perl -s $(PLMK)/inherit.pl -noovr "-noovrpat=\\s*(?:(?:loc|zarte|isa|X|lexseg):.*?|rp:(?:BAD| |atomic|badorth)+);\\s*" "-noinhpat=\\s*(?:(?:isa):.*?|rp:(?:BAD|[& ]|atomic)+);\\s*" $(HSRC)/pron.lx1 | perl -s $(PLMK)/stmlex2.pl -avs=$(AVS) $(SW) $(GENDIR)/prongen$(APP0)
 	perl -i.bak -s $(PLMK)/fixpron.pl $(SW) $(GENDIR)/prongen$(APP0).lx2
 
 #apply suffix and stem rules to generate suffix allomorphs and properties

@@ -228,7 +228,7 @@ while(<>)
 		}
 #		unless($noovr&&/\];.+/||/no_inh:/)
 		#remove comments
-		$r=~s/(;|^)\s*\*.*/$1/;
+		$r=~s/(;|^)\s*(?:\*.*)?/$1/;
 		unless($noovr&&$r||/no_inh:/)
 		{
 			if($del_same)

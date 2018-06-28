@@ -71,12 +71,12 @@ F         := $(LEXC)/$(F)
 
 do:	$(F)lg.lexc
 
-$(F)lg.lexc:	$(PL)/convtags.pl $(F)tags $(F)f.xlx $(PL)/lcase.pl
-	perl $(PL)/convtags.pl $(F)tags $(F)f.xlx | perl $(PL)/lcase.pl >$(F)lg.lexc
+$(F)lg.lexc:	$(PL)/convtags.pl $(F)tags $(F)f.xlx 
+	perl $(PL)/convtags.pl $(F)tags $(F)f.xlx >$(F)lg.lexc
 
 $(F)tags:	$(PL)/hum2lgrh.pl $(F)f.xlx
 	perl $(PL)/hum2lgrh.pl -=$(F)tags -listtags $(F)f.xlx
 
-$(F)f.xlx:	$(PL)/greplace.pl $(PL)/entfix.pat $(F).xlx
-	perl $(PL)/greplace.pl -all $(PL)/entfix.pat $(F).xlx >$(F)f.xlx
+$(F)f.xlx:	$(PL)/greplace.pl $(PL)/entfix.pat $(F).xlx $(PL)/lcase.pl
+	perl $(PL)/greplace.pl -all $(PL)/entfix.pat $(F).xlx | perl $(PL)/lcase.pl >$(F)f.xlx
 

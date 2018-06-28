@@ -19670,7 +19670,7 @@ HUNGART[FN]; *: 8
 Lucent[FN];phon:luszent; *: 8
 MTI-Eco[FN];rp:!cmp1 !cmp2; *: 8
 Notes[FN];phon:nótsz; *: 8
-OfficeJet[IGE];phon:ofiszdzset; *: 8
+OfficeJet[FN];phon:ofiszdzset; *: 8
 Palmerston[FN]; *: 8
 Petters[FN];phon:etörz&etersz; *: 8
 RZB[FN|ABC]; *: 8
