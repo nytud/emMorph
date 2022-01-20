@@ -63,7 +63,7 @@ If you use this database and/or the tools:
 
 2. If possible, please publish a scientific paper about each application, experimental system or linguistic resource you create or experiment you perform using this resource quoting the articles below, and inform the author at [novakat@gmail.com](mailto:novakat@gmail.com) about each article you publish. 
 
-  Articles to quote are the following: (See the BibTeX file quotethis.bib in the root directory):
+  Articles to quote are the following: (See the BibTeX file [quotethis.bib](https://github.com/nytud/emMorph/blob/master/quotethis.bib) in the root directory):
 
   * Attila Novák (2014): A New Form of Humor – Mapping Constraint-Based Computational Morphologies to a Finite-State Representation. In: Proceedings of the 9th International Conference on Language Resources and Evaluation (LREC-2014). Reykjavík, pp. 1068–1073 (ISBN 978-2-9517408-8-4)
 
@@ -75,5 +75,5 @@ If you use this database and/or the tools:
 
 ## References
 
-This tool is also [integrated](https://github.com/dlt-rilmta/hunlp-GATE) into the [e-magyar](http://www.e-magyar.hu) language processing system.
-If you use the e-magyar/hunlp-GATE system, please also refer to Novák et al. (2016).
+This tool is also [integrated](https://github.com/dlt-rilmta/hunlp-GATE) into the [e-magyar](http://www.e-magyar.hu) language processing system and its successor, [emtsv](https://github.com/nytud/emtsv).
+If you use the e-magyar/emtsv/hunlp-GATE system, please also refer to Novák et al. (2016).
